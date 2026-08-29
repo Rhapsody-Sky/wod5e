@@ -50,6 +50,7 @@
 
   .window-content {
     position: relative;
+    isolation: isolate;
     padding-bottom: 34px;
     scrollbar-color: var(--god-color-2) var(--god-color-dark);
     background:
@@ -60,7 +61,7 @@
     &::before {
       content: "";
       position: absolute;
-      z-index: 0;
+      z-index: -1;
       inset: 0;
       pointer-events: none;
       opacity: 0.58;
@@ -72,11 +73,6 @@
       background-size: 43px 47px, 67px 71px, 89px 83px;
       mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 52%) 68%, transparent 100%);
       animation: god-cosmos-drift 32s linear infinite;
-    }
-
-    > * {
-      position: relative;
-      z-index: 1;
     }
   }
 }
@@ -210,6 +206,23 @@
   .tabs-container {
     width: 50px;
     background: transparent;
+
+    .sheet-tabs {
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-color: var(--god-color-2) transparent;
+      scrollbar-width: thin;
+
+      > [data-tab] {
+        flex: 0 0 50px;
+        min-height: 50px;
+      }
+    }
+
+    .lock-btn {
+      flex: 0 0 40px;
+      min-height: 40px;
+    }
 
     .sheet-tabs > [data-tab] .navicon,
     .lock-btn {

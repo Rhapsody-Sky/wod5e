@@ -2269,6 +2269,7 @@ body.uk .actor.sheet {
 }
 .sheet.god .window-content {
   position: relative;
+  isolation: isolate;
   padding-bottom: 34px;
   scrollbar-color: var(--god-color-2) var(--god-color-dark);
   background: radial-gradient(ellipse at 50% 0%, rgba(151, 89, 207, 0.18), transparent 56%), linear-gradient(rgba(250, 247, 255, 0.86), rgba(241, 233, 249, 0.88)), var(--actor-background-default) repeat;
@@ -2276,7 +2277,7 @@ body.uk .actor.sheet {
 .sheet.god .window-content::before {
   content: "";
   position: absolute;
-  z-index: 0;
+  z-index: -1;
   inset: 0;
   pointer-events: none;
   opacity: 0.58;
@@ -2285,10 +2286,6 @@ body.uk .actor.sheet {
   background-size: 43px 47px, 67px 71px, 89px 83px;
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.52) 68%, transparent 100%);
   animation: god-cosmos-drift 32s linear infinite;
-}
-.sheet.god .window-content > * {
-  position: relative;
-  z-index: 1;
 }
 .actor.sheet.god .actor-header {
   position: relative;
@@ -2379,6 +2376,20 @@ body.uk .actor.sheet {
 .actor.sheet.god .tabs-container {
   width: 50px;
   background: transparent;
+}
+.actor.sheet.god .tabs-container .sheet-tabs {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: var(--god-color-2) transparent;
+  scrollbar-width: thin;
+}
+.actor.sheet.god .tabs-container .sheet-tabs > [data-tab] {
+  flex: 0 0 50px;
+  min-height: 50px;
+}
+.actor.sheet.god .tabs-container .lock-btn {
+  flex: 0 0 40px;
+  min-height: 40px;
 }
 .actor.sheet.god .tabs-container .sheet-tabs > [data-tab] .navicon,
 .actor.sheet.god .tabs-container .lock-btn {

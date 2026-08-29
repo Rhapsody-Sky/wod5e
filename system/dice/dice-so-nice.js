@@ -170,7 +170,9 @@ export const loadDiceSoNice = async function (dice3d) {
       material: 'plastic',
       font: 'Arial Black',
       fontScale: {
-        'do': 0.78
+        // d10 faces taper sharply toward the ends. Keep the divine symbols
+        // inside the safe central area so they are not clipped by the mesh.
+        'do': 0.56
       }
     },
     'default'

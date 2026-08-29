@@ -21,6 +21,15 @@ describe('God roll assets', () => {
     expect(statsTemplate).toContain('data-disable-advanced-dice="true"')
   })
 
+  it('keeps the 3D God symbols inside the tapered d10 face', () => {
+    const dicePath = path.resolve('system/dice/dice-so-nice.js')
+    const diceConfig = fs.readFileSync(dicePath, 'utf8')
+
+    expect(diceConfig).toContain("'do': 0.56")
+    expect(diceConfig).toContain('god-aspect-dsn.png')
+    expect(diceConfig).toContain('god-force-dsn.png')
+  })
+
   it('keeps the sidebar out of document flow and its icons at a fixed height', () => {
     const stylingPath = path.resolve('display/shared/styling/parts/god-styling.less')
     const styling = fs.readFileSync(stylingPath, 'utf8')

@@ -1,0 +1,131 @@
+:root {
+  --god-color-1: #6f2eaa;
+  --god-color-2: #a86ee8;
+  --god-color-3: #d8baff;
+  --god-color-dark: #261039;
+  --god-glow: rgb(174 116 239 / 48%);
+}
+
+/* Cosmic styling is deliberately scoped to God sheets and their dialogs. */
+.sheet.god {
+  box-shadow: 0 0 18px var(--god-glow);
+
+  .window-header {
+    background:
+      radial-gradient(circle at 82% 25%, rgb(224 196 255 / 24%) 0 1px, transparent 2px),
+      linear-gradient(110deg, var(--god-color-dark), var(--god-color-1) 58%, #8a4bc9);
+    border-bottom: 1px solid var(--god-color-3);
+  }
+
+  .window-content {
+    scrollbar-color: var(--god-color-2) var(--god-color-dark);
+    background-image:
+      radial-gradient(circle at 11% 17%, rgb(187 134 245 / 14%) 0 1px, transparent 2px),
+      radial-gradient(circle at 83% 12%, rgb(221 195 255 / 12%) 0 1px, transparent 2px),
+      radial-gradient(circle at 72% 71%, rgb(163 95 232 / 10%) 0 1px, transparent 2px);
+  }
+}
+
+.actor.sheet.god {
+  .actor-header {
+    border-bottom: 2px solid var(--god-color-1);
+    background: linear-gradient(90deg, rgb(38 16 57 / 10%), rgb(111 46 170 / 16%), transparent);
+  }
+
+  .profile-img,
+  .actor-header input,
+  .actor-header .resource {
+    border-color: var(--god-color-1);
+    box-shadow: 0 0 5px rgb(111 46 170 / 28%);
+  }
+
+  .sheet-banner {
+    background: linear-gradient(100deg, var(--god-color-dark), var(--god-color-1), #8d54c7);
+  }
+
+  .tabs-container {
+    background: linear-gradient(90deg, #bd92eb, var(--god-color-3), #a66dde);
+
+    .navicon .wod5e-symbol {
+      color: var(--god-color-dark);
+    }
+
+    .active .navicon {
+      background: linear-gradient(145deg, var(--god-color-1), var(--god-color-dark));
+      box-shadow: 0 0 8px var(--god-glow);
+
+      .wod5e-symbol {
+        color: #f5edff;
+      }
+    }
+  }
+
+  .god-attributes {
+    border: 1px solid rgb(111 46 170 / 55%);
+    border-radius: 6px;
+    background:
+      radial-gradient(circle at 90% 12%, rgb(217 184 255 / 24%) 0 2px, transparent 3px),
+      linear-gradient(145deg, rgb(111 46 170 / 10%), rgb(38 16 57 / 4%));
+    box-shadow: inset 0 0 12px rgb(111 46 170 / 12%);
+
+    .god-attribute {
+      align-items: center;
+      border-bottom: 1px solid rgb(111 46 170 / 18%);
+    }
+
+    .god-attribute-icon {
+      display: grid;
+      flex: 0 0 34px;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid rgb(216 186 255 / 62%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 28%, #9d62db, var(--god-color-dark));
+      box-shadow: 0 0 7px rgb(155 89 221 / 40%);
+
+      img {
+        width: 26px;
+        height: 26px;
+        border: 0;
+        object-fit: contain;
+        filter: drop-shadow(0 0 2px rgb(238 221 255 / 65%));
+      }
+    }
+
+    .god-attribute-label {
+      color: var(--god-color-1);
+      font-weight: 600;
+    }
+  }
+
+  button.rollable,
+  .god-attribute-roll {
+    color: #fff;
+    background: linear-gradient(135deg, var(--god-color-1), #4b196f);
+    border: 1px solid var(--god-color-3);
+    box-shadow: 0 0 6px rgb(111 46 170 / 35%);
+
+    &:hover,
+    &:focus {
+      background: linear-gradient(135deg, #8c4ac7, var(--god-color-1));
+      box-shadow: 0 0 10px var(--god-glow);
+    }
+  }
+}
+
+.god.dialog.window-app,
+.god.dialog.application,
+.god.application {
+  border-color: var(--god-color-1);
+  box-shadow: 0 0 16px var(--god-glow);
+
+  .window-header {
+    background: linear-gradient(110deg, var(--god-color-dark), var(--god-color-1));
+  }
+
+  input,
+  select {
+    border-color: var(--god-color-1);
+  }
+}

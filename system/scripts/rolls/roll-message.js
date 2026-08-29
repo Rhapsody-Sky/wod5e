@@ -97,10 +97,9 @@ export async function generateRollMessageData({
       else dieResult = 'failure' // Failures
 
       // Define the face of the die based on the above conditionals
-      const dieFace = normalDiceFaces[dieResult]
-
       // Grab the die class from the DiceRegistry class
       const dieConfig = DiceRegistry.basic[system] ?? DiceRegistry.basic['mortal']
+      const dieFace = dieConfig.faceForResult?.(die.result, dieResult) ?? normalDiceFaces[dieResult]
       dieImg = `${dieConfig.imgRoot}${dieFace}`
       dieClasses.push(dieConfig.css)
 

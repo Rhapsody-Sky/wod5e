@@ -50,6 +50,11 @@ export class Systems extends BaseDefinitionClass {
     usesResourceOnAdvancedDice: false,
     label: 'TYPES.Actor.hunter'
   }
+
+  static god = {
+    usesResourceOnAdvancedDice: false,
+    label: 'WOD5E.God.Label'
+  }
 }
 
 // Hook to call onReady when the game is ready

@@ -9,6 +9,9 @@
                 <div class="god-attribute-list">
                     {{#each divineAttributes as |attribute|}}
                         <div class="god-attribute resource-content flexrow flex-center">
+                            <span class="god-attribute-icon" aria-hidden="true">
+                                <img src="{{attribute.icon}}" alt="" />
+                            </span>
                             {{#if ../locked}}
                                 <span class="god-attribute-label">{{attribute.label}}</span>
                                 <span class="resource stat-resource-background">{{attribute.value}}</span>

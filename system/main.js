@@ -30,6 +30,7 @@ import {
   VampireHungerDie,
   HunterDie,
   HunterDesperationDie,
+  GodDie,
   WerewolfDie,
   WerewolfRageDie,
   WOD5eDie
@@ -117,6 +118,7 @@ Hooks.once('init', async function () {
   CONFIG.Dice.terms.g = VampireHungerDie
   CONFIG.Dice.terms.h = HunterDie
   CONFIG.Dice.terms.s = HunterDesperationDie
+  CONFIG.Dice.terms.o = GodDie
   CONFIG.Dice.terms.w = WerewolfDie
   CONFIG.Dice.terms.r = WerewolfRageDie
   // Custom enrichers

@@ -4,10 +4,12 @@ import {
   vampireDiceLocation,
   werewolfDiceLocation,
   hunterDiceLocation,
+  godDiceLocation,
   normalDiceFaces,
   hungerDiceFaces,
   rageDiceFaces,
-  desperationDiceFaces
+  desperationDiceFaces,
+  godDiceFaces
 } from './icons.js'
 
 export class WOD5eDie extends foundry.dice.terms.Die {
@@ -149,6 +151,26 @@ export class HunterDie extends WOD5eDie {
       9: `<img src="${hunterDiceLocation + normalDiceFaces.success}" />`,
       10: `<img src="${hunterDiceLocation + normalDiceFaces.critical}" />`
     }[result]
+  }
+}
+
+/**
+ * Extend the basic Die for God dice. The denomination uses the "o" in god
+ * because "g" is already reserved for Vampire Hunger dice.
+ * @extends {Die}
+ */
+export class GodDie extends WOD5eDie {
+  static GAME_SYSTEM = 'god'
+
+  static DIE_TYPE = 'basic'
+
+  /** @override */
+  static DENOMINATION = 'o'
+
+  /** @override */
+  static getResultLabel(result) {
+    const face = godDiceFaces[result] ?? normalDiceFaces.failure
+    return `<img src="${godDiceLocation + face}" />`
   }
 }
 

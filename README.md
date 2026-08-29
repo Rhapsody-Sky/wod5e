@@ -12,6 +12,7 @@ Current supported systems include:
 * Vampire the Masquerade, 5th Edition
 * Hunter the Reckoning, 5th Edition
 * Werewolf the Apocalypse, 5th Edition
+* Gods (custom fork)
 
 ![preview](./assets/images/SystemPreview.png)
 
@@ -21,6 +22,7 @@ To roll the splat-unique dice, replace the usual roll formula like so:
 * To roll Vampire dice, roll `1dv`. To roll Hunger dice, roll `1dg`.
 * To roll Hunter dice, roll `1dh`. To roll Desperation dice, roll `1ds`.
 * To roll Werewolf dice, roll `1dw`. To roll Rage dice, roll `1dr`.
+* To roll God dice, roll `1do`.
 
 Replace the 1s with however many you want to roll for each type, and let the dice roll! We also have compatibility with the [Dice So Nice!](https://foundryvtt.com/packages/dice-so-nice/) module, so whenever you roll splat dice you'll get the World of Darkness 5th edition symbols on the 3D dice faces.
 

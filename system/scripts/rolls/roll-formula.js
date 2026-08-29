@@ -5,6 +5,7 @@ import {
   VampireHungerDie,
   HunterDie,
   HunterDesperationDie,
+  GodDie,
   WerewolfDie,
   WerewolfRageDie
 } from '../../dice/splat-dice.js'
@@ -44,6 +45,9 @@ export async function generateRollFormula({
   } else if (system === 'hunter') {
     // Construct the Hunter roll formula by merging Hunter Dice and Desperation Dice
     rollFormula = `${basicDice}d${HunterDie.DENOMINATION}${successFormula} + ${advancedDice}d${HunterDesperationDie.DENOMINATION}${successFormula}`
+  } else if (system === 'god') {
+    // God rolls use their own cosmic dice without an advanced dice type.
+    rollFormula = `${basicDice}d${GodDie.DENOMINATION}${successFormula}`
   } else {
     // Construct the Mortal roll formula; it doesn't need any secondary rolls
     rollFormula = `${basicDice}d${MortalDie.DENOMINATION}${successFormula}`

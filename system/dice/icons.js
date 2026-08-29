@@ -4,6 +4,7 @@ export const mortalDiceLocation = 'systems/wod5e/assets/icons/dice/mortal/'
 export const vampireDiceLocation = 'systems/wod5e/assets/icons/dice/vampire/'
 export const werewolfDiceLocation = 'systems/wod5e/assets/icons/dice/werewolf/'
 export const hunterDiceLocation = 'systems/wod5e/assets/icons/dice/hunter/'
+export const godDiceLocation = 'systems/wod5e/assets/icons/dice/god/'
 
 // Baseline dice variables and icon filenames
 export const normalDiceFaces = {
@@ -31,6 +32,13 @@ export const desperationDiceFaces = {
   critical: 'desperation-critical.png',
   criticalFailure: 'desperation-critical-failure.png'
 }
+export const godDiceFaces = {
+  6: 'aspect.png',
+  7: 'identity.png',
+  8: 'insight.png',
+  9: 'force.png',
+  10: 'power.png'
+}
 
 /**
  * Basic dice
@@ -57,6 +65,13 @@ DiceRegistry.registerBasic('hunter', {
   imgRoot: hunterDiceLocation,
   faces: normalDiceFaces,
   css: 'hunter-dice'
+})
+
+DiceRegistry.registerBasic('god', {
+  imgRoot: godDiceLocation,
+  faces: normalDiceFaces,
+  css: 'god-dice',
+  faceForResult: (result) => godDiceFaces[result] ?? normalDiceFaces.failure
 })
 
 /**

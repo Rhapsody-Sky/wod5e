@@ -9,6 +9,7 @@ import {
 } from './fixtures/vampire-rolls.js'
 import { werewolfMixedRageSuccess, werewolfBasicOnlySuccess } from './fixtures/werewolf-rolls.js'
 import { hunterMixedDesperationSuccess, hunterBasicOnlySuccess } from './fixtures/hunter-rolls.js'
+import { godAllSymbolFaces, godBasicSuccess } from './fixtures/god-rolls.js'
 
 vi.mock('#system/scripts/system-rolls.js', () => {
   return {
@@ -141,5 +142,42 @@ describe('generateRollMessage - Hunter', () => {
 
     expect(result.totalResult).toBeGreaterThan(0)
     expect(result.labelData.labelText).toBe('2 WOD5E.RollList.Successes')
+  })
+})
+
+/**
+ * God Rolls
+ */
+describe('generateRollMessage - God', () => {
+  it('uses God dice icons for a divine-attribute roll', async () => {
+    const result = await generateRollMessageData({
+      roll: godBasicSuccess,
+      system: 'god',
+      title: 'Aspekt + Macht'
+    })
+
+    expect(result.totalResult).toBe(2)
+    expect(result.basicDice.results[0].img).toContain('/dice/god/aspect.png')
+    expect(result.basicDice.results[1].img).toContain('/dice/god/force.png')
+    expect(result.basicDice.results[0].classes).toContain('god-dice')
+    expect(result.labelData.labelText).toBe('2 WOD5E.RollList.Successes')
+  })
+
+  it('keeps 1-5 blank and maps a distinct symbol to every success face from 6-10', async () => {
+    const result = await generateRollMessageData({
+      roll: godAllSymbolFaces,
+      system: 'god',
+      title: 'Divine symbols'
+    })
+
+    const images = result.basicDice.results.map((die) => die.img)
+    expect(images).toEqual([
+      'systems/wod5e/assets/icons/dice/god/failure.png',
+      'systems/wod5e/assets/icons/dice/god/aspect.png',
+      'systems/wod5e/assets/icons/dice/god/identity.png',
+      'systems/wod5e/assets/icons/dice/god/insight.png',
+      'systems/wod5e/assets/icons/dice/god/force.png',
+      'systems/wod5e/assets/icons/dice/god/power.png'
+    ])
   })
 })

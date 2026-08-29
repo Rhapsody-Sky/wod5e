@@ -159,6 +159,46 @@ export const loadDiceSoNice = async function (dice3d) {
 
   dice3d.addColorset(
     {
+      name: 'goddice',
+      description: 'God Dice',
+      category: 'WOD5E',
+      foreground: '#efe6ff',
+      background: '#5b2395',
+      outline: '#caa7ff',
+      edge: '#241039',
+      texture: 'none',
+      material: 'plastic',
+      font: 'Arial Black',
+      fontScale: {
+        'do': 0.78
+      }
+    },
+    'default'
+  )
+
+  dice3d.addDicePreset(
+    {
+      type: 'do',
+      labels: [
+        'systems/wod5e/assets/icons/dsn/god-failure-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-failure-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-failure-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-failure-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-failure-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-aspect-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-identity-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-insight-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-force-dsn.png',
+        'systems/wod5e/assets/icons/dsn/god-power-dsn.png'
+      ],
+      colorset: 'goddice',
+      system: 'wod5e'
+    },
+    'd10'
+  )
+
+  dice3d.addColorset(
+    {
       name: 'hunterdice',
       description: 'Hunter Dice',
       category: 'V5',

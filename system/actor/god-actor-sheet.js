@@ -35,6 +35,7 @@ export class GodActorSheet extends SPCActorSheet {
         ([id, attribute]) => ({
           id,
           label: game.i18n.localize(`WOD5E.God.AttributeList.${id}`),
+          icon: `systems/wod5e/assets/icons/god/${id}.png`,
           value: attribute.value
         })
       )

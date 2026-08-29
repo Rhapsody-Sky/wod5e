@@ -91,7 +91,8 @@ export class WoDActor extends Actor {
       ghoul: 'vampire',
       hunter: 'hunter',
       werewolf: 'werewolf',
-      spirit: 'werewolf'
+      spirit: 'werewolf',
+      god: 'god'
     }
 
     // Set gamesystem of an SPC

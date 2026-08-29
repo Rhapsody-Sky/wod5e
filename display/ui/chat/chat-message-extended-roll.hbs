@@ -4,7 +4,7 @@
 	<hr>
 	<div class="message-content">
         {{#each totalRolls as |roll key|}}
-            <div class="collapsible-container">
+            <div class="collapsible-container roll-card roll-card--{{system}}">
                 {{#if isContentVisible}}
                     <p class="roll-label uppercase collapsible" data-action="toggleCollapse">{{title}}</p>
                     <div class="dice-roll" data-action="expandRoll">

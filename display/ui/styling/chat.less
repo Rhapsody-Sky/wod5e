@@ -96,6 +96,208 @@
   }
 }
 
+/* Splat-aware presentation for WoD5E roll results. The card classes are
+ * supplied by the roll templates, so reroll and tooltip behaviour stays
+ * entirely unchanged. */
+#chat-log .chat-message .roll-card {
+  --roll-card-accent: #706ca5;
+  --roll-card-accent-soft: #aaa6d8;
+  --roll-card-deep: #24213f;
+
+  overflow: hidden;
+  margin: 2px 0 5px;
+  border: 1px solid color-mix(in srgb, var(--roll-card-accent) 70%, #fff 10%);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 85% 0%, color-mix(in srgb, var(--roll-card-accent) 25%, transparent), transparent 45%),
+    linear-gradient(145deg, rgb(22 22 25 / 96%), color-mix(in srgb, var(--roll-card-deep) 62%, #101013));
+  box-shadow:
+    inset 0 1px rgb(255 255 255 / 8%),
+    0 5px 14px rgb(0 0 0 / 24%);
+
+  &.roll-card--vampire {
+    --roll-card-accent: var(--vampire-color-2);
+    --roll-card-accent-soft: #f08a8a;
+    --roll-card-deep: var(--vampire-color-1);
+  }
+
+  &.roll-card--werewolf {
+    --roll-card-accent: #b96a2c;
+    --roll-card-accent-soft: #e3a36d;
+    --roll-card-deep: var(--werewolf-color-1);
+  }
+
+  &.roll-card--hunter {
+    --roll-card-accent: var(--hunter-color-1);
+    --roll-card-accent-soft: var(--hunter-color-2);
+    --roll-card-deep: #4e250d;
+  }
+
+  &.roll-card--god {
+    --roll-card-accent: var(--god-color-2);
+    --roll-card-accent-soft: var(--god-color-3);
+    --roll-card-deep: var(--god-color-dark);
+    box-shadow:
+      inset 0 1px rgb(255 255 255 / 14%),
+      0 0 12px rgb(168 110 232 / 28%),
+      0 6px 16px rgb(0 0 0 / 30%);
+  }
+
+  .roll-label,
+  .roll-label:nth-of-type(1) {
+    margin: 0;
+    padding: 8px 10px 7px;
+    color: #fff;
+    border-bottom: 1px solid color-mix(in srgb, var(--roll-card-accent) 55%, transparent);
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--roll-card-deep) 88%, #0d0d10),
+      color-mix(in srgb, var(--roll-card-accent) 32%, #17131c));
+    font-family: Amarante, serif;
+    font-size: 1.28em;
+    line-height: 1.15;
+    letter-spacing: 0.045em;
+    text-shadow: 0 1px 3px #000;
+  }
+
+  .dice-roll {
+    padding: 7px;
+  }
+
+  .modifiers {
+    gap: 4px;
+    margin: 0 0 6px;
+
+    .mod {
+      margin: 0;
+      padding: 2px 7px;
+      color: #f7f3fb;
+      border: 1px solid color-mix(in srgb, var(--roll-card-accent) 48%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--roll-card-accent) 18%, #17171a);
+      font-size: 0.68rem;
+      letter-spacing: 0.035em;
+    }
+  }
+
+  .dice-icons {
+    justify-content: center;
+    gap: 4px;
+    padding: 7px;
+    border: 1px solid color-mix(in srgb, var(--roll-card-accent) 28%, transparent);
+    border-radius: 10px;
+    background: rgb(0 0 0 / 24%);
+  }
+
+  .roll-img {
+    box-sizing: border-box;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 3px;
+    border-width: 1px;
+    border-radius: 9px;
+    object-fit: contain;
+    box-shadow:
+      inset 0 1px rgb(255 255 255 / 16%),
+      0 2px 5px rgb(0 0 0 / 30%);
+    transition: transform 130ms ease, filter 130ms ease, box-shadow 130ms ease;
+
+    &.rerollable:hover {
+      z-index: 1;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow:
+        inset 0 1px rgb(255 255 255 / 18%),
+        0 0 8px color-mix(in srgb, var(--roll-card-accent) 55%, transparent);
+    }
+
+    &.rerolled {
+      opacity: 0.48;
+      filter: grayscale(0.65);
+    }
+  }
+
+  .total-and-difficulty {
+    gap: 6px;
+    margin-top: 7px;
+    padding: 0;
+    border: 0;
+
+    .roll-total,
+    .roll-difficulty {
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      padding: 5px 8px;
+      border: 1px solid color-mix(in srgb, var(--roll-card-accent) 38%, transparent);
+      border-radius: 9px;
+      background: color-mix(in srgb, var(--roll-card-accent) 11%, rgb(13 13 16 / 80%));
+    }
+
+    .total-title,
+    .difficulty-title {
+      color: var(--roll-card-accent-soft);
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .total-contents,
+    .difficulty-contents {
+      color: #fff;
+      font-family: Amarante, serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+  }
+
+  .roll-result-label {
+    margin-top: 6px;
+    padding: 7px 9px;
+    border: 1px solid rgb(255 255 255 / 22%);
+    border-radius: 9px;
+    background: linear-gradient(100deg, #29272d, #151518);
+    color: #fff;
+    font-size: 1rem;
+    letter-spacing: 0.025em;
+    text-shadow: 0 1px 3px #000;
+    box-shadow: inset 0 1px rgb(255 255 255 / 10%);
+  }
+
+  .roll-result-label.success,
+  .roll-result-label.critical-success {
+    border-color: #5bbd73;
+    background: linear-gradient(100deg, #174624, #0b2613);
+  }
+
+  .roll-result-label.failure,
+  .roll-result-label.critical-failure,
+  .roll-result-label.bestial-failure,
+  .roll-result-label.messy-critical {
+    border-color: #d86060;
+    background: linear-gradient(100deg, #651c22, #2e0d12);
+  }
+
+  .roll-result-label.desperation-success,
+  .roll-result-label.desperation-failure {
+    border-color: var(--hunter-color-2);
+    background: linear-gradient(100deg, #7a3e12, #351908);
+  }
+
+  .roll-result-label.rage-failure {
+    border-color: #cf7a38;
+    background: linear-gradient(100deg, #63300e, #2d1407);
+  }
+
+  .dice-tooltip .wrapper {
+    margin-top: 6px;
+    padding: 5px;
+    border: 1px solid color-mix(in srgb, var(--roll-card-accent) 32%, transparent);
+    border-radius: 9px;
+    background: rgb(0 0 0 / 22%);
+  }
+}
+
 .roll-img {
   max-width: 40px;
   margin: 2px;

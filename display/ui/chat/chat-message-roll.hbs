@@ -2,7 +2,7 @@
 	{{> "systems/wod5e/display/ui/chat/chat-message-header.hbs"}}
 	<hr>
 	<div class="message-content">
-        <div class="collapsible-container">
+        <div class="collapsible-container roll-card roll-card--{{system}}">
             {{#if isContentVisible}}
                 <p class="roll-label uppercase collapsible" data-action="toggleCollapse">{{title}}</p>
                 <div class="dice-roll" data-action="expandRoll">

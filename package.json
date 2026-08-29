@@ -4,13 +4,16 @@
   "description": "ESLint & other utiltiies for developing World of Darkness 5e",
   "scripts": {
     "gulp": "gulp",
+    "build:styles": "gulp less",
     "eslint": "eslint -c eslint.config.js *",
     "convert-conditions": "fvtt package unpack -n Conditions --inputDirectory ./packs/ --outputDirectory ./packs/unpacked/_conditions && fvtt package pack -n Conditions --inputDirectory ./packs/unpacked/_conditions --outputDirectory ./packs --nedb",
     "convert-macros": "fvtt package unpack -n Macros --inputDirectory ./packs/ --outputDirectory ./packs/unpacked/_macros && fvtt package pack -n Macros --inputDirectory ./packs/unpacked/_macros --outputDirectory ./packs --nedb",
     "convert-packs": "npm run convert-conditions && npm run convert-macros",
     "generate-release": "node system/scripts/maintenance/generate-release-zip.js",
+    "verify-release": "node system/scripts/maintenance/verify-release.js",
     "check-highest-changes": "node system/scripts/maintenance/check-highest-changes.js",
-    "test": "vitest"
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "browserslist": [
     "last 3 versions"
@@ -36,7 +39,7 @@
   "main": "gulpfile.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WoD5E-Developers/wod5e.git"
+    "url": "git+https://github.com/Rhapsody-Sky/wod5e.git"
   },
   "keywords": [
     "vampire-the-masquerade",
@@ -47,9 +50,9 @@
     "hunter-the-reckoning"
   ],
   "bugs": {
-    "url": "https://github.com/WoD5E-Developers/wod5e/issues"
+    "url": "https://github.com/Rhapsody-Sky/wod5e/issues"
   },
-  "homepage": "https://github.com/WoD5E-Developers/wod5e#readme",
+  "homepage": "https://github.com/Rhapsody-Sky/wod5e#readme",
   "dependencies": {
     "@eslint/compat": "^1.4.1",
     "archiver": "^8.0.0",

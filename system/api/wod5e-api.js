@@ -1,6 +1,7 @@
 import { WOD5eDice } from '../scripts/system-rolls.js'
 import { _onConfirmRoll } from '../actor/scripts/roll.js'
 import { getActorDisciplineOptions } from './actor-discipline-options.js'
+import { canActorBloodSurge } from './blood-surge.js'
 import { generateLocalizedLabel } from './generate-localization.js'
 
 export class wod5eAPI {
@@ -136,11 +137,7 @@ export class wod5eAPI {
       skillOptions,
       disciplineOptions,
       renownOptions,
-      hungerValue:
-        actor.system.gamesystem === 'vampire' && actor.type !== 'ghoul'
-          ? actor.system.hunger.value
-          : 0,
-      actorType: actor.type
+      canBloodSurge: canActorBloodSurge(actor)
     }
     // Render the template
     const content = await foundry.applications.handlebars.renderTemplate(dialogTemplate, dialogData)

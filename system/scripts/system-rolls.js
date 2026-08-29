@@ -1,6 +1,7 @@
 // Import various helper functions
 import { generateRollFormula } from './rolls/roll-formula.js'
 import { getSituationalModifiers } from './rolls/situational-modifiers.js'
+import { getSituationalModifierTarget } from './rolls/dialog-modifiers.js'
 import { _damageWillpower } from './rolls/willpower-damage.js'
 import { _increaseHunger } from './rolls/increase-hunger.js'
 import { _decreaseRage } from './rolls/decrease-rage.js'
@@ -466,32 +467,21 @@ class WOD5eDice {
                 ? parseInt(event.currentTarget.dataset.advancedCheckDice)
                 : 0
 
-              // Determine whether any alterations need to be made to basic dice or advanced dice
-              // Either use the current applyDiceTo (if set), or default to 'basic'
-              let applyDiceTo = event.currentTarget.dataset.applyDiceTo || 'basic'
-
               // Determine the new input depending on if the modifier is adding or subtracting
               // Checked and modifier is NOT negative = Add
               // Unchecked and modifier is negative = Add
               // Checked and modifier is negative = Subtract
               // Unchecked and modifier is NOT negative = Subtract
               let newValue = 0
-              let checkValue = 0
-
-              // Make sure advanced dice are enabled
-              if (!disableAdvancedDice) {
-                if (modifierIsNegative) {
-                  // Apply dice to basicDice unless basicDice is 0
-                  if (systemData.usesResourceOnAdvancedDice && basicValue === 0) {
-                    applyDiceTo = 'advanced'
-                  }
-                } else {
-                  // Apply dice to advancedDice if advancedValue is below the actor's hunger/rage value
-                  if (advancedValue < checkValue) {
-                    applyDiceTo = 'advanced'
-                  }
-                }
-              }
+              const { applyDiceTo, checkValue } = getSituationalModifierTarget({
+                requestedTarget: event.currentTarget.dataset.applyDiceTo || 'basic',
+                modifier,
+                basicValue,
+                advancedValue,
+                disableAdvancedDice,
+                systemData,
+                actor
+              })
 
               if (
                 (modCheckbox?.checked && !modifierIsNegative) ||
@@ -501,15 +491,6 @@ class WOD5eDice {
                 if (applyDiceTo === 'advanced') {
                   // Apply the modifier to advancedDice
                   newValue = advancedValue + Math.abs(modifier)
-
-                  // Determine what we're checking against
-                  if (systemData?.usesResourceOnAdvancedDice && systemData?.resourceValuePath) {
-                    // Extract resource value
-                    checkValue = foundry.utils.getProperty(
-                      actor.system,
-                      systemData.resourceValuePath
-                    )
-                  }
 
                   if (
                     newValue > checkValue &&

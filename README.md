@@ -1,12 +1,12 @@
 
-# World of Darkness 5e System
+# World of Darkness 5e – Gods Fork
 
 [![Foundry Version Support]][System URL]
 [![GNU GPL v3 License]][License URL]
 [![ESLint]][ESLint URL]
 [![Downloads]][Downloads URL]
 
-This system is for playing multiple World of Darkness 5th edition systems on the Foundry Virtual Tabletop System. For a list of the latest changes, see the [Changelog](https://github.com/WoD5E-Developers/wod5e/releases). You can also read further about the system in general on the [WOD5E Documentation](https://wod5e-developers.github.io/) site!
+This is Rhapsody-Sky's custom fork of the [World of Darkness 5e system](https://github.com/WoD5E-Developers/wod5e) for Foundry VTT. It adds the Gods character type, divine dice and a fork-specific interface while retaining the upstream Vampire, Hunter, Werewolf and Mortal systems. See the [fork changelog](https://github.com/Rhapsody-Sky/wod5e/releases) for installable releases and the [upstream WOD5E documentation](https://wod5e-developers.github.io/) for the base system.
 
 Current supported systems include:
 * Vampire the Masquerade, 5th Edition
@@ -28,7 +28,7 @@ Replace the 1s with however many you want to roll for each type, and let the dic
 
 ## Feedback
 
-Bugs or feature requests created to this repository are greatly appreciate. Please use the [Issues](https://github.com/WoD5E-Developers/wod5e/issues) page for these!
+Bugs or feature requests for the Gods fork belong on the fork's [Issues](https://github.com/Rhapsody-Sky/wod5e/issues) page. Base-system issues can still be checked against the [upstream issue tracker](https://github.com/WoD5E-Developers/wod5e/issues).
 
 You can also reach out to Veilza on Discord, or leave a message in the #wod channel in the official Foundry Discord server, with any issues. We'd love to help you get your game running smoothly!
 
@@ -68,18 +68,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-[Foundry Version Support]: https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fversion%3Fstyle%3Dplastic%26url%3Dhttps%3A%2F%2Fgithub.com%2FWoD5E-Developers%2Fwod5e%2Freleases%2Flatest%2Fdownload%2Fsystem.json
-[System URL]: https://foundryvtt.com/packages/wod5e/
+[Foundry Version Support]: https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fversion%3Fstyle%3Dplastic%26url%3Dhttps%3A%2F%2Fgithub.com%2FRhapsody-Sky%2Fwod5e%2Freleases%2Flatest%2Fdownload%2Fsystem.json
+[System URL]: https://github.com/Rhapsody-Sky/wod5e/releases
 [AI Content Policy]: https://foundryvtt.com/article/ai-policy/
 
 [GNU GPL v3 License]: https://img.shields.io/badge/License-GNU_GPL_v3-green
 [License URL]: ./LICENSE.md
 
-[ESLint]: https://github.com/WoD5E-Developers/wod5e/actions/workflows/.eslintrc.yml/badge.svg
-[ESLint URL]: https://github.com/WoD5E-Developers/wod5e/actions/workflows/.eslintrc.yml
+[ESLint]: https://github.com/Rhapsody-Sky/wod5e/actions/workflows/test.yml/badge.svg
+[ESLint URL]: https://github.com/Rhapsody-Sky/wod5e/actions/workflows/test.yml
 
-[Downloads]: https://img.shields.io/github/downloads/wod5e-developers/wod5e/wod5e.zip
-[Downloads URL]: https://github.com/WoD5E-Developers/wod5e/releases
+[Downloads]: https://img.shields.io/github/downloads/Rhapsody-Sky/wod5e/wod5e.zip
+[Downloads URL]: https://github.com/Rhapsody-Sky/wod5e/releases
 
 [Dark Pack]: ./assets/github/darkpack_logo2.png
 [Dark Pack URL]: https://www.paradoxinteractive.com/games/world-of-darkness/community/dark-pack-agreement

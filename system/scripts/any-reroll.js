@@ -1,18 +1,30 @@
 // Import modules
 import { WOD5eDice } from './system-rolls.js'
+import {
+  MAX_REROLL_DICE,
+  getSelectedRerollDice,
+  resolveMessageActor,
+  resolveRerollMessageElement,
+  resolveMessageRollMode,
+  resolveMessageSystem,
+  toggleRerollDie
+} from './reroll-helpers.js'
 
 /**
  * Initalise rerolls of any dice and its functions
  **/
 
-export const _onAnyReroll = async (roll) => {
+export const _onAnyReroll = async (eventOrElement, target) => {
+  const roll = resolveRerollMessageElement(eventOrElement, target)
+  if (!roll) return
+
   // Variables
   const dice = roll.querySelectorAll('.die')
   const diceRolls = []
   const messageId = roll.getAttribute('data-message-id')
   const message = game.messages.get(messageId)
 
-  const system = message.flags.system || 'mortal'
+  const system = resolveMessageSystem(message)
 
   // Go through the message's dice and add them to the diceRolls array
   Object.keys(dice).forEach(function (i) {
@@ -27,7 +39,7 @@ export const _onAnyReroll = async (roll) => {
   const content = `
     <form>
         <div class="window-content">
-            <label><b>Select dice to reroll (Max 3)</b></label>
+            <label><b>${game.i18n.format('WOD5E.Chat.SelectDiceToReroll', { maximum: MAX_REROLL_DICE })}</b></label>
             <hr>
             <span class="dice-tooltip">
               <div class="dice-rolls flexrow reroll">
@@ -45,49 +57,42 @@ export const _onAnyReroll = async (roll) => {
     classes: ['wod5e', system, 'dialog'],
     content,
     ok: {
-      label: 'Reroll',
-      callback: () => rerollDie(roll)
+      label: game.i18n.localize('WOD5E.Chat.Reroll'),
+      callback: (_event, _button, dialog) => rerollDie(roll, dialog.element)
     },
     cancel: {
-      label: 'Cancel'
+      label: game.i18n.localize('WOD5E.Cancel')
     },
     modal: true,
     render: (event, dialog) => {
       const rerollableDie = dialog.element.querySelectorAll('.reroll .die-select')
+      const rerollContainer = dialog.element.querySelector('.reroll')
 
       rerollableDie.forEach((die) => {
-        die.addEventListener('click', toggleDieSelect)
+        die.addEventListener('click', () => toggleRerollDie(die, rerollContainer))
       })
     }
   })
 
-  // Handles selecting and de-selecting the die
-  function toggleDieSelect() {
-    // Toggle selection
-    if (!this.classList.contains('selected')) {
-      this.classList.add('selected')
-    } else {
-      this.classList.remove('selected')
-    }
-  }
-
   // Handles rerolling the number of dice selected
-  async function rerollDie(roll) {
+  async function rerollDie(roll, dialogElement) {
     // Variables
-    const diceSelected = document.querySelectorAll('.reroll .selected')
-    const hungerDiceSelected = document.querySelectorAll('.reroll .selected .hunger-dice')
-    const rageDiceSelected = document.querySelectorAll('.reroll .selected .rage-dice')
-    const desperationDiceSelected = document.querySelectorAll('.reroll .selected .desperation-dice')
+    const diceSelected = getSelectedRerollDice(dialogElement, '.reroll')
+    const hungerDiceSelected = diceSelected.filter((die) => die.querySelector('.hunger-dice'))
+    const rageDiceSelected = diceSelected.filter((die) => die.querySelector('.rage-dice'))
+    const desperationDiceSelected = diceSelected.filter((die) =>
+      die.querySelector('.desperation-dice')
+    )
     const totalAdvancedDiceSelected =
       hungerDiceSelected.length + rageDiceSelected.length + desperationDiceSelected.length
 
     // Get the actor associated with the message
     const messageId = roll.getAttribute('data-message-id')
     const message = game.messages.get(messageId)
-    const actor = game.actors.get(message.speaker.actor)
+    const actor = resolveMessageActor(message)
 
     // Get the rollMode associated with the message
-    const rollMode = message?.flags?.rollMode || game.settings.get('core', 'rollMode')
+    const rollMode = resolveMessageRollMode(message)
 
     // If there is at least 1 die selected and no more than 3 die selected, reroll and generate a new message
     if (diceSelected.length > 0) {
@@ -99,7 +104,7 @@ export const _onAnyReroll = async (roll) => {
         quickRoll: true,
         rollMode,
         disableMessageOutput: true,
-        system: message.flags.gamesystem,
+        system,
         callback: async (err, reroll) => {
           if (err) console.log('World of Darkness 5e | ' + err)
 

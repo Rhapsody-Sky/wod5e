@@ -8,6 +8,7 @@ import { prepareDisciplines } from './vtm/scripts/prepare-data.js'
 import { prepareEdges } from './htr/scripts/prepare-data.js'
 import { prepareGifts, prepareFormData } from './wta/scripts/prepare-data.js'
 import { prepareExceptionalDicePools } from './scripts/prepare-exceptional-dice-pools.js'
+import { collectItemModifiers } from './scripts/prepare-items.js'
 import { getVampireModifiers } from './vtm/scripts/vampire-bonuses.js'
 import { getHunterModifiers } from './htr/scripts/hunter-bonuses.js'
 import { Disciplines } from '../api/def/disciplines.js'
@@ -103,6 +104,10 @@ export class WoDActor extends Actor {
       systemData.gamesystem = typeMapping[actorData.type] || 'mortal'
     }
 
+    // Prepare embedded-item modifiers on the actor so every roll entry point
+    // can use them without requiring the character sheet to render first.
+    systemData.itemModifiers = collectItemModifiers(actorData.items)
+
     if (systemData?.hasSkillAttributeData) {
       // Handle attribute preparation
       const attributesPrep = await prepareAttributes(actorData)
@@ -139,13 +144,18 @@ export class WoDActor extends Actor {
       systemData.gifts = await prepareGifts(actorData)
       systemData.forms = await prepareFormData(systemData.forms, actorData)
 
-      if (systemData.formOverride && systemData.rage.value > 0) {
+      if (systemData.formOverride && systemData.rage.value > 0 && !this.inCompendium) {
         this.update({ 'system.formOverride': false })
       }
     }
 
     // If the actor is a player, update the default permissions to limited
-    if (this.hasPlayerOwner && !this.getFlag('wod5e', 'manualDefaultOwnership') && game.user.isGM) {
+    if (
+      this.hasPlayerOwner &&
+      !this.getFlag('wod5e', 'manualDefaultOwnership') &&
+      game.user.isGM &&
+      !this.inCompendium
+    ) {
       this.update({ 'ownership.default': CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED })
     }
 
@@ -155,7 +165,7 @@ export class WoDActor extends Actor {
     }
 
     // Prepare derived health and willpower values
-    if (actorData.type !== 'group' && this.isOwner) {
+    if (actorData.type !== 'group' && this.isOwner && !this.inCompendium) {
       const derivedHealth = await getDerivedHealth(systemData)
       this.update({ 'system.health.value': derivedHealth })
 

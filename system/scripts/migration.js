@@ -9,89 +9,89 @@ import { MigrateOldDetailsToNewItems } from './migration/migrate-old-details-to-
 import { MigrateGeneralDifficulty } from './migration/migrate-general-difficulty.js'
 import { MigrateSystemFlags } from './migration/migrate-system-flags.js'
 import { RestoreOldWorldSettings } from './migration/restore-vtm5e-world-settings.js'
+import {
+  CURRENT_DATA_SCHEMA_VERSION,
+  getMigrationPlan
+} from './migration/migration-state.js'
 import { MigrateImageLinks } from '../../macros/migrate-image-links.js'
 
 export const migrateWorld = async () => {
   // Only allow the Game Master to run this script
-  if (!game.user.isGM) return
+  if (!game.user.isGM) return false
 
   // Store current loaded version of the system
   const currentVersion = game.system.version
   // Store the world version pre-migration
   const worldVersion = game.settings.get('wod5e', 'worldVersion') || '1.5'
+  const dataSchemaVersion = game.settings.get('wod5e', 'dataSchemaVersion') || 0
+  const migrationPlan = getMigrationPlan({ dataSchemaVersion, worldVersion })
 
   console.log('World of Darkness 5e | Current SchreckNet Layer v' + worldVersion)
 
-  updateWorld()
+  const updates = []
 
-  async function updateWorld() {
-    if (worldVersion !== currentVersion || worldVersion === '1.5') {
-      const updates = []
-
+  try {
+    if (migrationPlan.runLegacyMigrations) {
       ui.notifications.info('New version detected. Updating SchreckNet, please wait.')
-      console.log('World of Darkness 5e | Obtaining SchreckNet Layer v' + currentVersion)
+      console.log(
+        `World of Darkness 5e | Migrating data schema v${dataSchemaVersion} to v${CURRENT_DATA_SCHEMA_VERSION}`
+      )
 
-      try {
-        // Migrate legacy sheets
-        const migrationIDs1 = await MigrateLegacySheets()
-        updates.push(...migrationIDs1)
-
-        // Migrate specialties into their respective skills
-        const migrationIDs5 = await MigrateSpecialties()
-        updates.push(...migrationIDs5)
-
-        // Migrate item images
-        const migrationIDs7 = await MigrateItemImages()
-        updates.push(...migrationIDs7)
-
-        // Migrate the Animal Ken skill
-        const migrationIDs8 = await MigrateAnimalKen()
-        updates.push(...migrationIDs8)
-
-        // Unify Cell and Coterie sheets into one "Group" type
-        const migrationIDs9 = await MigrateGroupSheets()
-        updates.push(...migrationIDs9)
-
-        // Migrate the abilities object to attributes
-        const migrationIDs10 = await MigrateAbilitiesToAttributes()
-        updates.push(...migrationIDs10)
-
-        // Migrate old roll data on items into the new Dicepool format
-        const migrationIDs11 = await MigrateRolldataToDicepools()
-        updates.push(...migrationIDs11)
-
-        // Migrate old actor data to new items
-        const migrationIDs12 = await MigrateOldDetailsToNewItems()
-        updates.push(...migrationIDs12)
-
-        // Migrate General Difficulty of SPC sheets
-        const migrationIDs13 = await MigrateGeneralDifficulty()
-        updates.push(...migrationIDs13)
-
-        // Only reload if there's 1 or more updates
-        if (updates.length > 0) {
-          ui.notifications.info('Upgrade complete! Foundry will now refresh in 15 seconds...')
-
-          // Reload to implement the fixes after 15 seconds
-          setTimeout(() => {
-            foundry.utils.debouncedReload()
-          }, 15000)
-        } else {
-          ui.notifications.info('Welcome to version ' + currentVersion)
-          await MigrateSystemFlags()
-          await RestoreOldWorldSettings()
-          await MigrateImageLinks()
-        }
-      } catch (error) {
-        console.error('World of Darkness 5e | Error during update:', error)
-      }
-
-      // Update game version, no matter if we error or not
-      game.settings.set('wod5e', 'worldVersion', currentVersion)
+      updates.push(...(await runLegacyMigrations()))
+    } else if (migrationPlan.requiresSchemaUpgrade) {
+      console.log(
+        `World of Darkness 5e | Recording existing world at data schema v${CURRENT_DATA_SCHEMA_VERSION}`
+      )
     }
 
     await MigrateSystemFlags()
     await RestoreOldWorldSettings()
     await MigrateImageLinks()
+
+    // Persist migration state only after every migration completed successfully.
+    if (migrationPlan.requiresSchemaUpgrade) {
+      await game.settings.set('wod5e', 'dataSchemaVersion', CURRENT_DATA_SCHEMA_VERSION)
+    }
+    if (worldVersion !== currentVersion) {
+      await game.settings.set('wod5e', 'worldVersion', currentVersion)
+    }
+
+    if (updates.length > 0) {
+      ui.notifications.info('Upgrade complete! Foundry will now refresh in 15 seconds...')
+
+      setTimeout(() => {
+        foundry.utils.debouncedReload()
+      }, 15000)
+    } else if (worldVersion !== currentVersion) {
+      ui.notifications.info('Welcome to version ' + currentVersion)
+    }
+
+    return true
+  } catch (error) {
+    console.error('World of Darkness 5e | Error during update:', error)
+    ui.notifications.error('World of Darkness 5e | Migration failed. No migration state was saved.')
+    return false
   }
+}
+
+async function runLegacyMigrations() {
+  const migrationSteps = [
+    MigrateLegacySheets,
+    MigrateSpecialties,
+    MigrateItemImages,
+    MigrateAnimalKen,
+    MigrateGroupSheets,
+    MigrateAbilitiesToAttributes,
+    MigrateRolldataToDicepools,
+    MigrateOldDetailsToNewItems,
+    MigrateGeneralDifficulty
+  ]
+  const updates = []
+
+  for (const migrate of migrationSteps) {
+    const migrationIDs = await migrate()
+    updates.push(...migrationIDs)
+  }
+
+  return updates
 }

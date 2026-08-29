@@ -324,6 +324,15 @@ export const loadSettings = async function () {
     type: String
   })
 
+  // Data migrations use their own monotonically increasing schema counter.
+  // Package versions (including fork suffixes) must not rerun historical migrations.
+  game.settings.register('wod5e', 'dataSchemaVersion', {
+    scope: 'world',
+    config: false,
+    default: 0,
+    type: Number
+  })
+
   // Whether the user declined the migration or not
   game.settings.register('wod5e', 'declinedMigration', {
     scope: 'world',

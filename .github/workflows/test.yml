@@ -1,11 +1,15 @@
-name: Run Unit Tests
+name: Verify Fork
 
 on:
+  push:
+    branches:
+      - custom/god-character-sheet
   pull_request: {}
+  workflow_dispatch: {}
 
 jobs:
   test:
-    name: Run Vitest Unit Tests
+    name: Test, lint and build
     runs-on: ubuntu-latest
 
     steps:
@@ -22,4 +26,16 @@ jobs:
         run: npm ci
 
       - name: Run Vitest
-        run: npx vitest run --reporter=dot
+        run: npm run test:run -- --reporter=dot
+
+      - name: Run ESLint
+        run: npm run eslint
+
+      - name: Build styles
+        run: npm run build:styles
+
+      - name: Ensure generated styles are committed
+        run: git diff --exit-code -- display/wod5e-styling.css
+
+      - name: Verify release metadata
+        run: npm run verify-release

@@ -1,0 +1,16 @@
+<div class="dice-group-header flex-group-center">
+  <label>{{localize 'WOD5E.God.Dice'}}</label>
+</div>
+<div class="base-dice-group flex-group-center">
+  <div class="basic-dice">
+    <div class="dice-input">
+      <img class="god-dice-preview" width="50" height="50" src="systems/wod5e/assets/icons/god/aspect.png"/>
+      <div class="flexrow">
+        <i class="fas fa-minus dialog-control dialog-minus" data-action="minus" data-resource="inputBasicDice" data-resource-action="minus"></i>
+        <input type="number" min="0" id="inputBasicDice" value="{{basicDice}}">
+        <i class="fas fa-plus dialog-control dialog-plus" data-action="plus" data-resource="inputBasicDice" data-resource-action="plus"></i>
+      </div>
+    </div>
+  </div>
+</div>
+{{> "systems/wod5e/display/ui/parts/roll-dialog-base.hbs"}}

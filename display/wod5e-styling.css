@@ -2314,6 +2314,15 @@ body.uk .actor.sheet {
 .god.application select {
   border-color: var(--god-color-1);
 }
+.god.dialog.window-app .god-dice-preview,
+.god.dialog.application .god-dice-preview,
+.god.application .god-dice-preview {
+  padding: 4px;
+  border: 1px solid var(--god-color-3);
+  border-radius: 8px;
+  background: radial-gradient(circle at 35% 25%, #9860d4, var(--god-color-dark));
+  box-shadow: 0 0 8px var(--god-glow);
+}
 
 .group.sheet:not(.minimized) {
   min-width: 650px;

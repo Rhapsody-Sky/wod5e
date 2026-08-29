@@ -107,6 +107,7 @@ export const preloadHandlebarsTemplates = async function () {
     'systems/wod5e/display/ui/vampire-roll-dialog.hbs',
     'systems/wod5e/display/ui/werewolf-roll-dialog.hbs',
     'systems/wod5e/display/ui/hunter-roll-dialog.hbs',
+    'systems/wod5e/display/ui/god-roll-dialog.hbs',
 
     // Chat Message Partials
     'systems/wod5e/display/ui/chat/chat-message-header.hbs',

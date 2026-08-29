@@ -172,6 +172,139 @@
     border-color: var(--sheet-ui-border-soft);
   }
 
+  /* Biography rows and settings use the same contained, rounded rhythm. */
+  .detail-row,
+  .tab[data-tab="settings"] .form-group {
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    padding: 7px 9px;
+    border: 1px solid var(--sheet-ui-border-soft);
+    border-radius: 10px;
+    background: var(--sheet-ui-surface);
+  }
+
+  .tab[data-tab="settings"] .form-group {
+    align-items: center;
+    gap: 10px;
+
+    > label {
+      color: var(--sheet-ui-accent-ink);
+      font-weight: 650;
+    }
+
+    .form-fields {
+      gap: 6px;
+    }
+  }
+
+  /* Splat-specific dashboards: blood, rage/forms, despair and SPC pools. */
+  .blood-potency,
+  .blood-details,
+  .frenzy,
+  .balance-trackers,
+  .despair,
+  .danger,
+  .standard-pools-list,
+  .exceptional-pools-list,
+  .general-difficulty {
+    box-sizing: border-box;
+    margin: 5px;
+    padding: 8px;
+    border: 1px solid var(--sheet-ui-border-soft);
+    border-radius: 12px;
+    background: var(--sheet-ui-surface);
+    box-shadow: var(--sheet-ui-shadow);
+  }
+
+  .standard-pools-list .resource-content,
+  .exceptional-pools-list .exceptional-pool,
+  .balance-trackers .wolf-resource {
+    box-sizing: border-box;
+    padding: 6px;
+    border: 1px solid var(--sheet-ui-border-soft);
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--sheet-ui-accent) 8%, transparent);
+  }
+
+  .forms {
+    gap: 7px;
+
+    > div {
+      min-width: 0;
+    }
+
+    .form {
+      overflow: hidden;
+      box-sizing: border-box;
+      height: 100%;
+      padding: 7px;
+      border: 1px solid var(--sheet-ui-border);
+      border-radius: 12px;
+      background: var(--sheet-ui-surface);
+      box-shadow: var(--sheet-ui-shadow);
+    }
+
+    .form-active {
+      border-color: var(--sheet-ui-accent);
+      background: color-mix(in srgb, var(--sheet-ui-accent) 15%, var(--sheet-ui-surface));
+    }
+  }
+
+  .resource-counter,
+  .resource-value {
+    border-radius: 8px;
+  }
+
+  /* Discipline, Gift and Edge selectors now match their detail cards. */
+  .powers-display-tree {
+    box-sizing: border-box;
+    padding: 7px;
+    border: 1px solid var(--sheet-ui-border);
+    border-radius: 12px;
+    background: var(--sheet-ui-surface);
+    box-shadow: var(--sheet-ui-shadow);
+
+    .parent {
+      align-items: center;
+      min-height: 34px;
+      margin: 3px 0;
+      padding: 4px 6px;
+      border-radius: 9px;
+      background: color-mix(in srgb, var(--sheet-ui-accent) 10%, transparent);
+    }
+
+    .icon {
+      overflow: hidden;
+      border-color: var(--sheet-ui-border);
+      border-radius: 7px;
+      background-color: color-mix(in srgb, var(--sheet-ui-accent) 20%, var(--sheet-ui-surface-strong));
+    }
+
+    .icon.selected {
+      border-color: var(--sheet-ui-accent);
+      background-color: color-mix(in srgb, var(--sheet-ui-accent) 42%, var(--sheet-ui-surface-strong));
+    }
+
+    ul::before,
+    li::before {
+      background-color: var(--sheet-ui-border);
+    }
+
+    li > span {
+      min-height: 28px;
+      padding: 2px 5px;
+      border-radius: 8px;
+
+      &:hover {
+        background: color-mix(in srgb, var(--sheet-ui-accent) 9%, transparent);
+      }
+    }
+  }
+
+  .powers-list {
+    margin-left: 8px;
+  }
+
   .power-category-header {
     padding: 5px 7px;
     border-radius: 8px;
@@ -253,9 +386,35 @@
   .description-field,
   .stats-container,
   .power-category,
-  .item-list .category {
+  .item-list .category,
+  .detail-row,
+  .tab[data-tab="settings"] .form-group,
+  .blood-potency,
+  .blood-details,
+  .frenzy,
+  .balance-trackers,
+  .despair,
+  .danger,
+  .standard-pools-list,
+  .exceptional-pools-list,
+  .general-difficulty,
+  .forms .form,
+  .powers-display-tree {
     border-color: var(--sheet-ui-border-soft);
     background: var(--sheet-ui-surface);
+  }
+
+  .standard-pools-list .resource-content,
+  .exceptional-pools-list .exceptional-pool,
+  .balance-trackers .wolf-resource,
+  .powers-display-tree .parent {
+    border-color: var(--sheet-ui-border-soft);
+    background: color-mix(in srgb, var(--sheet-ui-accent) 12%, transparent);
+  }
+
+  .forms .form-active {
+    border-color: var(--sheet-ui-accent);
+    background: color-mix(in srgb, var(--sheet-ui-accent) 18%, var(--sheet-ui-surface));
   }
 
   .description-field .description-content.resource {

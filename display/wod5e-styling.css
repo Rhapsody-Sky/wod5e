@@ -2218,6 +2218,9 @@ body.uk .actor.sheet {
   /* Shared form language for text, number and rich-text fields. */
   /* Large content blocks used across biography, notes and SPC sheets. */
   /* Equipment, features, disciplines, gifts and edges share one card style. */
+  /* Biography rows and settings use the same contained, rounded rhythm. */
+  /* Splat-specific dashboards: blood, rage/forms, despair and SPC pools. */
+  /* Discipline, Gift and Edge selectors now match their detail cards. */
   /* Small controls read as controls without becoming visually heavy. */
 }
 .actor.sheet.mortal {
@@ -2341,6 +2344,117 @@ body.uk .actor.sheet {
 .actor.sheet .power-category-header {
   border-color: var(--sheet-ui-border-soft);
 }
+.actor.sheet .detail-row,
+.actor.sheet .tab[data-tab="settings"] .form-group {
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  padding: 7px 9px;
+  border: 1px solid var(--sheet-ui-border-soft);
+  border-radius: 10px;
+  background: var(--sheet-ui-surface);
+}
+.actor.sheet .tab[data-tab="settings"] .form-group {
+  align-items: center;
+  gap: 10px;
+}
+.actor.sheet .tab[data-tab="settings"] .form-group > label {
+  color: var(--sheet-ui-accent-ink);
+  font-weight: 650;
+}
+.actor.sheet .tab[data-tab="settings"] .form-group .form-fields {
+  gap: 6px;
+}
+.actor.sheet .blood-potency,
+.actor.sheet .blood-details,
+.actor.sheet .frenzy,
+.actor.sheet .balance-trackers,
+.actor.sheet .despair,
+.actor.sheet .danger,
+.actor.sheet .standard-pools-list,
+.actor.sheet .exceptional-pools-list,
+.actor.sheet .general-difficulty {
+  box-sizing: border-box;
+  margin: 5px;
+  padding: 8px;
+  border: 1px solid var(--sheet-ui-border-soft);
+  border-radius: 12px;
+  background: var(--sheet-ui-surface);
+  box-shadow: var(--sheet-ui-shadow);
+}
+.actor.sheet .standard-pools-list .resource-content,
+.actor.sheet .exceptional-pools-list .exceptional-pool,
+.actor.sheet .balance-trackers .wolf-resource {
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid var(--sheet-ui-border-soft);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--sheet-ui-accent) 8%, transparent);
+}
+.actor.sheet .forms {
+  gap: 7px;
+}
+.actor.sheet .forms > div {
+  min-width: 0;
+}
+.actor.sheet .forms .form {
+  overflow: hidden;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 7px;
+  border: 1px solid var(--sheet-ui-border);
+  border-radius: 12px;
+  background: var(--sheet-ui-surface);
+  box-shadow: var(--sheet-ui-shadow);
+}
+.actor.sheet .forms .form-active {
+  border-color: var(--sheet-ui-accent);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 15%, var(--sheet-ui-surface));
+}
+.actor.sheet .resource-counter,
+.actor.sheet .resource-value {
+  border-radius: 8px;
+}
+.actor.sheet .powers-display-tree {
+  box-sizing: border-box;
+  padding: 7px;
+  border: 1px solid var(--sheet-ui-border);
+  border-radius: 12px;
+  background: var(--sheet-ui-surface);
+  box-shadow: var(--sheet-ui-shadow);
+}
+.actor.sheet .powers-display-tree .parent {
+  align-items: center;
+  min-height: 34px;
+  margin: 3px 0;
+  padding: 4px 6px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--sheet-ui-accent) 10%, transparent);
+}
+.actor.sheet .powers-display-tree .icon {
+  overflow: hidden;
+  border-color: var(--sheet-ui-border);
+  border-radius: 7px;
+  background-color: color-mix(in srgb, var(--sheet-ui-accent) 20%, var(--sheet-ui-surface-strong));
+}
+.actor.sheet .powers-display-tree .icon.selected {
+  border-color: var(--sheet-ui-accent);
+  background-color: color-mix(in srgb, var(--sheet-ui-accent) 42%, var(--sheet-ui-surface-strong));
+}
+.actor.sheet .powers-display-tree ul::before,
+.actor.sheet .powers-display-tree li::before {
+  background-color: var(--sheet-ui-border);
+}
+.actor.sheet .powers-display-tree li > span {
+  min-height: 28px;
+  padding: 2px 5px;
+  border-radius: 8px;
+}
+.actor.sheet .powers-display-tree li > span:hover {
+  background: color-mix(in srgb, var(--sheet-ui-accent) 9%, transparent);
+}
+.actor.sheet .powers-list {
+  margin-left: 8px;
+}
 .actor.sheet .power-category-header {
   padding: 5px 7px;
   border-radius: 8px;
@@ -2412,9 +2526,33 @@ body.uk .actor.sheet {
 .theme-dark .actor.sheet:is(.sheet) .description-field,
 .theme-dark .actor.sheet:is(.sheet) .stats-container,
 .theme-dark .actor.sheet:is(.sheet) .power-category,
-.theme-dark .actor.sheet:is(.sheet) .item-list .category {
+.theme-dark .actor.sheet:is(.sheet) .item-list .category,
+.theme-dark .actor.sheet:is(.sheet) .detail-row,
+.theme-dark .actor.sheet:is(.sheet) .tab[data-tab="settings"] .form-group,
+.theme-dark .actor.sheet:is(.sheet) .blood-potency,
+.theme-dark .actor.sheet:is(.sheet) .blood-details,
+.theme-dark .actor.sheet:is(.sheet) .frenzy,
+.theme-dark .actor.sheet:is(.sheet) .balance-trackers,
+.theme-dark .actor.sheet:is(.sheet) .despair,
+.theme-dark .actor.sheet:is(.sheet) .danger,
+.theme-dark .actor.sheet:is(.sheet) .standard-pools-list,
+.theme-dark .actor.sheet:is(.sheet) .exceptional-pools-list,
+.theme-dark .actor.sheet:is(.sheet) .general-difficulty,
+.theme-dark .actor.sheet:is(.sheet) .forms .form,
+.theme-dark .actor.sheet:is(.sheet) .powers-display-tree {
   border-color: var(--sheet-ui-border-soft);
   background: var(--sheet-ui-surface);
+}
+.theme-dark .actor.sheet:is(.sheet) .standard-pools-list .resource-content,
+.theme-dark .actor.sheet:is(.sheet) .exceptional-pools-list .exceptional-pool,
+.theme-dark .actor.sheet:is(.sheet) .balance-trackers .wolf-resource,
+.theme-dark .actor.sheet:is(.sheet) .powers-display-tree .parent {
+  border-color: var(--sheet-ui-border-soft);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 12%, transparent);
+}
+.theme-dark .actor.sheet:is(.sheet) .forms .form-active {
+  border-color: var(--sheet-ui-accent);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 18%, var(--sheet-ui-surface));
 }
 .theme-dark .actor.sheet:is(.sheet) .description-field .description-content.resource {
   border-color: var(--sheet-ui-border-soft);

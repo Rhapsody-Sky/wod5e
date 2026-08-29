@@ -1,4 +1,8 @@
-import { _onGodAttributeRoll } from './scripts/god-attribute-roll.js'
+import {
+  _onGodAttributeRoll,
+  _onRollSingleGodAttribute,
+  _onSelectGodAttribute
+} from './scripts/god-attribute-roll.js'
 import { SPCActorSheet } from './spc-actor-sheet.js'
 
 /**
@@ -9,7 +13,9 @@ export class GodActorSheet extends SPCActorSheet {
   static DEFAULT_OPTIONS = {
     classes: ['wod5e', 'actor', 'spc', 'god', 'sheet'],
     actions: {
-      godAttributeRoll: _onGodAttributeRoll
+      godAttributeRoll: _onGodAttributeRoll,
+      rollSingleGodAttribute: _onRollSingleGodAttribute,
+      selectGodAttribute: _onSelectGodAttribute
     }
   }
 
@@ -36,9 +42,22 @@ export class GodActorSheet extends SPCActorSheet {
           id,
           label: game.i18n.localize(`WOD5E.God.AttributeList.${id}`),
           icon: `systems/wod5e/assets/icons/god/${id}.png`,
-          value: attribute.value
+          value: attribute.value,
+          selected: this._selectedGodAttributeId === id,
+          pairSelectionLabel: game.i18n.format('WOD5E.God.SelectForPair', {
+            attribute: game.i18n.localize(`WOD5E.God.AttributeList.${id}`)
+          }),
+          singleRollLabel: game.i18n.format('WOD5E.God.RollSingleAttribute', {
+            attribute: game.i18n.localize(`WOD5E.God.AttributeList.${id}`)
+          })
         })
       )
+      context.godAttributeSelectionStatusId = `${this.id}-god-attribute-selection-status`
+      context.godAttributeSelectionHint = this._selectedGodAttributeId
+        ? game.i18n.format('WOD5E.God.PairSelectionActive', {
+            attribute: game.i18n.localize(`WOD5E.God.AttributeList.${this._selectedGodAttributeId}`)
+          })
+        : game.i18n.localize('WOD5E.God.PairSelectionIdle')
     }
 
     return context

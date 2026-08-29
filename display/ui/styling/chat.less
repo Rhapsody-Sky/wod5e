@@ -289,6 +289,55 @@
     background: linear-gradient(100deg, #63300e, #2d1407);
   }
 
+  .roll-margin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 5px;
+    color: var(--roll-card-accent-soft);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    strong {
+      color: #fff;
+      font-size: 0.92rem;
+    }
+  }
+
+  .roll-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 7px;
+
+    button {
+      display: inline-flex;
+      flex: 1 1 auto;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      min-height: 28px;
+      margin: 0;
+      padding: 4px 7px;
+      border: 1px solid color-mix(in srgb, var(--roll-card-accent) 48%, transparent);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--roll-card-accent) 16%, #151519);
+      color: #f7f3fb;
+      font-size: 0.7rem;
+      line-height: 1.1;
+
+      &:hover,
+      &:focus-visible {
+        border-color: var(--roll-card-accent-soft);
+        background: color-mix(in srgb, var(--roll-card-accent) 28%, #151519);
+        box-shadow: 0 0 7px color-mix(in srgb, var(--roll-card-accent) 35%, transparent);
+      }
+    }
+  }
+
   .dice-tooltip .wrapper {
     margin-top: 6px;
     padding: 5px;

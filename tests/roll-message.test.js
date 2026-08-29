@@ -160,6 +160,7 @@ describe('generateRollMessage - God', () => {
     expect(result.basicDice.results[0].img).toContain('/dice/god/aspect.png')
     expect(result.basicDice.results[1].img).toContain('/dice/god/force.png')
     expect(result.basicDice.results[0].classes).toContain('god-dice')
+    expect(result.basicDice.results[0].altText).toBe('WOD5E.Chat.DieResult: 6')
     expect(result.labelData.labelText).toBe('2 WOD5E.RollList.Successes')
   })
 
@@ -179,5 +180,21 @@ describe('generateRollMessage - God', () => {
       'systems/wod5e/assets/icons/dice/god/force.png',
       'systems/wod5e/assets/icons/dice/god/power.png'
     ])
+  })
+
+  it('only marks a result margin for rolls with a surpassed difficulty', async () => {
+    const withoutDifficulty = await generateRollMessageData({
+      roll: mortalBasicSuccess,
+      title: 'Unopposed'
+    })
+    const withDifficulty = await generateRollMessageData({
+      roll: mortalBasicSuccess,
+      title: 'Opposed',
+      difficulty: 1
+    })
+
+    expect(withoutDifficulty.showMargin).toBe(false)
+    expect(withDifficulty.showMargin).toBe(true)
+    expect(withDifficulty.margin).toBe(1)
   })
 })

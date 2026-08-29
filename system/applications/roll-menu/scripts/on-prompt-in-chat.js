@@ -1,5 +1,8 @@
-export const _onPromptInChat = async function (event) {
-  const dataset = event.target.dataset
+import { buildRollMenuPool, isActorCompatibleWithRollSystem } from '../roll-menu-pool.js'
+
+export const _onPromptInChat = async function (event, target) {
+  const actionTarget = target || event.currentTarget || event.target.closest('[data-action]')
+  const dataset = actionTarget?.dataset || {}
   let rollId
   let savedRolls = []
 
@@ -33,13 +36,17 @@ export const _onPromptInChat = async function (event) {
     return
   }
 
-  // Construct the valuePaths array that gets sent to the rollFromDataset function
-  const valuePathsArray = []
-  if (activeRollObject.dice.skill) {
-    valuePathsArray.push(`skills.${activeRollObject.dice.skill}.value`)
+  const pool = buildRollMenuPool(activeRollObject, {
+    skillOptions: WOD5E.Skills.getList({}),
+    attributeOptions: WOD5E.Attributes.getList({}),
+    localize: (key) => game.i18n.localize(key)
+  })
+
+  if (pool.hasDuplicate) {
+    return ui.notifications.warn(game.i18n.localize('WOD5E.God.AttributesMustDiffer'))
   }
-  if (activeRollObject.dice.attribute) {
-    valuePathsArray.push(`attributes.${activeRollObject.dice.attribute}.value`)
+  if (pool.system === 'god' && !pool.valuePaths) {
+    return ui.notifications.warn(game.i18n.localize('WOD5E.God.SelectAttribute'))
   }
 
   // Compile the list of tokens selected and use them as
@@ -50,14 +57,16 @@ export const _onPromptInChat = async function (event) {
   actorsList.forEach((actor) => {
     promptedRolls[actor.id] = {
       actor,
-      rolled: false
+      actorUuid: actor.uuid,
+      rolled: false,
+      isCompatible: isActorCompatibleWithRollSystem(actor, pool.system)
     }
   })
 
   // Create the chat message
   foundry.documents.ChatMessage.implementation.create({
     title: `${activeRollObject.name}`,
-    flavor: `<b>${game.i18n.localize('WOD5E.RollList.TestOf')}:</b> ${activeRollObject.dice.skill} + ${activeRollObject.dice.attribute}${
+    flavor: `<b>${game.i18n.localize('WOD5E.RollList.TestOf')}:</b> ${pool.label || game.i18n.localize('WOD5E.None')}${
       // Dynamically determine whether to append the 'difficulty' part of the title or not
       activeRollObject.difficulty > 0
         ? ' vs <b>' +
@@ -70,7 +79,10 @@ export const _onPromptInChat = async function (event) {
     flags: {
       wod5e: {
         template: 'systems/wod5e/display/ui/chat/chat-message-roll-prompt.hbs',
-        valuePaths: valuePathsArray.join(' '),
+        valuePaths: pool.valuePaths,
+        selectors: pool.selectors,
+        disableAdvancedDice: pool.disableAdvancedDice,
+        rollSystem: pool.system,
         isRollPrompt: true,
         promptedRolls,
         difficulty: activeRollObject.difficulty

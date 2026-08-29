@@ -63,6 +63,7 @@ export async function generateRollMessageData({
     difficulty,
     totalResult,
     margin: totalResult > difficulty ? totalResult - difficulty : 0,
+    showMargin: difficulty > 0 && totalResult > difficulty,
     enrichedResultLabel:
       await foundry.applications.ux.TextEditor.implementation.enrichHTML(resultLabel),
     labelData,
@@ -102,6 +103,8 @@ export async function generateRollMessageData({
       const dieFace = dieConfig.faceForResult?.(die.result, dieResult) ?? normalDiceFaces[dieResult]
       dieImg = `${dieConfig.imgRoot}${dieFace}`
       dieClasses.push(dieConfig.css)
+      dieAltText = `${game.i18n.localize('WOD5E.Chat.DieResult')}: ${die.result}`
+      dieTitle ??= dieAltText
 
       // Add any necessary data to the dice object
       rollData.results[index].img = dieImg
@@ -146,6 +149,8 @@ export async function generateRollMessageData({
       const dieFace = dieConfig.faces[dieResult]
       dieImg = `${dieConfig.imgRoot}${dieFace}`
       dieClasses.push(dieConfig.css)
+      dieAltText = `${game.i18n.localize('WOD5E.Chat.DieResult')}: ${die.result}`
+      dieTitle ??= dieAltText
 
       // Ensure that non-Brutal Rage dice can be rerolled
       if (system === 'werewolf' && dieResult !== 'brutal') {

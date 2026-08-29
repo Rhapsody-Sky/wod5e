@@ -1,5 +1,8 @@
-export const _onRollFromMenu = async function (event) {
-  const dataset = event.target.dataset
+import { buildRollMenuPool, isActorCompatibleWithRollSystem } from '../roll-menu-pool.js'
+
+export const _onRollFromMenu = async function (event, target) {
+  const actionTarget = target || event.currentTarget || event.target.closest('[data-action]')
+  const dataset = actionTarget?.dataset || {}
   let rollId
   let savedRolls = []
 
@@ -39,20 +42,35 @@ export const _onRollFromMenu = async function (event) {
     return
   }
 
-  // Construct the valuePaths array that gets sent to the rollFromDataset function
-  const valuePathsArray = []
-  if (activeRollObject.dice.skill) {
-    valuePathsArray.push(`skills.${activeRollObject.dice.skill}.value`)
+  const pool = buildRollMenuPool(activeRollObject, {
+    skillOptions: WOD5E.Skills.getList({}),
+    attributeOptions: WOD5E.Attributes.getList({}),
+    localize: (key) => game.i18n.localize(key)
+  })
+
+  if (pool.hasDuplicate) {
+    return ui.notifications.warn(game.i18n.localize('WOD5E.God.AttributesMustDiffer'))
   }
-  if (activeRollObject.dice.attribute) {
-    valuePathsArray.push(`attributes.${activeRollObject.dice.attribute}.value`)
+  if (pool.system === 'god' && !pool.valuePaths) {
+    return ui.notifications.warn(game.i18n.localize('WOD5E.God.SelectAttribute'))
+  }
+
+  if (!isActorCompatibleWithRollSystem(actor, pool.system)) {
+    const systemDefinition = WOD5E.Systems.getList({})[pool.system]
+    const systemLabel = systemDefinition?.displayName || systemDefinition?.label || pool.system
+
+    return ui.notifications.warn(
+      game.i18n.format('WOD5E.RollList.ActorSystemMismatch', { system: systemLabel })
+    )
   }
 
   // Pipe the roll to our RollFromDataset function
   WOD5E.api.RollFromDataset({
     dataset: {
-      label: activeRollObject.name,
-      valuePaths: valuePathsArray.join(' '),
+      label: activeRollObject.name || pool.label,
+      valuePaths: pool.valuePaths,
+      selectors: pool.selectors,
+      disableAdvancedDice: pool.disableAdvancedDice,
       difficulty: activeRollObject.difficulty
     },
     actor

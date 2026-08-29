@@ -1,4 +1,5 @@
 import { generateRollMessageData } from '../../scripts/rolls/roll-message.js'
+import { getRollActionState } from './roll-actions.js'
 
 export async function processRoll(context) {
   context.template = 'systems/wod5e/display/ui/chat/chat-message-roll.hbs'
@@ -18,5 +19,14 @@ export async function processRoll(context) {
     })
 
     Object.assign(context.messageData, rollMessageData)
+    Object.assign(
+      context.messageData,
+      getRollActionState({
+        basicDice: rollMessageData.basicDice,
+        advancedDice: rollMessageData.advancedDice,
+        canManage: game.user.isGM || context.isAuthor,
+        isContentVisible: context.isContentVisible
+      })
+    )
   }
 }

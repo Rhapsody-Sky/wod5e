@@ -1,3 +1,5 @@
+import { isActorCompatibleWithRollSystem } from '../roll-menu-pool.js'
+
 export const _onAddSelectedTokens = async function (event, target) {
   event.preventDefault()
 
@@ -8,14 +10,17 @@ export const _onAddSelectedTokens = async function (event, target) {
   // Use the list of currently controlled tokens to generate a map and make the necessary user objects
   const tokens = canvas.tokens.controlled
   const actorsList = tokens.map((i) => i.actor)
-  const oldActorsList = chatMessage.getFlag('wod5e', 'promptedRolls')
+  const oldActorsList = chatMessage.getFlag('wod5e', 'promptedRolls') || {}
+  const rollSystem = chatMessage.getFlag('wod5e', 'rollSystem') || 'core'
   const newActorsList = {}
   actorsList.forEach((actor) => {
     if (oldActorsList[actor.id]) return
 
     newActorsList[actor.id] = {
       actor,
-      rolled: false
+      actorUuid: actor.uuid,
+      rolled: false,
+      isCompatible: isActorCompatibleWithRollSystem(actor, rollSystem)
     }
   })
 

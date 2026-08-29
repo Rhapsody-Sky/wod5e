@@ -11,14 +11,16 @@ describe('God roll assets', () => {
     expect(fs.readFileSync(dialogPath, 'utf8')).toContain('id="inputBasicDice"')
   })
 
-  it('makes every divine attribute directly rollable', () => {
+  it('supports accessible direct single and paired divine-attribute rolls', () => {
     const statsPath = path.resolve('display/shared/actors/parts/god/stats.hbs')
     const statsTemplate = fs.readFileSync(statsPath, 'utf8')
 
-    expect(statsTemplate).toContain('class="god-attribute-invocation rollable"')
-    expect(statsTemplate).toContain('data-action="roll"')
-    expect(statsTemplate).toContain('data-value-paths="divineattributes.{{attribute.id}}.value"')
-    expect(statsTemplate).toContain('data-disable-advanced-dice="true"')
+    expect(statsTemplate).toContain('class="god-attribute-invocation"')
+    expect(statsTemplate).toContain('data-action="selectGodAttribute"')
+    expect(statsTemplate).toContain('data-action="rollSingleGodAttribute"')
+    expect(statsTemplate).toContain('data-attribute-id="{{attribute.id}}"')
+    expect(statsTemplate).toContain('aria-pressed="{{attribute.selected}}"')
+    expect(statsTemplate).toContain('aria-live="polite"')
   })
 
   it('keeps the 3D God symbols inside the tapered d10 face', () => {
@@ -34,7 +36,9 @@ describe('God roll assets', () => {
     const stylingPath = path.resolve('display/shared/styling/parts/god-styling.less')
     const styling = fs.readFileSync(stylingPath, 'utf8')
 
-    expect(styling).not.toMatch(/\.window-content\s*\{[\s\S]*?>\s*\*\s*\{[\s\S]*?position:\s*relative/)
+    expect(styling).not.toMatch(
+      /\.window-content\s*\{[\s\S]*?>\s*\*\s*\{[\s\S]*?position:\s*relative/
+    )
     expect(styling).toContain('flex: 0 0 50px;')
     expect(styling).toContain('min-height: 50px;')
     expect(styling).toContain('overflow-y: auto;')

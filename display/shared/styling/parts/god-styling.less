@@ -84,7 +84,7 @@
     overflow: hidden;
     flex-shrink: 0;
     box-sizing: border-box;
-    min-height: 215px;
+    min-height: 255px;
     padding-top: 7px;
     padding-bottom: 9px;
     border-bottom: 2px solid var(--god-color-1);
@@ -173,6 +173,16 @@
       box-shadow:
         0 0 0 4px rgb(69 24 101 / 42%),
         0 0 26px var(--god-glow);
+    }
+  }
+
+  .header-profile {
+    box-sizing: border-box;
+    padding-bottom: 38px;
+
+    .name-field,
+    .name-field:not(.clickthrough) {
+      bottom: 2px;
     }
   }
 

@@ -29,5 +29,18 @@ describe('God roll assets', () => {
     expect(styling).toContain('flex: 0 0 50px;')
     expect(styling).toContain('min-height: 50px;')
     expect(styling).toContain('overflow-y: auto;')
+    expect(styling).toContain('padding-bottom: 38px;')
+  })
+
+  it('ships a splat-aware shared actor-sheet design language', () => {
+    const stylingPath = path.resolve('display/shared/styling/parts/actor-ui-polish.less')
+    const styling = fs.readFileSync(stylingPath, 'utf8')
+
+    expect(styling).toContain('.actor.sheet')
+    expect(styling).toContain('&.vampire')
+    expect(styling).toContain('&.werewolf')
+    expect(styling).toContain('&.hunter')
+    expect(styling).toContain('&.god')
+    expect(styling).toContain('.theme-dark .actor.sheet')
   })
 })

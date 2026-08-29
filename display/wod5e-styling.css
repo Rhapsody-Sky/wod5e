@@ -2198,6 +2198,258 @@ body.uk .actor.sheet {
   font-family: "vampireRevised", "sans-serif";
 }
 
+/*
+ * Shared actor-sheet design language.
+ *
+ * Shape, spacing and interaction are common to every splat. Colour is supplied
+ * through per-splat variables below; God-specific glow remains in god-styling.
+ */
+.actor.sheet {
+  --sheet-ui-accent: #706ca5;
+  --sheet-ui-accent-strong: #302d5b;
+  --sheet-ui-accent-ink: var(--sheet-ui-accent-strong);
+  --sheet-ui-surface: rgba(255, 255, 255, 0.58);
+  --sheet-ui-surface-strong: rgba(255, 255, 255, 0.78);
+  --sheet-ui-border: color-mix(in srgb, var(--sheet-ui-accent) 48%, transparent);
+  --sheet-ui-border-soft: color-mix(in srgb, var(--sheet-ui-accent) 25%, transparent);
+  --sheet-ui-shadow: 0 5px 14px rgba(18, 14, 28, 0.12);
+  /* Header resources become compact cards instead of bare rectangles. */
+  /* Reusable labels use the current splat accent and a calmer hierarchy. */
+  /* Shared form language for text, number and rich-text fields. */
+  /* Large content blocks used across biography, notes and SPC sheets. */
+  /* Equipment, features, disciplines, gifts and edges share one card style. */
+  /* Small controls read as controls without becoming visually heavy. */
+}
+.actor.sheet.mortal {
+  --sheet-ui-accent: var(--mortal-color-2);
+  --sheet-ui-accent-strong: var(--mortal-color-1);
+}
+.actor.sheet.vampire {
+  --sheet-ui-accent: var(--vampire-color-2);
+  --sheet-ui-accent-strong: var(--vampire-color-1);
+}
+.actor.sheet.werewolf {
+  --sheet-ui-accent: var(--werewolf-color-2);
+  --sheet-ui-accent-strong: var(--werewolf-color-1);
+}
+.actor.sheet.hunter {
+  --sheet-ui-accent: var(--hunter-color-2);
+  --sheet-ui-accent-strong: var(--hunter-color-1);
+}
+.actor.sheet.god {
+  --sheet-ui-accent: var(--god-color-2);
+  --sheet-ui-accent-strong: var(--god-color-1);
+}
+.actor.sheet .actor-header .field-section {
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid var(--sheet-ui-border-soft);
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--sheet-ui-surface) 90%, transparent);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.12);
+}
+.actor.sheet .actor-header input,
+.actor.sheet .actor-header .resource {
+  border-radius: 8px;
+}
+.actor.sheet .actor-header .profile-img {
+  border-radius: 14px;
+}
+.actor.sheet .field-header,
+.actor.sheet .resource-header,
+.actor.sheet .item-header .item-name,
+.actor.sheet .power-category-label {
+  color: var(--sheet-ui-accent-ink);
+}
+.actor.sheet .field-header,
+.actor.sheet .resource-header {
+  font-weight: 650;
+  letter-spacing: 0.015em;
+}
+.actor.sheet input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.actor.sheet select,
+.actor.sheet textarea,
+.actor.sheet .resource,
+.actor.sheet prose-mirror .editor-content {
+  box-sizing: border-box;
+  border-color: var(--sheet-ui-border);
+  border-radius: 8px;
+  background-color: var(--sheet-ui-surface-strong);
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+.actor.sheet input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+.actor.sheet select:focus,
+.actor.sheet textarea:focus,
+.actor.sheet prose-mirror:focus-within .editor-content {
+  border-color: var(--sheet-ui-accent);
+  outline: 0;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sheet-ui-accent) 24%, transparent);
+}
+.actor.sheet .description-field,
+.actor.sheet .stats-container,
+.actor.sheet .power-category {
+  box-sizing: border-box;
+  padding: 7px;
+  border: 1px solid var(--sheet-ui-border-soft);
+  border-radius: 12px;
+  background: var(--sheet-ui-surface);
+  box-shadow: var(--sheet-ui-shadow);
+}
+.actor.sheet .description-field .description-content.resource {
+  overflow: hidden;
+  border-color: var(--sheet-ui-border-soft);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--sheet-ui-surface-strong) 88%, transparent);
+}
+.actor.sheet .item-list .category {
+  overflow: hidden;
+  border: 1px solid var(--sheet-ui-border);
+  border-radius: 12px;
+  background: var(--sheet-ui-surface);
+  box-shadow: var(--sheet-ui-shadow);
+}
+.actor.sheet .item-list .category > .equipment,
+.actor.sheet .item-list .category > .feature,
+.actor.sheet .item-list .category > .discipline,
+.actor.sheet .item-list .category > .gift,
+.actor.sheet .item-list .category > .edge,
+.actor.sheet .item-list .category > .item-header {
+  margin: -5px -5px 4px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--sheet-ui-border-soft);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 12%, var(--sheet-ui-surface));
+}
+.actor.sheet .item-list .category .collapsible-container {
+  border-radius: 8px;
+}
+.actor.sheet .item-list .category .item {
+  align-items: center;
+  min-height: 34px;
+  margin: 3px 0;
+  padding: 3px 5px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+.actor.sheet .item-list .category .item:hover,
+.actor.sheet .item-list .category .item:focus-within {
+  border-color: var(--sheet-ui-border-soft);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 8%, transparent);
+  transform: translateY(-1px);
+}
+.actor.sheet .item-header,
+.actor.sheet .power-category-header {
+  border-color: var(--sheet-ui-border-soft);
+}
+.actor.sheet .power-category-header {
+  padding: 5px 7px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--sheet-ui-accent) 9%, transparent);
+}
+.actor.sheet button,
+.actor.sheet .item-control,
+.actor.sheet .search-data-item,
+.actor.sheet .add-data-item {
+  border-radius: 7px;
+}
+.actor.sheet button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
+  color: var(--sheet-ui-accent-ink);
+  border: 1px solid var(--sheet-ui-border);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 13%, var(--sheet-ui-surface-strong));
+  transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+.actor.sheet button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):hover,
+.actor.sheet button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):focus {
+  color: var(--sheet-ui-accent-ink);
+  border-color: var(--sheet-ui-accent);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 22%, var(--sheet-ui-surface-strong));
+  transform: translateY(-1px);
+}
+.actor.sheet .item-control,
+.actor.sheet .search-data-item,
+.actor.sheet .add-data-item {
+  padding: 3px;
+  color: var(--sheet-ui-accent-ink);
+  transition: color 150ms ease, background-color 150ms ease;
+}
+.actor.sheet .item-control:hover,
+.actor.sheet .search-data-item:hover,
+.actor.sheet .add-data-item:hover,
+.actor.sheet .item-control:focus,
+.actor.sheet .search-data-item:focus,
+.actor.sheet .add-data-item:focus {
+  color: var(--sheet-ui-accent-strong);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 15%, transparent);
+}
+.actor.sheet .sheet-tabs > [data-tab] .navicon,
+.actor.sheet .lock-btn {
+  border-radius: 9px;
+}
+.theme-dark .actor.sheet:is(.sheet) {
+  --sheet-ui-accent-ink: color-mix(in srgb, var(--sheet-ui-accent) 72%, white);
+  --sheet-ui-surface: rgba(22, 22, 25, 0.74);
+  --sheet-ui-surface-strong: rgba(15, 15, 18, 0.86);
+  --sheet-ui-border: color-mix(in srgb, var(--sheet-ui-accent) 52%, transparent);
+  --sheet-ui-border-soft: color-mix(in srgb, var(--sheet-ui-accent) 30%, transparent);
+  --sheet-ui-shadow: 0 5px 14px rgba(0, 0, 0, 0.24);
+}
+.theme-dark .actor.sheet:is(.sheet) .field-header,
+.theme-dark .actor.sheet:is(.sheet) .resource-header,
+.theme-dark .actor.sheet:is(.sheet) .item-header .item-name,
+.theme-dark .actor.sheet:is(.sheet) .power-category-label {
+  color: var(--sheet-ui-accent-ink);
+}
+.theme-dark .actor.sheet:is(.sheet) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.theme-dark .actor.sheet:is(.sheet) select,
+.theme-dark .actor.sheet:is(.sheet) textarea,
+.theme-dark .actor.sheet:is(.sheet) .resource,
+.theme-dark .actor.sheet:is(.sheet) prose-mirror .editor-content {
+  color: #f4f1f7;
+  border-color: var(--sheet-ui-border);
+  background-color: var(--sheet-ui-surface-strong);
+}
+.theme-dark .actor.sheet:is(.sheet) .actor-header .field-section,
+.theme-dark .actor.sheet:is(.sheet) .description-field,
+.theme-dark .actor.sheet:is(.sheet) .stats-container,
+.theme-dark .actor.sheet:is(.sheet) .power-category,
+.theme-dark .actor.sheet:is(.sheet) .item-list .category {
+  border-color: var(--sheet-ui-border-soft);
+  background: var(--sheet-ui-surface);
+}
+.theme-dark .actor.sheet:is(.sheet) .description-field .description-content.resource {
+  border-color: var(--sheet-ui-border-soft);
+  background: color-mix(in srgb, var(--sheet-ui-surface-strong) 90%, transparent);
+}
+.theme-dark .actor.sheet:is(.sheet) .item-list .category > .equipment,
+.theme-dark .actor.sheet:is(.sheet) .item-list .category > .feature,
+.theme-dark .actor.sheet:is(.sheet) .item-list .category > .discipline,
+.theme-dark .actor.sheet:is(.sheet) .item-list .category > .gift,
+.theme-dark .actor.sheet:is(.sheet) .item-list .category > .edge,
+.theme-dark .actor.sheet:is(.sheet) .item-list .category > .item-header {
+  border-color: var(--sheet-ui-border-soft);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 14%, var(--sheet-ui-surface));
+}
+.theme-dark .actor.sheet:is(.sheet) .item-list .category .item {
+  background: transparent;
+  border-color: transparent;
+}
+.theme-dark .actor.sheet:is(.sheet) .item-list .category .item:hover,
+.theme-dark .actor.sheet:is(.sheet) .item-list .category .item:focus-within {
+  border-color: var(--sheet-ui-border-soft);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 10%, transparent);
+}
+.theme-dark .actor.sheet:is(.sheet) button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
+  color: var(--sheet-ui-accent-ink);
+  border-color: var(--sheet-ui-border);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 13%, var(--sheet-ui-surface-strong));
+}
+.theme-dark .actor.sheet:is(.sheet) button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):hover,
+.theme-dark .actor.sheet:is(.sheet) button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):focus {
+  color: var(--sheet-ui-accent-ink);
+  border-color: var(--sheet-ui-accent);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 22%, var(--sheet-ui-surface-strong));
+}
+
 .skill.application .skillname {
   font-size: 48px;
   font-family: var(--font-h1);
@@ -2293,7 +2545,7 @@ body.uk .actor.sheet {
   overflow: hidden;
   flex-shrink: 0;
   box-sizing: border-box;
-  min-height: 215px;
+  min-height: 255px;
   padding-top: 7px;
   padding-bottom: 9px;
   border-bottom: 2px solid var(--god-color-1);
@@ -2360,6 +2612,14 @@ body.uk .actor.sheet {
   border: 2px solid var(--god-color-3);
   border-radius: 48% 48% 44% 44%;
   box-shadow: 0 0 0 4px rgba(69, 24, 101, 0.42), 0 0 26px var(--god-glow);
+}
+.actor.sheet.god .header-profile {
+  box-sizing: border-box;
+  padding-bottom: 38px;
+}
+.actor.sheet.god .header-profile .name-field,
+.actor.sheet.god .header-profile .name-field:not(.clickthrough) {
+  bottom: 2px;
 }
 .actor.sheet.god .charname {
   color: #fff;

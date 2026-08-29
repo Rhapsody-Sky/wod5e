@@ -1,0 +1,301 @@
+/*
+ * Shared actor-sheet design language.
+ *
+ * Shape, spacing and interaction are common to every splat. Colour is supplied
+ * through per-splat variables below; God-specific glow remains in god-styling.
+ */
+.actor.sheet {
+  --sheet-ui-accent: #706ca5;
+  --sheet-ui-accent-strong: #302d5b;
+  --sheet-ui-accent-ink: var(--sheet-ui-accent-strong);
+  --sheet-ui-surface: rgb(255 255 255 / 58%);
+  --sheet-ui-surface-strong: rgb(255 255 255 / 78%);
+  --sheet-ui-border: color-mix(in srgb, var(--sheet-ui-accent) 48%, transparent);
+  --sheet-ui-border-soft: color-mix(in srgb, var(--sheet-ui-accent) 25%, transparent);
+  --sheet-ui-shadow: 0 5px 14px rgb(18 14 28 / 12%);
+
+  &.mortal {
+    --sheet-ui-accent: var(--mortal-color-2);
+    --sheet-ui-accent-strong: var(--mortal-color-1);
+  }
+
+  &.vampire {
+    --sheet-ui-accent: var(--vampire-color-2);
+    --sheet-ui-accent-strong: var(--vampire-color-1);
+  }
+
+  &.werewolf {
+    --sheet-ui-accent: var(--werewolf-color-2);
+    --sheet-ui-accent-strong: var(--werewolf-color-1);
+  }
+
+  &.hunter {
+    --sheet-ui-accent: var(--hunter-color-2);
+    --sheet-ui-accent-strong: var(--hunter-color-1);
+  }
+
+  &.god {
+    --sheet-ui-accent: var(--god-color-2);
+    --sheet-ui-accent-strong: var(--god-color-1);
+  }
+
+  /* Header resources become compact cards instead of bare rectangles. */
+  .actor-header {
+    .field-section {
+      box-sizing: border-box;
+      padding: 6px 8px;
+      border: 1px solid var(--sheet-ui-border-soft);
+      border-radius: 11px;
+      background: color-mix(in srgb, var(--sheet-ui-surface) 90%, transparent);
+      box-shadow: inset 0 1px rgb(255 255 255 / 12%);
+    }
+
+    input,
+    .resource {
+      border-radius: 8px;
+    }
+
+    .profile-img {
+      border-radius: 14px;
+    }
+  }
+
+  /* Reusable labels use the current splat accent and a calmer hierarchy. */
+  .field-header,
+  .resource-header,
+  .item-header .item-name,
+  .power-category-label {
+    color: var(--sheet-ui-accent-ink);
+  }
+
+  .field-header,
+  .resource-header {
+    font-weight: 650;
+    letter-spacing: 0.015em;
+  }
+
+  /* Shared form language for text, number and rich-text fields. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea,
+  .resource,
+  prose-mirror .editor-content {
+    box-sizing: border-box;
+    border-color: var(--sheet-ui-border);
+    border-radius: 8px;
+    background-color: var(--sheet-ui-surface-strong);
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+  select:focus,
+  textarea:focus,
+  prose-mirror:focus-within .editor-content {
+    border-color: var(--sheet-ui-accent);
+    outline: 0;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--sheet-ui-accent) 24%, transparent);
+  }
+
+  /* Large content blocks used across biography, notes and SPC sheets. */
+  .description-field,
+  .stats-container,
+  .power-category {
+    box-sizing: border-box;
+    padding: 7px;
+    border: 1px solid var(--sheet-ui-border-soft);
+    border-radius: 12px;
+    background: var(--sheet-ui-surface);
+    box-shadow: var(--sheet-ui-shadow);
+  }
+
+  .description-field {
+    .description-content.resource {
+      overflow: hidden;
+      border-color: var(--sheet-ui-border-soft);
+      border-radius: 9px;
+      background: color-mix(in srgb, var(--sheet-ui-surface-strong) 88%, transparent);
+    }
+  }
+
+  /* Equipment, features, disciplines, gifts and edges share one card style. */
+  .item-list {
+    .category {
+      overflow: hidden;
+      border: 1px solid var(--sheet-ui-border);
+      border-radius: 12px;
+      background: var(--sheet-ui-surface);
+      box-shadow: var(--sheet-ui-shadow);
+
+      > .equipment,
+      > .feature,
+      > .discipline,
+      > .gift,
+      > .edge,
+      > .item-header {
+        margin: -5px -5px 4px;
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--sheet-ui-border-soft);
+        background: color-mix(in srgb, var(--sheet-ui-accent) 12%, var(--sheet-ui-surface));
+      }
+
+      .collapsible-container {
+        border-radius: 8px;
+      }
+
+      .item {
+        align-items: center;
+        min-height: 34px;
+        margin: 3px 0;
+        padding: 3px 5px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        transition:
+          border-color 160ms ease,
+          background-color 160ms ease,
+          transform 160ms ease;
+
+        &:hover,
+        &:focus-within {
+          border-color: var(--sheet-ui-border-soft);
+          background: color-mix(in srgb, var(--sheet-ui-accent) 8%, transparent);
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+
+  .item-header,
+  .power-category-header {
+    border-color: var(--sheet-ui-border-soft);
+  }
+
+  .power-category-header {
+    padding: 5px 7px;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--sheet-ui-accent) 9%, transparent);
+  }
+
+  /* Small controls read as controls without becoming visually heavy. */
+  button,
+  .item-control,
+  .search-data-item,
+  .add-data-item {
+    border-radius: 7px;
+  }
+
+  button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
+    color: var(--sheet-ui-accent-ink);
+    border: 1px solid var(--sheet-ui-border);
+    background: color-mix(in srgb, var(--sheet-ui-accent) 13%, var(--sheet-ui-surface-strong));
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease,
+      transform 150ms ease;
+
+    &:hover,
+    &:focus {
+      color: var(--sheet-ui-accent-ink);
+      border-color: var(--sheet-ui-accent);
+      background: color-mix(in srgb, var(--sheet-ui-accent) 22%, var(--sheet-ui-surface-strong));
+      transform: translateY(-1px);
+    }
+  }
+
+  .item-control,
+  .search-data-item,
+  .add-data-item {
+    padding: 3px;
+    color: var(--sheet-ui-accent-ink);
+    transition: color 150ms ease, background-color 150ms ease;
+
+    &:hover,
+    &:focus {
+      color: var(--sheet-ui-accent-strong);
+      background: color-mix(in srgb, var(--sheet-ui-accent) 15%, transparent);
+    }
+  }
+
+  .sheet-tabs > [data-tab] .navicon,
+  .lock-btn {
+    border-radius: 9px;
+  }
+}
+
+.theme-dark .actor.sheet:is(.sheet) {
+  --sheet-ui-accent-ink: color-mix(in srgb, var(--sheet-ui-accent) 72%, white);
+  --sheet-ui-surface: rgb(22 22 25 / 74%);
+  --sheet-ui-surface-strong: rgb(15 15 18 / 86%);
+  --sheet-ui-border: color-mix(in srgb, var(--sheet-ui-accent) 52%, transparent);
+  --sheet-ui-border-soft: color-mix(in srgb, var(--sheet-ui-accent) 30%, transparent);
+  --sheet-ui-shadow: 0 5px 14px rgb(0 0 0 / 24%);
+
+  .field-header,
+  .resource-header,
+  .item-header .item-name,
+  .power-category-label {
+    color: var(--sheet-ui-accent-ink);
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea,
+  .resource,
+  prose-mirror .editor-content {
+    color: #f4f1f7;
+    border-color: var(--sheet-ui-border);
+    background-color: var(--sheet-ui-surface-strong);
+  }
+
+  .actor-header .field-section,
+  .description-field,
+  .stats-container,
+  .power-category,
+  .item-list .category {
+    border-color: var(--sheet-ui-border-soft);
+    background: var(--sheet-ui-surface);
+  }
+
+  .description-field .description-content.resource {
+    border-color: var(--sheet-ui-border-soft);
+    background: color-mix(in srgb, var(--sheet-ui-surface-strong) 90%, transparent);
+  }
+
+  .item-list .category {
+    > .equipment,
+    > .feature,
+    > .discipline,
+    > .gift,
+    > .edge,
+    > .item-header {
+      border-color: var(--sheet-ui-border-soft);
+      background: color-mix(in srgb, var(--sheet-ui-accent) 14%, var(--sheet-ui-surface));
+    }
+
+    .item {
+      background: transparent;
+      border-color: transparent;
+
+      &:hover,
+      &:focus-within {
+        border-color: var(--sheet-ui-border-soft);
+        background: color-mix(in srgb, var(--sheet-ui-accent) 10%, transparent);
+      }
+    }
+  }
+
+  button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
+    color: var(--sheet-ui-accent-ink);
+    border-color: var(--sheet-ui-border);
+    background: color-mix(in srgb, var(--sheet-ui-accent) 13%, var(--sheet-ui-surface-strong));
+
+    &:hover,
+    &:focus {
+      color: var(--sheet-ui-accent-ink);
+      border-color: var(--sheet-ui-accent);
+      background: color-mix(in srgb, var(--sheet-ui-accent) 22%, var(--sheet-ui-surface-strong));
+    }
+  }
+}

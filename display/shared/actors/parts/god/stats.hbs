@@ -9,16 +9,22 @@
                 <div class="god-attribute-list">
                     {{#each divineAttributes as |attribute|}}
                         <div class="god-attribute resource-content flexrow flex-center">
-                            <span class="god-attribute-icon" aria-hidden="true">
-                                <img src="{{attribute.icon}}" alt="" />
-                            </span>
-                            {{#if ../locked}}
+                            <button type="button" class="god-attribute-invocation rollable"
+                                data-action="roll"
+                                data-label="{{attribute.label}}"
+                                data-value-paths="divineattributes.{{attribute.id}}.value"
+                                data-selectors="divineattributes divineattributes.{{attribute.id}}"
+                                data-disable-advanced-dice="true"
+                                title="{{attribute.label}} – {{localize 'WOD5E.RollList.Label'}}">
+                                <span class="god-attribute-icon" aria-hidden="true">
+                                    <img src="{{attribute.icon}}" alt="" />
+                                </span>
                                 <span class="god-attribute-label">{{attribute.label}}</span>
+                                <i class="fa-solid fa-dice-d10 god-attribute-die" aria-hidden="true"></i>
+                            </button>
+                            {{#if ../locked}}
                                 <span class="resource stat-resource-background">{{attribute.value}}</span>
                             {{else}}
-                                <label class="god-attribute-label" for="system.divineattributes.{{attribute.id}}.value">
-                                    {{attribute.label}}
-                                </label>
                                 <input class="god-attribute-value" type="number" min="0"
                                     name="system.divineattributes.{{attribute.id}}.value"
                                     value="{{attribute.value}}" data-dtype="Number" />

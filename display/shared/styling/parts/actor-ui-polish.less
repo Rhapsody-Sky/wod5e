@@ -183,6 +183,91 @@
     background: var(--sheet-ui-surface);
   }
 
+  .detailed-section .detail,
+  .note-container,
+  .limited-description-body,
+  .tab[data-tab="experience"] > .grid > .flexcol,
+  .group-member {
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid var(--sheet-ui-border-soft);
+    border-radius: 12px;
+    background: var(--sheet-ui-surface);
+    box-shadow: var(--sheet-ui-shadow);
+  }
+
+  .detailed-section {
+    gap: 6px;
+
+    .detail {
+      min-width: 0;
+      box-shadow: none;
+    }
+  }
+
+  .note-container {
+    margin: 6px;
+  }
+
+  .tab[data-tab="experience"] {
+    > .grid {
+      gap: 10px;
+
+      > .flexcol {
+        min-width: 0;
+      }
+    }
+
+    .tracker,
+    .experience-gain,
+    .experience-spend,
+    .xp-header {
+      box-sizing: border-box;
+      margin: 3px 0;
+      padding: 5px 7px;
+      border-radius: 8px;
+    }
+
+    .tracker,
+    .xp-header {
+      background: color-mix(in srgb, var(--sheet-ui-accent) 10%, transparent);
+    }
+
+    .experience-gain,
+    .experience-spend {
+      border: 1px solid transparent;
+
+      &:hover {
+        border-color: var(--sheet-ui-border-soft);
+        background: color-mix(in srgb, var(--sheet-ui-accent) 8%, transparent);
+      }
+    }
+  }
+
+  &.group {
+    .group-member {
+      margin: 7px;
+
+      .actor-image img,
+      .werewolf-form-image {
+        border-color: var(--sheet-ui-border);
+        border-radius: 9px;
+      }
+
+      .member-resources {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .sub-item {
+        border: 1px solid var(--sheet-ui-border-soft);
+        border-radius: 9px;
+        background: color-mix(in srgb, var(--sheet-ui-accent) 8%, transparent);
+      }
+    }
+  }
+
   .tab[data-tab="settings"] .form-group {
     align-items: center;
     gap: 10px;
@@ -312,14 +397,14 @@
   }
 
   /* Small controls read as controls without becoming visually heavy. */
-  button,
+  .window-content button,
   .item-control,
   .search-data-item,
   .add-data-item {
     border-radius: 7px;
   }
 
-  button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
+  .window-content button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
     color: var(--sheet-ui-accent-ink);
     border: 1px solid var(--sheet-ui-border);
     background: color-mix(in srgb, var(--sheet-ui-accent) 13%, var(--sheet-ui-surface-strong));
@@ -388,6 +473,11 @@
   .power-category,
   .item-list .category,
   .detail-row,
+  .detailed-section .detail,
+  .note-container,
+  .limited-description-body,
+  .tab[data-tab="experience"] > .grid > .flexcol,
+  .group-member,
   .tab[data-tab="settings"] .form-group,
   .blood-potency,
   .blood-details,
@@ -408,6 +498,13 @@
   .exceptional-pools-list .exceptional-pool,
   .balance-trackers .wolf-resource,
   .powers-display-tree .parent {
+    border-color: var(--sheet-ui-border-soft);
+    background: color-mix(in srgb, var(--sheet-ui-accent) 12%, transparent);
+  }
+
+  .tab[data-tab="experience"] .tracker,
+  .tab[data-tab="experience"] .xp-header,
+  .group-member .sub-item {
     border-color: var(--sheet-ui-border-soft);
     background: color-mix(in srgb, var(--sheet-ui-accent) 12%, transparent);
   }
@@ -445,7 +542,7 @@
     }
   }
 
-  button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
+  .window-content button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
     color: var(--sheet-ui-accent-ink);
     border-color: var(--sheet-ui-border);
     background: color-mix(in srgb, var(--sheet-ui-accent) 13%, var(--sheet-ui-surface-strong));

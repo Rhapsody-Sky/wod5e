@@ -2353,6 +2353,74 @@ body.uk .actor.sheet {
   border-radius: 10px;
   background: var(--sheet-ui-surface);
 }
+.actor.sheet .detailed-section .detail,
+.actor.sheet .note-container,
+.actor.sheet .limited-description-body,
+.actor.sheet .tab[data-tab="experience"] > .grid > .flexcol,
+.actor.sheet .group-member {
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid var(--sheet-ui-border-soft);
+  border-radius: 12px;
+  background: var(--sheet-ui-surface);
+  box-shadow: var(--sheet-ui-shadow);
+}
+.actor.sheet .detailed-section {
+  gap: 6px;
+}
+.actor.sheet .detailed-section .detail {
+  min-width: 0;
+  box-shadow: none;
+}
+.actor.sheet .note-container {
+  margin: 6px;
+}
+.actor.sheet .tab[data-tab="experience"] > .grid {
+  gap: 10px;
+}
+.actor.sheet .tab[data-tab="experience"] > .grid > .flexcol {
+  min-width: 0;
+}
+.actor.sheet .tab[data-tab="experience"] .tracker,
+.actor.sheet .tab[data-tab="experience"] .experience-gain,
+.actor.sheet .tab[data-tab="experience"] .experience-spend,
+.actor.sheet .tab[data-tab="experience"] .xp-header {
+  box-sizing: border-box;
+  margin: 3px 0;
+  padding: 5px 7px;
+  border-radius: 8px;
+}
+.actor.sheet .tab[data-tab="experience"] .tracker,
+.actor.sheet .tab[data-tab="experience"] .xp-header {
+  background: color-mix(in srgb, var(--sheet-ui-accent) 10%, transparent);
+}
+.actor.sheet .tab[data-tab="experience"] .experience-gain,
+.actor.sheet .tab[data-tab="experience"] .experience-spend {
+  border: 1px solid transparent;
+}
+.actor.sheet .tab[data-tab="experience"] .experience-gain:hover,
+.actor.sheet .tab[data-tab="experience"] .experience-spend:hover {
+  border-color: var(--sheet-ui-border-soft);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 8%, transparent);
+}
+.actor.sheet.group .group-member {
+  margin: 7px;
+}
+.actor.sheet.group .group-member .actor-image img,
+.actor.sheet.group .group-member .werewolf-form-image {
+  border-color: var(--sheet-ui-border);
+  border-radius: 9px;
+}
+.actor.sheet.group .group-member .member-resources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.actor.sheet.group .group-member .sub-item {
+  border: 1px solid var(--sheet-ui-border-soft);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--sheet-ui-accent) 8%, transparent);
+}
 .actor.sheet .tab[data-tab="settings"] .form-group {
   align-items: center;
   gap: 10px;
@@ -2460,20 +2528,20 @@ body.uk .actor.sheet {
   border-radius: 8px;
   background: color-mix(in srgb, var(--sheet-ui-accent) 9%, transparent);
 }
-.actor.sheet button,
+.actor.sheet .window-content button,
 .actor.sheet .item-control,
 .actor.sheet .search-data-item,
 .actor.sheet .add-data-item {
   border-radius: 7px;
 }
-.actor.sheet button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
+.actor.sheet .window-content button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
   color: var(--sheet-ui-accent-ink);
   border: 1px solid var(--sheet-ui-border);
   background: color-mix(in srgb, var(--sheet-ui-accent) 13%, var(--sheet-ui-surface-strong));
   transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
 }
-.actor.sheet button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):hover,
-.actor.sheet button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):focus {
+.actor.sheet .window-content button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):hover,
+.actor.sheet .window-content button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):focus {
   color: var(--sheet-ui-accent-ink);
   border-color: var(--sheet-ui-accent);
   background: color-mix(in srgb, var(--sheet-ui-accent) 22%, var(--sheet-ui-surface-strong));
@@ -2528,6 +2596,11 @@ body.uk .actor.sheet {
 .theme-dark .actor.sheet:is(.sheet) .power-category,
 .theme-dark .actor.sheet:is(.sheet) .item-list .category,
 .theme-dark .actor.sheet:is(.sheet) .detail-row,
+.theme-dark .actor.sheet:is(.sheet) .detailed-section .detail,
+.theme-dark .actor.sheet:is(.sheet) .note-container,
+.theme-dark .actor.sheet:is(.sheet) .limited-description-body,
+.theme-dark .actor.sheet:is(.sheet) .tab[data-tab="experience"] > .grid > .flexcol,
+.theme-dark .actor.sheet:is(.sheet) .group-member,
 .theme-dark .actor.sheet:is(.sheet) .tab[data-tab="settings"] .form-group,
 .theme-dark .actor.sheet:is(.sheet) .blood-potency,
 .theme-dark .actor.sheet:is(.sheet) .blood-details,
@@ -2547,6 +2620,12 @@ body.uk .actor.sheet {
 .theme-dark .actor.sheet:is(.sheet) .exceptional-pools-list .exceptional-pool,
 .theme-dark .actor.sheet:is(.sheet) .balance-trackers .wolf-resource,
 .theme-dark .actor.sheet:is(.sheet) .powers-display-tree .parent {
+  border-color: var(--sheet-ui-border-soft);
+  background: color-mix(in srgb, var(--sheet-ui-accent) 12%, transparent);
+}
+.theme-dark .actor.sheet:is(.sheet) .tab[data-tab="experience"] .tracker,
+.theme-dark .actor.sheet:is(.sheet) .tab[data-tab="experience"] .xp-header,
+.theme-dark .actor.sheet:is(.sheet) .group-member .sub-item {
   border-color: var(--sheet-ui-border-soft);
   background: color-mix(in srgb, var(--sheet-ui-accent) 12%, transparent);
 }
@@ -2576,13 +2655,13 @@ body.uk .actor.sheet {
   border-color: var(--sheet-ui-border-soft);
   background: color-mix(in srgb, var(--sheet-ui-accent) 10%, transparent);
 }
-.theme-dark .actor.sheet:is(.sheet) button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
+.theme-dark .actor.sheet:is(.sheet) .window-content button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon) {
   color: var(--sheet-ui-accent-ink);
   border-color: var(--sheet-ui-border);
   background: color-mix(in srgb, var(--sheet-ui-accent) 13%, var(--sheet-ui-surface-strong));
 }
-.theme-dark .actor.sheet:is(.sheet) button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):hover,
-.theme-dark .actor.sheet:is(.sheet) button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):focus {
+.theme-dark .actor.sheet:is(.sheet) .window-content button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):hover,
+.theme-dark .actor.sheet:is(.sheet) .window-content button:not(.god-attribute-invocation):not(.god-attribute-roll):not(.icon):focus {
   color: var(--sheet-ui-accent-ink);
   border-color: var(--sheet-ui-accent);
   background: color-mix(in srgb, var(--sheet-ui-accent) 22%, var(--sheet-ui-surface-strong));

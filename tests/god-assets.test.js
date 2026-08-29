@@ -30,6 +30,8 @@ describe('God roll assets', () => {
     expect(styling).toContain('min-height: 50px;')
     expect(styling).toContain('overflow-y: auto;')
     expect(styling).toContain('padding-bottom: 38px;')
+    expect(styling).toContain('min-height: 255px;')
+    expect(styling).toContain('bottom: 2px;')
   })
 
   it('ships a splat-aware shared actor-sheet design language', () => {
@@ -45,6 +47,9 @@ describe('God roll assets', () => {
     expect(styling).toContain('.balance-trackers')
     expect(styling).toContain('.powers-display-tree')
     expect(styling).toContain('.standard-pools-list')
+    expect(styling).toContain('.group-member')
+    expect(styling).toContain('.tab[data-tab="experience"]')
+    expect(styling).toContain('.note-container')
     expect(styling).toContain('.tab[data-tab="settings"] .form-group')
     expect(styling).toContain('.theme-dark .actor.sheet')
   })

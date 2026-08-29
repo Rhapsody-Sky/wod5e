@@ -21,7 +21,7 @@ describe('Chat roll presentation', () => {
   it('styles dice, totals, outcomes and every supported splat', () => {
     const styling = fs.readFileSync(path.resolve('display/ui/styling/chat.less'), 'utf8')
 
-    expect(styling).toContain('#chat-log .chat-message .roll-card')
+    expect(styling).toContain('.chat-message.message .message-content .roll-card')
     expect(styling).toContain('&.roll-card--vampire')
     expect(styling).toContain('&.roll-card--werewolf')
     expect(styling).toContain('&.roll-card--hunter')

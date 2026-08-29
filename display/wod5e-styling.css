@@ -2088,6 +2088,29 @@ body.uk .actor.sheet {
   margin-right: auto;
   text-wrap: nowrap;
 }
+.actor.sheet.god .god-attributes {
+  margin: 5px;
+}
+.actor.sheet.god .god-attributes .god-attribute-list {
+  padding: 5px 15px;
+}
+.actor.sheet.god .god-attributes .god-attribute {
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.actor.sheet.god .god-attributes .god-attribute-label {
+  flex: 1;
+}
+.actor.sheet.god .god-attributes .god-attribute-value,
+.actor.sheet.god .god-attributes .stat-resource-background {
+  flex: 0 0 55px;
+  max-width: 55px;
+  text-align: center;
+}
+.actor.sheet.god .god-attributes .god-attribute-roll {
+  width: calc(100% - 30px);
+  margin: 5px 15px 15px;
+}
 .actor.sheet .stats-container {
   display: flex;
   flex-flow: column;

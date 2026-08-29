@@ -2,6 +2,7 @@
   "TYPES": {
     "Actor": {
       "ghoul": "Ghoul",
+      "god": "God",
       "group": "Group",
       "hunter": "Hunter",
       "mortal": "Mortal",
@@ -478,6 +479,25 @@
       "Subterfuge": "Subterfuge",
       "Survival": "Survival",
       "Technology": "Technology"
+    },
+    "God": {
+      "Attributes": "Divine Attributes",
+      "AttributesMustDiffer": "Choose two different divine attributes.",
+      "AttributeList": {
+        "aspect": "Aspect",
+        "force": "Force",
+        "identity": "Identity",
+        "insight": "Insight",
+        "power": "Power"
+      },
+      "FirstAttribute": "First Attribute",
+      "Influence": "Influence",
+      "Label": "God",
+      "RollTwoAttributes": "Roll two attributes",
+      "SecondAttribute": "Second Attribute",
+      "SelectAttributes": "Divine Attribute Roll",
+      "SelectAttributesHint": "Choose two divine attributes. Their values are added together for the dice pool.",
+      "SelectTwoAttributes": "Choose two divine attributes."
     },
     "SPC": {
       "AddSkill": "Add Skill",

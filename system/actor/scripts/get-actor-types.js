@@ -48,6 +48,16 @@ export const getActorTypes = async function (actor) {
       typePath: 'system.groupType',
       types: groupTypes
     }
+  } else if (currentActorType === 'god') {
+    return {
+      baseActorType: 'god',
+      currentActorType: 'god',
+      currentTypeLabel: 'WOD5E.God.Label',
+      typePath: 'type',
+      types: {
+        god: 'WOD5E.God.Label'
+      }
+    }
   } else {
     // The default is an object that has only the current type in it
     return {

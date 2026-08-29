@@ -1,0 +1,30 @@
+<form class="dialog-contents">
+    <p>{{localize "WOD5E.God.SelectAttributesHint"}}</p>
+    <div class="selectors-group">
+        <div class="primary-selector">
+            <div class="selector-title">{{localize "WOD5E.God.FirstAttribute"}}</div>
+            <div class="selector-content">
+                <select name="firstAttribute">
+                    <option value="">{{localize "WOD5E.None"}}</option>
+                    {{#each attributes as |attribute|}}
+                        <option value="{{attribute.id}}">{{attribute.label}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <div class="middle">+</div>
+
+        <div class="primary-selector">
+            <div class="selector-title">{{localize "WOD5E.God.SecondAttribute"}}</div>
+            <div class="selector-content">
+                <select name="secondAttribute">
+                    <option value="">{{localize "WOD5E.None"}}</option>
+                    {{#each attributes as |attribute|}}
+                        <option value="{{attribute.id}}">{{attribute.label}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    </div>
+</form>

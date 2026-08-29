@@ -30,7 +30,7 @@ export class WoDActor extends Actor {
     const tokenUpdate = {}
 
     // Link non-SPC token data by default
-    if (data.prototypeToken?.actorLink === undefined && data.type !== 'spc') {
+    if (data.prototypeToken?.actorLink === undefined && !['spc', 'god'].includes(data.type)) {
       tokenUpdate.actorLink = true
     }
 
@@ -119,7 +119,7 @@ export class WoDActor extends Actor {
     }
 
     // Handle prepping exceptional dicepools
-    if (actorData.type === 'spc') {
+    if (['spc', 'god'].includes(actorData.type)) {
       systemData.exceptionaldicepools = await prepareExceptionalDicePools(actorData)
     }
 
@@ -149,7 +149,7 @@ export class WoDActor extends Actor {
     }
 
     // Prepare derived XP values
-    if (actorData.type !== 'group' && actorData.type !== 'spc') {
+    if (!['group', 'spc', 'god'].includes(actorData.type)) {
       systemData.derivedXP = await getDerivedExperience(systemData)
     }
 
@@ -244,7 +244,7 @@ async function applyEffectData(actorData) {
       // Iterate through each key in the effect
       effect.keys.forEach((key) => {
         // If this is for an SPC sheet, we need to alter the key for stats
-        if (actorData.type === 'spc' && key.includes('skills')) {
+        if (['spc', 'god'].includes(actorData.type) && key.includes('skills')) {
           key = key.replace('skills', 'exceptionaldicepools')
         }
 
@@ -268,19 +268,19 @@ async function applyEffectData(actorData) {
           // Apply to all renown
           change.key = Renown.getList({ useValuePath: true })
         } else if (change.key === 'physical') {
-          if (actorData.type === 'spc') {
+          if (['spc', 'god'].includes(actorData.type)) {
             change.key = 'system.standarddicepools.physical.value'
           } else {
             change.key = Attributes.getList({ type: 'physical', useValuePath: true })
           }
         } else if (change.key === 'social') {
-          if (actorData.type === 'spc') {
+          if (['spc', 'god'].includes(actorData.type)) {
             change.key = 'system.standarddicepools.social.value'
           } else {
             change.key = Attributes.getList({ type: 'social', useValuePath: true })
           }
         } else if (change.key === 'mental') {
-          if (actorData.type === 'spc') {
+          if (['spc', 'god'].includes(actorData.type)) {
             change.key = 'system.standarddicepools.mental.value'
           } else {
             change.key = Attributes.getList({ type: 'mental', useValuePath: true })

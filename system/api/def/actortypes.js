@@ -2,6 +2,7 @@
 import { BaseDefinitionClass } from './base-definition-class.js'
 // All systems
 import { SPCActorSheet } from '../../actor/spc-actor-sheet.js'
+import { GodActorSheet } from '../../actor/god-actor-sheet.js'
 import { GroupActorSheet } from '../../actor/group-actor-sheet.js'
 // Mortal
 import { MortalActorSheet } from '../../actor/mortal-actor-sheet.js'
@@ -15,6 +16,7 @@ import { WerewolfActorSheet } from '../../actor/wta/werewolf-actor-sheet.js'
 // Actor models
 import { WoDActorModel } from '../../actor/data-models/base-actor-model.js'
 import { SPCActorModel } from '../../actor/data-models/spc-actor-model.js'
+import { GodActorModel } from '../../actor/data-models/god-actor-model.js'
 import { GroupActorModel } from '../../actor/data-models/group-actor-model.js'
 
 export class ActorTypes extends BaseDefinitionClass {
@@ -36,6 +38,13 @@ export class ActorTypes extends BaseDefinitionClass {
     types: ['spc'],
     sheetClass: SPCActorSheet,
     sheetModel: SPCActorModel
+  }
+
+  static god = {
+    label: 'WOD5E.God.Label',
+    types: ['god'],
+    sheetClass: GodActorSheet,
+    sheetModel: GodActorModel
   }
 
   static vampire = {

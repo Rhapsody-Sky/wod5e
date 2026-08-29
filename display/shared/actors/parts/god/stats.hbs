@@ -1,0 +1,53 @@
+<section class="tab {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+    <div class="grid grid-2col flexrow spc-stats-body">
+        <div>
+            <div class="god-attributes">
+                <div class="resource-label field-header flex-center">
+                    {{localize "WOD5E.God.Attributes"}}
+                </div>
+
+                <div class="god-attribute-list">
+                    {{#each divineAttributes as |attribute|}}
+                        <div class="god-attribute resource-content flexrow flex-center">
+                            {{#if ../locked}}
+                                <span class="god-attribute-label">{{attribute.label}}</span>
+                                <span class="resource stat-resource-background">{{attribute.value}}</span>
+                            {{else}}
+                                <label class="god-attribute-label" for="system.divineattributes.{{attribute.id}}.value">
+                                    {{attribute.label}}
+                                </label>
+                                <input class="god-attribute-value" type="number" min="0"
+                                    name="system.divineattributes.{{attribute.id}}.value"
+                                    value="{{attribute.value}}" data-dtype="Number" />
+                            {{/if}}
+                        </div>
+                    {{/each}}
+                </div>
+
+                <button type="button" class="rollable god-attribute-roll" data-action="godAttributeRoll">
+                    <i class="fa-solid fa-dice-d10"></i>
+                    {{localize "WOD5E.God.RollTwoAttributes"}}
+                </button>
+            </div>
+
+            {{> "systems/wod5e/display/shared/actors/parts/spc/exceptional-dice-pools.hbs"}}
+
+            {{#if showDisciplines}}
+                {{> "systems/wod5e/display/shared/actors/parts/spc/spc-disciplines.hbs"}}
+            {{/if}}
+
+            {{#if showGifts}}
+                {{> "systems/wod5e/display/shared/actors/parts/spc/spc-gifts.hbs"}}
+            {{/if}}
+
+            {{#if showEdges}}
+                {{> "systems/wod5e/display/shared/actors/parts/spc/spc-edges.hbs"}}
+            {{/if}}
+        </div>
+
+        <div>
+            {{> "systems/wod5e/display/shared/actors/parts/spc/spc-traits.hbs"}}
+            {{> "systems/wod5e/display/shared/actors/parts/spc/spc-conditions.hbs"}}
+        </div>
+    </div>
+</section>

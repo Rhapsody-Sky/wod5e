@@ -1,5 +1,6 @@
 import { WOD5eDice } from '../scripts/system-rolls.js'
 import { _onConfirmRoll } from '../actor/scripts/roll.js'
+import { getActorDisciplineOptions } from './actor-discipline-options.js'
 import { generateLocalizedLabel } from './generate-localization.js'
 
 export class wod5eAPI {
@@ -114,7 +115,11 @@ export class wod5eAPI {
     // Skill definitions
     const skillOptions = WOD5E.Skills.getList({})
     // Discipline definitions
-    const disciplineOptions = WOD5E.Disciplines.getList({})
+    const disciplineOptions = getActorDisciplineOptions(
+      WOD5E.Disciplines.getList({}),
+      actor,
+      discipline
+    )
     // Renown definitions
     const renownOptions = WOD5E.Renown.getList({})
 

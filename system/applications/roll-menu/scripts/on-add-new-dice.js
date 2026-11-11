@@ -11,11 +11,14 @@ export const _onAddNewRoll = async function (event) {
     name: game.i18n.format('WOD5E.NewString', {
       string: game.i18n.localize('WOD5E.RollList.Label')
     }),
+    system: 'core',
     isExtendedRoll: false,
     isContestedRoll: false,
     dice: {
       skill: '',
-      attribute: ''
+      attribute: '',
+      divineAttribute: '',
+      divineAttribute2: ''
     }
   }
 

@@ -47,7 +47,7 @@ describe('Fork release safeguards', () => {
     ).toBe('value')
   })
   it('validates the complete candidate, including referenced files', () => {
-    expect(verifyRelease(process.cwd(), '5.3.28-gods.1')).toEqual([])
+    expect(verifyRelease(process.cwd(), '5.3.28-gods.2')).toEqual([])
   })
   it('rejects a tag that disagrees with the manifest', () => {
     expect(verifyRelease(process.cwd(), '5.3.28')).toContain('Tag and manifest version differ')

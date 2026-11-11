@@ -27,6 +27,7 @@ import {
 } from './scripts/item-actions.js'
 import { _onToggleCollapse } from './scripts/on-toggle-collapse.js'
 import { _addActor, _openActorSheet, _removeActor } from './scripts/group-members.js'
+import { enrichItemDescriptions } from './scripts/prepare-items.js'
 import {
   prepareGroupFeaturesContext,
   prepareEquipmentContext,
@@ -258,26 +259,7 @@ export class GroupActorSheet extends HandlebarsApplicationMixin(
   }
 
   async prepareItems(sheetData) {
-    // Make an array to store item-based modifiers
-    // These are not currently used in group sheets because group sheets
-    // do not roll anything.
-    sheetData.system.itemModifiers = []
-
-    // Do data manipulation we need to do for ALL items here
-    sheetData.items.forEach(async (item) => {
-      // Enrich item descriptions
-      if (item.system?.description) {
-        item.system.enrichedDescription =
-          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-            item.system.description
-          )
-      }
-
-      // Calculate item modifiers and shuffle them into system.itemModifiers
-      if (!foundry.utils.isEmpty(item.system.bonuses) && !item?.system?.suppressed) {
-        sheetData.system.itemModifiers = sheetData.system.itemModifiers.concat(item.system.bonuses)
-      }
-    })
+    await enrichItemDescriptions(sheetData.items)
 
     // Features
     sheetData.system.features = sheetData.items.reduce(

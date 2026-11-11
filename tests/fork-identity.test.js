@@ -7,6 +7,7 @@ import {
   getSystemFlags,
   getSystemSetting
 } from '../system/scripts/fork-compatibility.js'
+import { migrateWorld } from '../system/scripts/migration.js'
 import {
   migrateForkReferences,
   rewriteForkString
@@ -350,6 +351,25 @@ describe('Awaited migration runner', () => {
     expect(game.settings.get(SYSTEM_ID, 'forkIdentityMigrationVersion')).toBe(0)
     await migrateForkIdentity()
     expect(game.settings.get(SYSTEM_ID, 'forkIdentityMigrationVersion')).toBe(1)
+  })
+
+  it('updates the release marker without remigrating a converted .1 world', async () => {
+    const actor = new TestDocument({ _id: 'a', flags: { wod5e: { old: 1 } } })
+    game.collections.set('Actor', [actor])
+    game.system = { id: SYSTEM_ID, version: '5.3.28-gods.2' }
+    for (const [setting, value] of Object.entries({
+      forkIdentityMigrationVersion: 1,
+      dataSchemaVersion: 1,
+      worldVersion: '5.3.28-gods.1'
+    })) {
+      const key = `${SYSTEM_ID}.${setting}`
+      fixture.stored.set(key, { key, value, user: null })
+    }
+
+    await migrateWorld()
+
+    expect(actor.update).not.toHaveBeenCalled()
+    expect(game.settings.set.mock.calls).toEqual([[SYSTEM_ID, 'worldVersion', '5.3.28-gods.2']])
   })
 
   it.each([{ isGM: false }, { isGM: true, activeGM: 'other' }])(

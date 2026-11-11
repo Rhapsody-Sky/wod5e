@@ -6,6 +6,7 @@ import { _onHaranoRoll, _onHaugloskRoll } from './wta/scripts/balance.js'
 import { WoDActorBase } from './wod-actor-base.js'
 import { _onToggleDespair } from './htr/scripts/toggle-despair.js'
 import { _onFormEdit, _onSpcShiftForm } from './wta/scripts/forms.js'
+import { syncActorGamesystemClass } from './scripts/sheet-classes.js'
 // Mixin
 const { HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -106,9 +107,6 @@ export class SPCActorSheet extends HandlebarsApplicationMixin(WoDActorBase) {
     const actor = this.actor
     const actorData = actor.system
 
-    // Push the current gamesystem as a class
-    this.options.classes.push(actorData.gamesystem)
-
     if (data.gamesystem === 'vampire') {
       data.humanity = actorData.humanity
       data.hunger = actorData.hunger
@@ -189,21 +187,6 @@ export class SPCActorSheet extends HandlebarsApplicationMixin(WoDActorBase) {
     super._onRender()
     const html = this.element
 
-    // Add a new sheet styling depending on the type of sheet
-    const gamesystem = this.actor.system.gamesystem
-    if (gamesystem === 'vampire') {
-      html.classList.remove('hunter', 'werewolf', 'mortal')
-      html.classList.add('vampire')
-    } else if (gamesystem === 'hunter') {
-      html.classList.remove('vampire', 'werewolf', 'mortal')
-      html.classList.add('hunter')
-    } else if (gamesystem === 'werewolf') {
-      html.classList.remove('hunter', 'vampire', 'mortal')
-      html.classList.add('werewolf')
-    } else {
-      // Default to a mortal sheet
-      html.classList.remove('hunter', 'vampire', 'werewolf')
-      html.classList.add('mortal')
-    }
+    syncActorGamesystemClass(html, this.actor.system.gamesystem)
   }
 }

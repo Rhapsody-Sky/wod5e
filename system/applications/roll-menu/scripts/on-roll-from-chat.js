@@ -1,13 +1,16 @@
+import { resolvePromptActor } from '../roll-menu-pool.js'
+
 export const _onRollFromChat = async function (event, target) {
   event.preventDefault()
 
-  // Ensure we have a valid actor to roll on
-  const actor = game.actors.get(
-    target.getAttribute('data-actor-id') || ChatMessage.getSpeaker().actor
+  // Resolve linked actors and synthetic actors belonging to unlinked tokens.
+  const actor = await resolvePromptActor(
+    target.getAttribute('data-actor-id') || ChatMessage.getSpeaker().actor,
+    target.getAttribute('data-actor-uuid')
   )
 
   if (!actor) {
-    ui.notifications.warn(game.i18n.localize('WOD5E.Notifications.NoTokenSelected'))
+    return ui.notifications.warn(game.i18n.localize('WOD5E.Notifications.NoTokenSelected'))
   }
 
   const dataset = $(target).data()

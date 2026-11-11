@@ -66,15 +66,13 @@
             </select>
         </div>
 
-      <!-- If the actor isn't a ghoul and isn't at max hunger, show blood surge option -->
-      {{#ifnoteq actorType 'ghoul'}}
-        {{#ifnoteq hungerValue actor.system.hunger.max}}
-          <div class="secondary-selector">
-            <div class="selector-title">{{localize "WOD5E.VTM.BloodSurge"}}</div>
-            <input id="bloodSurge" class="blood-surge" name="bloodSurge" type="checkbox"/>
-          </div>
-        {{/ifnoteq}}
-      {{/ifnoteq}}
+      <!-- Ghouls and vampires at maximum Hunger cannot use Blood Surge. -->
+      {{#if canBloodSurge}}
+        <div class="secondary-selector">
+          <div class="selector-title">{{localize "WOD5E.VTM.BloodSurge"}}</div>
+          <input id="bloodSurge" class="blood-surge" name="bloodSurge" type="checkbox"/>
+        </div>
+      {{/if}}
     </div>
   {{/ifeq}}
 

@@ -2,7 +2,7 @@
   "id": "wod5e-gods",
   "title": "World of Darkness 5e – Gods",
   "description": "Rhapsody-Sky's Gods fork of World of Darkness 5e: divine characters and cosmic violet dice, alongside Vampire, Hunter, Werewolf and Mortal. Based on the official WoD5E system by Veilza and the WoD5E Developers.",
-  "version": "5.3.28-gods.1",
+  "version": "5.3.28-gods.2",
   "compatibility": {
     "minimum": "14",
     "verified": "14.368",
@@ -36,7 +36,7 @@
   },
   "initiative": "1d10",
   "socket": true,
-  "changelog": "https://github.com/Rhapsody-Sky/wod5e/releases/tag/5.3.28-gods.1",
+  "changelog": "https://github.com/Rhapsody-Sky/wod5e/releases/tag/5.3.28-gods.2",
   "license": "./LICENSE.md",
   "url": "https://github.com/Rhapsody-Sky/wod5e",
   "bugs": "https://github.com/Rhapsody-Sky/wod5e/issues",
@@ -50,7 +50,7 @@
     }
   ],
   "manifest": "https://github.com/Rhapsody-Sky/wod5e/releases/latest/download/system.json",
-  "download": "https://github.com/Rhapsody-Sky/wod5e/releases/download/5.3.28-gods.1/wod5e-gods.zip",
+  "download": "https://github.com/Rhapsody-Sky/wod5e/releases/download/5.3.28-gods.2/wod5e-gods.zip",
   "documentTypes": {
     "Actor": {
       "mortal": {},

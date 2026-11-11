@@ -10,7 +10,7 @@ import { MigrateGeneralDifficulty } from './migration/migrate-general-difficulty
 import { migrateForkIdentity } from './migration/migrate-fork-identity.js'
 import { getSystemSetting } from './fork-compatibility.js'
 import { SYSTEM_ID } from '../constants.js'
-import { CURRENT_DATA_SCHEMA, needsLegacyDataMigration } from './migration/migration-state.js'
+import { CURRENT_DATA_SCHEMA, getMigrationPlan } from './migration/migration-state.js'
 
 // Changing release version or package ID must not replay ancient actor conversions
 // on a modern Gods world. Advance markers only after successful awaited writes.
@@ -19,9 +19,10 @@ export async function migrateWorld() {
 
   await migrateForkIdentity()
   const worldVersion = getSystemSetting('worldVersion') || '1.5'
-  const schema = game.settings.get(SYSTEM_ID, 'dataSchemaVersion')
+  const dataSchemaVersion = game.settings.get(SYSTEM_ID, 'dataSchemaVersion')
+  const plan = getMigrationPlan({ worldVersion, dataSchemaVersion })
   const updates = []
-  if (needsLegacyDataMigration(worldVersion, schema)) {
+  if (plan.runLegacyMigrations) {
     ui.notifications.info('Updating legacy World of Darkness data. Please keep this world open.')
     for (const migrate of [
       MigrateLegacySheets,
@@ -37,7 +38,7 @@ export async function migrateWorld() {
       updates.push(...(await migrate()))
     }
   }
-  if (schema < CURRENT_DATA_SCHEMA)
+  if (plan.requiresSchemaUpgrade)
     await game.settings.set(SYSTEM_ID, 'dataSchemaVersion', CURRENT_DATA_SCHEMA)
   if (worldVersion !== game.system.version)
     await game.settings.set(SYSTEM_ID, 'worldVersion', game.system.version)

@@ -6,36 +6,64 @@
         {{localize 'WOD5E.Name'}}
         <input type="text" name="name" value="{{activeRoll.name}}"/>
       </label>
-      <label class="flexcol" style="flex-grow: 0; padding-left: 10px;">
+      <label class="flexcol" style="flex-grow: 0; padding-inline-start: 10px;">
         {{localize 'WOD5E.RollList.Difficulty'}}
         <input type="number" name="difficulty" min="0" value="{{activeRoll.difficulty}}" style="align-self: center;"/>
       </label>
     </div>
     <hr>
     <div class="roll-constructor">
-      <!-- Skill and Attribute selectors -->
-      <div class="roll-dice-selectors flexrow">
-        <label>
-          {{localize 'WOD5E.SkillsList.Label'}}
-          <select id="skillSelect" name="skillSelect">
-            <option value="">{{localize "WOD5E.None"}}</option>
-            {{selectOptions skillOptions selected=activeRoll.dice.skill localize=true}}
-          </select>
-        </label>
-        <label>
-          {{localize 'WOD5E.AttributesList.Label'}}
-          <select id="attributeSelect" name="attributeSelect">
-            <option value="">{{localize "WOD5E.None"}}</option>
-            {{selectOptions attributeOptions selected=activeRoll.dice.attribute localize=true}}
-          </select>
-        </label>
-      </div>
-      <div class="constructed-roll">
-        {{#each activeRoll.dice as |die key|}}
-          <div>
-            {{die.value}}
-          </div>
-        {{/each}}
+      <label class="roll-system-selector">
+        {{localize 'WOD5E.RollList.System'}}
+        <select id="systemSelect" name="systemSelect">
+          {{selectOptions splatOptions selected=activeRoll.system labelAttr="displayName"}}
+        </select>
+      </label>
+
+      {{#if isGodRoll}}
+        <p class="roll-selector-hint">{{localize 'WOD5E.God.OneOrTwoAttributesHint'}}</p>
+        <div class="roll-dice-selectors god-roll-dice-selectors flexrow">
+          <label>
+            {{localize 'WOD5E.God.FirstAttribute'}}
+            <select id="divineAttributeSelect" name="divineAttributeSelect">
+              <option value="">{{localize "WOD5E.None"}}</option>
+              {{selectOptions divineAttributeOptions selected=activeRoll.dice.divineAttribute}}
+            </select>
+          </label>
+          <span class="middle" aria-hidden="true">+</span>
+          <label>
+            {{localize 'WOD5E.God.SecondAttributeOptional'}}
+            <select id="divineAttributeSelect2" name="divineAttributeSelect2">
+              <option value="">{{localize "WOD5E.None"}}</option>
+              {{selectOptions divineAttributeOptions selected=activeRoll.dice.divineAttribute2}}
+            </select>
+          </label>
+        </div>
+      {{else}}
+        <!-- Standard Skill and Attribute selectors -->
+        <div class="roll-dice-selectors flexrow">
+          <label>
+            {{localize 'WOD5E.SkillsList.Label'}}
+            <select id="skillSelect" name="skillSelect">
+              <option value="">{{localize "WOD5E.None"}}</option>
+              {{selectOptions skillOptions selected=activeRoll.dice.skill localize=true}}
+            </select>
+          </label>
+          <label>
+            {{localize 'WOD5E.AttributesList.Label'}}
+            <select id="attributeSelect" name="attributeSelect">
+              <option value="">{{localize "WOD5E.None"}}</option>
+              {{selectOptions attributeOptions selected=activeRoll.dice.attribute localize=true}}
+            </select>
+          </label>
+        </div>
+      {{/if}}
+
+      <div class="constructed-roll" aria-live="polite">
+        {{#if isGodRoll}}
+          <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+          {{localize 'WOD5E.God.Attributes'}}
+        {{/if}}
       </div>
       <!--
       <div class="roll-options flexrow">
@@ -53,14 +81,14 @@
     <hr>
     <div class="roll-menu-footer">
       <div class="roll-menu-footer-buttons">
-        <div class="roll-button clickable-button" data-action="rollFromRollMenu">
+        <button type="button" class="roll-button clickable-button" data-action="rollFromRollMenu">
           <i class="fa-solid fa-dice-d10"></i>
           {{localize 'WOD5E.RollList.Label'}}
-        </div>
-        <div class="prompt-button clickable-button" data-action="promptInChat">
+        </button>
+        <button type="button" class="prompt-button clickable-button" data-action="promptInChat">
           <i class="fas fa-comment-alt"></i>
           {{localize 'WOD5E.RollList.PromptInChat'}}
-        </div>
+        </button>
       </div>
     </div>
   </div>

@@ -8,6 +8,7 @@ import { _onAnyReroll } from '../scripts/any-reroll.js'
 import { _onRenderRollMenu } from '../scripts/prompt-for-roll.js'
 import { timeSinceShort } from '../scripts/time-since-short.js'
 import { _onWillpowerReroll } from '../scripts/willpower-reroll.js'
+import { _onExpandRollDetails } from './message-logic/roll-actions.js'
 
 export class WoDChatLog extends foundry.applications.sidebar.tabs.ChatLog {
   /** @inheritDoc */
@@ -18,6 +19,7 @@ export class WoDChatLog extends foundry.applications.sidebar.tabs.ChatLog {
       addSelectedTokens: _onAddSelectedTokens,
       removeActor: _onRemoveUser,
       rollFromChat: _onRollFromChat,
+      expandRollDetails: _onExpandRollDetails,
       willpowerReroll: _onWillpowerReroll,
       anyReroll: _onAnyReroll
     }

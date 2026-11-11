@@ -46,6 +46,7 @@ import {
   prepareStatsContext
 } from './scripts/prepare-partials.js'
 import { _onToggleConditionSuppression } from './scripts/toggle-condition-suppression.js'
+import { enrichItemDescriptions } from './scripts/prepare-items.js'
 // Mixin
 const { HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -208,24 +209,9 @@ export class WoDActorBase extends HandlebarsApplicationMixin(
   }
 
   async prepareItems(sheetData) {
-    // Make an array to store item-based modifiers
-    sheetData.system.itemModifiers = []
-
-    // Do data manipulation we need to do for ALL items here
-    sheetData.items.forEach(async (item) => {
-      // Enrich item descriptions
-      if (item.system?.description) {
-        item.system.enrichedDescription =
-          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-            item.system.description
-          )
-      }
-
-      // Calculate item modifiers and shuffle them into system.itemModifiers
-      if (!foundry.utils.isEmpty(item.system.bonuses) && !item?.system?.suppressed) {
-        sheetData.system.itemModifiers = sheetData.system.itemModifiers.concat(item.system.bonuses)
-      }
-    })
+    // Enrichment is presentation-only; roll modifiers are prepared on the
+    // actor document so rolls do not depend on this sheet having rendered.
+    await enrichItemDescriptions(sheetData.items)
 
     // Custom rolls
     sheetData.system.customRolls = sheetData.items

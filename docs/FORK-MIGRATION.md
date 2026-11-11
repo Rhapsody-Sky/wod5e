@@ -6,7 +6,9 @@
 offiziellen `main` bis `00adb9ce` / `5.3.28`. Enthalten sind der Hotbar-Makro-Fix,
 der Kompendien-Schreibschutz aus `5.3.27` und die eigene Paket-Identität.
 Im Götterbogen stehen Macht links, Kraft rechts und Erkenntnis unten mittig.
-Die vorbereiteten `.8`/`.9`-Bedienungs- und Würfelverbesserungen sind nicht enthalten.
+Der lokale Kandidat `5.3.28-gods.2` ergänzt darauf die Stabilitätsfixes aus
+`5.3.27-gods.8` sowie Paarwürfe, das Götter-Würfelmenü und Chat-Aktionen aus
+`5.3.27-gods.9`. Die Paket-ID und das Migrationsschema ändern sich dabei nicht erneut.
 Die Trennung von Daten-Schema und Release-Version ist notwendiger Migrationsschutz.
 
 Der neue Paketordner und die neue Paket-ID heißen `wod5e-gods`. `WOD5E.api`,

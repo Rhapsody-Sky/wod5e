@@ -1,7 +1,13 @@
-import { _onGodAttributeRoll } from './scripts/god-attribute-roll.js'
+import {
+  _onGodAttributeRoll,
+  _onRollSingleGodAttribute,
+  _onSelectGodAttribute
+} from './scripts/god-attribute-roll.js'
+import {
+  DIVINE_ATTRIBUTE_DISPLAY_ORDER,
+  getDivineAttributeLabelKey
+} from './scripts/god-attributes.js'
 import { SPCActorSheet } from './spc-actor-sheet.js'
-
-const DIVINE_ATTRIBUTE_DISPLAY_ORDER = ['aspect', 'identity', 'power', 'force', 'insight']
 
 /**
  * A Story Character-based sheet for gods with five combinable attributes.
@@ -11,7 +17,9 @@ export class GodActorSheet extends SPCActorSheet {
   static DEFAULT_OPTIONS = {
     classes: ['wod5e', 'actor', 'spc', 'god', 'sheet'],
     actions: {
-      godAttributeRoll: _onGodAttributeRoll
+      godAttributeRoll: _onGodAttributeRoll,
+      rollSingleGodAttribute: _onRollSingleGodAttribute,
+      selectGodAttribute: _onSelectGodAttribute
     }
   }
 
@@ -34,12 +42,28 @@ export class GodActorSheet extends SPCActorSheet {
 
     if (partId === 'stats') {
       const attributes = this.actor.system.divineattributes
-      context.divineAttributes = DIVINE_ATTRIBUTE_DISPLAY_ORDER.map((id) => ({
-        id,
-        label: game.i18n.localize(`WOD5E.God.AttributeList.${id}`),
-        icon: `systems/wod5e-gods/assets/icons/god/${id}.png`,
-        value: attributes[id].value
-      }))
+      context.divineAttributes = DIVINE_ATTRIBUTE_DISPLAY_ORDER.map((id) => {
+        const label = game.i18n.localize(getDivineAttributeLabelKey(id))
+        return {
+          id,
+          label,
+          icon: `systems/wod5e-gods/assets/icons/god/${id}.png`,
+          value: attributes[id].value,
+          selected: this._selectedGodAttributeId === id,
+          pairSelectionLabel: game.i18n.format('WOD5E.God.SelectForPair', {
+            attribute: label
+          }),
+          singleRollLabel: game.i18n.format('WOD5E.God.RollSingleAttribute', {
+            attribute: label
+          })
+        }
+      })
+      context.godAttributeSelectionStatusId = `${this.id}-god-attribute-selection-status`
+      context.godAttributeSelectionHint = this._selectedGodAttributeId
+        ? game.i18n.format('WOD5E.God.PairSelectionActive', {
+            attribute: game.i18n.localize(getDivineAttributeLabelKey(this._selectedGodAttributeId))
+          })
+        : game.i18n.localize('WOD5E.God.PairSelectionIdle')
     }
 
     return context

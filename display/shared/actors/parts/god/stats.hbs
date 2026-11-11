@@ -8,19 +8,25 @@
 
                 <div class="god-attribute-list">
                     {{#each divineAttributes as |attribute|}}
-                        <div class="god-attribute resource-content flexrow flex-center">
-                            <button type="button" class="god-attribute-invocation rollable"
-                                data-action="roll"
-                                data-label="{{attribute.label}}"
-                                data-value-paths="divineattributes.{{attribute.id}}.value"
-                                data-selectors="divineattributes divineattributes.{{attribute.id}}"
-                                data-disable-advanced-dice="true"
-                                title="{{attribute.label}} – {{localize 'WOD5E.RollList.Label'}}">
+                        <div class="god-attribute resource-content flexrow flex-center {{#if attribute.selected}}is-selected{{/if}}">
+                            <button type="button" class="god-attribute-invocation"
+                                data-action="selectGodAttribute"
+                                data-attribute-id="{{attribute.id}}"
+                                aria-pressed="{{attribute.selected}}"
+                                aria-describedby="{{../godAttributeSelectionStatusId}}"
+                                title="{{attribute.pairSelectionLabel}}">
                                 <span class="god-attribute-icon" aria-hidden="true">
                                     <img src="{{attribute.icon}}" alt="" />
                                 </span>
                                 <span class="god-attribute-label">{{attribute.label}}</span>
-                                <i class="fa-solid fa-dice-d10 god-attribute-die" aria-hidden="true"></i>
+                                <i class="fa-solid fa-link god-attribute-pair" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="rollable god-attribute-single-roll icon"
+                                data-action="rollSingleGodAttribute"
+                                data-attribute-id="{{attribute.id}}"
+                                aria-label="{{attribute.singleRollLabel}}"
+                                title="{{attribute.singleRollLabel}}">
+                                <i class="fa-solid fa-dice-d10" aria-hidden="true"></i>
                             </button>
                             {{#if ../locked}}
                                 <span class="resource stat-resource-background">{{attribute.value}}</span>
@@ -32,6 +38,10 @@
                         </div>
                     {{/each}}
                 </div>
+
+                <p id="{{godAttributeSelectionStatusId}}" class="god-attribute-selection-status" aria-live="polite">
+                    {{godAttributeSelectionHint}}
+                </p>
 
                 <button type="button" class="rollable god-attribute-roll" data-action="godAttributeRoll">
                     <i class="fa-solid fa-dice-d10"></i>

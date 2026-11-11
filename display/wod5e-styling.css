@@ -712,6 +712,50 @@ input[type="number"] {
   border-color: #cf7a38;
   background: linear-gradient(100deg, #63300e, #2d1407);
 }
+.chat-message.message .message-content .roll-card .roll-margin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 5px;
+  color: var(--roll-card-accent-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.chat-message.message .message-content .roll-card .roll-margin strong {
+  color: #fff;
+  font-size: 0.92rem;
+}
+.chat-message.message .message-content .roll-card .roll-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 7px;
+}
+.chat-message.message .message-content .roll-card .roll-actions button {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 28px;
+  margin: 0;
+  padding: 4px 7px;
+  border: 1px solid color-mix(in srgb, var(--roll-card-accent) 48%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--roll-card-accent) 16%, #151519);
+  color: #f7f3fb;
+  font-size: 0.7rem;
+  line-height: 1.1;
+}
+.chat-message.message .message-content .roll-card .roll-actions button:hover,
+.chat-message.message .message-content .roll-card .roll-actions button:focus-visible {
+  border-color: var(--roll-card-accent-soft);
+  background: color-mix(in srgb, var(--roll-card-accent) 28%, #151519);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--roll-card-accent) 35%, transparent);
+}
 .chat-message.message .message-content .roll-card .dice-tooltip .wrapper {
   margin-top: 6px;
   padding: 5px;
@@ -1031,8 +1075,39 @@ h3.item-name {
   flex-direction: column;
   position: relative;
 }
+.roll-menu.application .main .roll-menu-body .roll-constructor .roll-system-selector {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+.roll-menu.application .main .roll-menu-body .roll-constructor .roll-selector-hint {
+  margin: 0 0 8px;
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+.roll-menu.application .main .roll-menu-body .roll-constructor .roll-dice-selectors {
+  align-items: end;
+  gap: 8px;
+}
+.roll-menu.application .main .roll-menu-body .roll-constructor .roll-dice-selectors label {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+}
+.roll-menu.application .main .roll-menu-body .roll-constructor .roll-dice-selectors .middle {
+  flex: 0 0 auto;
+  padding-bottom: 5px;
+  font-size: 1.25em;
+  font-weight: 700;
+}
+.roll-menu.application .main .roll-menu-body .roll-constructor .god-roll-dice-selectors select {
+  border-color: var(--god-color-1, #6f2eaa);
+}
 .roll-menu.application .main .roll-menu-body .roll-constructor .constructed-roll {
   flex-grow: 1;
+  padding-top: 10px;
+  text-align: center;
 }
 .roll-menu.application .main .roll-menu-body .roll-constructor .roll-options .option-toggle {
   text-align: center;
@@ -1048,6 +1123,10 @@ h3.item-name {
 }
 .roll-menu.application .main .roll-menu-body .roll-menu-footer .roll-menu-footer-buttons .prompt-button,
 .roll-menu.application .main .roll-menu-body .roll-menu-footer .roll-menu-footer-buttons .roll-button {
+  flex: 0 1 auto;
+  width: auto;
+  min-height: 32px;
+  padding-inline: 10px;
   align-content: center;
 }
 
@@ -3100,6 +3179,19 @@ body.uk .actor.sheet {
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.68), 0 0 15px var(--god-glow);
   transform: translateY(-2px);
 }
+.actor.sheet.god .god-attributes .god-attribute.is-selected {
+  border-color: #dcbaff;
+  background: linear-gradient(135deg, rgba(224, 195, 255, 0.68), rgba(151, 86, 210, 0.28));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.78), 0 0 18px var(--god-glow);
+}
+.actor.sheet.god .god-attributes .god-attribute.is-selected .god-attribute-icon {
+  border-color: #fff;
+  box-shadow: 0 0 16px var(--god-glow);
+}
+.actor.sheet.god .god-attributes .god-attribute.is-selected .god-attribute-pair {
+  opacity: 1;
+  transform: scale(1.08);
+}
 .actor.sheet.god .god-attributes .god-attribute-invocation {
   display: flex;
   flex: 1 1 auto;
@@ -3109,7 +3201,7 @@ body.uk .actor.sheet {
   min-height: 38px;
   padding: 0;
   color: var(--god-color-dark);
-  text-align: left;
+  text-align: start;
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -3128,10 +3220,10 @@ body.uk .actor.sheet {
   box-shadow: 0 0 15px var(--god-glow);
   transform: scale(1.08) rotate(-4deg);
 }
-.actor.sheet.god .god-attributes .god-attribute-invocation:hover .god-attribute-die,
-.actor.sheet.god .god-attributes .god-attribute-invocation:focus .god-attribute-die {
+.actor.sheet.god .god-attributes .god-attribute-invocation:hover .god-attribute-pair,
+.actor.sheet.god .god-attributes .god-attribute-invocation:focus .god-attribute-pair {
   opacity: 1;
-  transform: scale(1.1) rotate(12deg);
+  transform: scale(1.1) rotate(-8deg);
 }
 .actor.sheet.god .god-attributes .god-attribute-icon {
   display: grid;
@@ -3153,17 +3245,41 @@ body.uk .actor.sheet {
   animation: god-symbol-awaken 4s ease-in-out infinite;
 }
 .actor.sheet.god .god-attributes .god-attribute-label {
-  overflow: hidden;
+  min-width: 0;
   color: var(--god-color-1);
   font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
-.actor.sheet.god .god-attributes .god-attribute-die {
-  margin-left: auto;
+.actor.sheet.god .god-attributes .god-attribute-pair {
+  margin-inline-start: auto;
   color: var(--god-color-2);
   opacity: 0.48;
   transition: opacity 180ms ease, transform 180ms ease;
+}
+.actor.sheet.god .god-attributes .god-attribute-single-roll {
+  display: grid;
+  flex: 0 0 30px;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
+  padding: 0;
+  color: var(--god-color-1);
+  place-items: center;
+  border: 1px solid rgba(168, 110, 232, 0.58);
+  border-radius: 50%;
+  background: rgba(250, 245, 255, 0.72);
+  box-shadow: 0 0 6px rgba(111, 46, 170, 0.2);
+}
+.actor.sheet.god .god-attributes .god-attribute-single-roll:hover,
+.actor.sheet.god .god-attributes .god-attribute-single-roll:focus-visible {
+  color: #fff;
+  border-color: #e5caff;
+  outline: 2px solid rgba(216, 186, 255, 0.68);
+  outline-offset: 1px;
+  background: var(--god-color-1);
+  box-shadow: 0 0 12px var(--god-glow);
 }
 .actor.sheet.god .god-attributes .god-attribute-value,
 .actor.sheet.god .god-attributes .stat-resource-background {
@@ -3184,6 +3300,16 @@ body.uk .actor.sheet {
   width: calc(100% - 14px);
   margin: 2px 7px 9px;
   letter-spacing: 0.04em;
+}
+.actor.sheet.god .god-attributes .god-attribute-selection-status {
+  position: relative;
+  z-index: 1;
+  min-height: 2.5em;
+  margin: 1px 10px 5px;
+  color: var(--god-color-dark);
+  font-size: 0.78em;
+  line-height: 1.25;
+  text-align: center;
 }
 .actor.sheet.god .god-attribute-roll {
   color: #fff;
@@ -3214,6 +3340,11 @@ body.uk .actor.sheet {
   background: linear-gradient(135deg, rgba(63, 29, 88, 0.82), rgba(20, 11, 30, 0.92));
   box-shadow: inset 0 1px rgba(238, 220, 255, 0.12);
 }
+.theme-dark .actor.sheet.god .god-attributes .god-attribute.is-selected {
+  border-color: #dcbaff;
+  background: linear-gradient(135deg, rgba(91, 43, 126, 0.94), rgba(39, 18, 57, 0.96));
+  box-shadow: inset 0 1px rgba(238, 220, 255, 0.22), 0 0 18px rgba(168, 110, 232, 0.42);
+}
 .theme-dark .actor.sheet.god .god-attributes .god-attribute-invocation,
 .theme-dark .actor.sheet.god .god-attributes .god-attribute-label {
   color: #d9baff;
@@ -3224,6 +3355,14 @@ body.uk .actor.sheet {
   border-color: rgba(200, 153, 245, 0.72);
   background: rgba(24, 11, 35, 0.94);
   box-shadow: inset 0 0 9px rgba(168, 110, 232, 0.22), 0 0 6px rgba(111, 46, 170, 0.2);
+}
+.theme-dark .actor.sheet.god .god-attributes .god-attribute-single-roll {
+  color: #e5caff;
+  border-color: rgba(200, 153, 245, 0.62);
+  background: rgba(28, 12, 40, 0.94);
+}
+.theme-dark .actor.sheet.god .god-attributes .god-attribute-selection-status {
+  color: #d9baff;
 }
 .god.dialog.window-app,
 .god.dialog.application,

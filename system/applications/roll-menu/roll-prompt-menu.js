@@ -7,6 +7,7 @@ import { _onPromptInChat } from './scripts/on-prompt-in-chat.js'
 import { _onRemoveSavedRoll } from './scripts/on-remove-roll.js'
 import { _onRollFromMenu } from './scripts/on-roll-from-menu.js'
 import { _onSelectSavedRoll } from './scripts/on-select-saved-roll.js'
+import { getDivineAttributeOptions } from './roll-menu-pool.js'
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -89,6 +90,9 @@ export class RollMenuApplication extends HandlebarsApplicationMixin(ApplicationV
     // Skill definitions
     data.skillOptions = WOD5E.Skills.getList({})
 
+    // God attribute definitions
+    data.divineAttributeOptions = getDivineAttributeOptions((key) => game.i18n.localize(key))
+
     return data
   }
 
@@ -96,13 +100,18 @@ export class RollMenuApplication extends HandlebarsApplicationMixin(ApplicationV
     context = await super._preparePartContext(partId, context, options)
 
     switch (partId) {
-      case 'body':
-        // Part-specific data
-        if (context.activeRollID) {
-          context.activeRoll = context.allRolls[context.activeRollID]
+      case 'body': {
+        // Fill display defaults without mutating saved flags during rendering.
+        const activeRoll = context.allRolls[context.activeRollID] || {}
+        context.activeRoll = {
+          ...activeRoll,
+          system: activeRoll.system || 'core',
+          dice: activeRoll.dice || {}
         }
+        context.isGodRoll = context.activeRoll.system === 'god'
 
         break
+      }
     }
 
     return context
@@ -120,19 +129,24 @@ export class RollMenuApplication extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // If there is an active roll, we can update it as input fields are updated
-    const savedRolls = getSystemFlag(game.users.current, 'rollMenuSavedRolls') || {}
+    const savedRolls = { ...getSystemFlag(game.users.current, 'rollMenuSavedRolls') }
+    const previousRoll = savedRolls[activeRoll] || {}
+    const previousDice = previousRoll.dice || {}
+    const system = data.systemSelect || previousRoll.system || 'core'
 
-    // Ensure that the savedRolls object exists, then add/update it
-    if (savedRolls) {
-      savedRolls[activeRoll] = {
-        name: data.name,
-        difficulty: Math.max(data.difficulty, 0),
-        isExtendedRoll: data.extendedRollCheckbox,
-        isContestedRoll: data.contestedRollCheckbox,
-        dice: {
-          skill: data.skillSelect,
-          attribute: data.attributeSelect
-        }
+    savedRolls[activeRoll] = {
+      ...previousRoll,
+      name: data.name ?? previousRoll.name ?? '',
+      system,
+      difficulty: Math.max(Number(data.difficulty ?? previousRoll.difficulty) || 0, 0),
+      isExtendedRoll: data.extendedRollCheckbox ?? previousRoll.isExtendedRoll,
+      isContestedRoll: data.contestedRollCheckbox ?? previousRoll.isContestedRoll,
+      dice: {
+        ...previousDice,
+        skill: data.skillSelect ?? previousDice.skill ?? '',
+        attribute: data.attributeSelect ?? previousDice.attribute ?? '',
+        divineAttribute: data.divineAttributeSelect ?? previousDice.divineAttribute ?? '',
+        divineAttribute2: data.divineAttributeSelect2 ?? previousDice.divineAttribute2 ?? ''
       }
     }
 

@@ -1,6 +1,11 @@
 global.game = {
   i18n: {
-    localize: (key) => key
+    localize: (key) => key,
+    format: (key, data = {}) =>
+      Object.entries(data).reduce(
+        (formatted, [name, value]) => formatted.replace(`{${name}}`, value),
+        key
+      )
   }
 }
 

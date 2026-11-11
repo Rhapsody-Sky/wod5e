@@ -62,6 +62,38 @@
                             </div>
                         </div>
                         {{{enrichedResultLabel}}}
+                        {{#if showMargin}}
+                            <div class="roll-margin">
+                                <span>{{localize "WOD5E.Chat.ResultMargin"}}</span>
+                                <strong>+{{margin}}</strong>
+                            </div>
+                        {{/if}}
+                        {{#if canViewRollDetails}}
+                            <div class="roll-actions" role="group" aria-label="{{localize 'WOD5E.Chat.RollActions'}}">
+                                <button type="button" data-action="expandRollDetails"
+                                    aria-label="{{localize 'WOD5E.Chat.RollDetails'}}"
+                                    title="{{localize 'WOD5E.Chat.RollDetails'}}">
+                                    <i class="fa-solid fa-list" aria-hidden="true"></i>
+                                    <span>{{localize "WOD5E.Chat.RollDetails"}}</span>
+                                </button>
+                                {{#if canWillpowerReroll}}
+                                    <button type="button" data-action="willpowerReroll"
+                                        aria-label="{{localize 'WOD5E.Chat.WillpowerReroll'}}"
+                                        title="{{localize 'WOD5E.Chat.WillpowerReroll'}}">
+                                        <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                                        <span>{{localize "WOD5E.Chat.WillpowerReroll"}}</span>
+                                    </button>
+                                {{/if}}
+                                {{#if canAnyReroll}}
+                                    <button type="button" data-action="anyReroll"
+                                        aria-label="{{localize 'WOD5E.Chat.Reroll'}}"
+                                        title="{{localize 'WOD5E.Chat.Reroll'}}">
+                                        <i class="fa-solid fa-dice" aria-hidden="true"></i>
+                                        <span>{{localize "WOD5E.Chat.Reroll"}}</span>
+                                    </button>
+                                {{/if}}
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
             {{else}}

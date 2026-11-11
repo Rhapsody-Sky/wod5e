@@ -9,6 +9,7 @@ import { prepareDisciplines } from './vtm/scripts/prepare-data.js'
 import { prepareEdges } from './htr/scripts/prepare-data.js'
 import { prepareGifts, prepareFormData } from './wta/scripts/prepare-data.js'
 import { prepareExceptionalDicePools } from './scripts/prepare-exceptional-dice-pools.js'
+import { collectItemModifiers } from './scripts/prepare-items.js'
 import { getVampireModifiers } from './vtm/scripts/vampire-bonuses.js'
 import { getHunterModifiers } from './htr/scripts/hunter-bonuses.js'
 import { Disciplines } from '../api/def/disciplines.js'
@@ -103,6 +104,10 @@ export class WoDActor extends Actor {
       // Set the gamesystem of a non-SPC non-group character
       systemData.gamesystem = typeMapping[actorData.type] || 'mortal'
     }
+
+    // Prepare embedded-item modifiers on the actor so every roll entry point
+    // can use them without requiring the character sheet to render first.
+    systemData.itemModifiers = collectItemModifiers(actorData.items)
 
     if (systemData?.hasSkillAttributeData) {
       // Handle attribute preparation

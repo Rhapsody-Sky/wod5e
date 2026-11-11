@@ -26,10 +26,8 @@
                 </div>
               </div>
               {{#if roll.rolled}}
-                <div>Total Result: {{rollData.totalResult}} {{#ifgr rollData.difficulty 0}} ({{rollData.resultText}}) {{/ifgr}}</div>
-              {{/if}}
-              {{#if roll.rolled}}
                 {{#if rollData.isContentVisible}}
+                  <div>{{localize 'WOD5E.RollList.Total'}}: {{rollData.totalResult}} {{#ifgr rollData.difficulty 0}} ({{rollData.resultText}}) {{/ifgr}}</div>
                   <div class="dice-result">
                       <div class="dice-icons">
                         {{#each rollData.basicDice.results as |die key|}}
@@ -50,13 +48,23 @@
               {{else}}
                 {{#if roll.isVisible}}
                   {{#if roll.canRoll}}
-                    <div class="rollable" data-action="rollFromChat" data-actor-id="{{key}}" data-label="{{../title}}" data-value-paths="{{../valuePaths}}" data-difficulty="{{../difficulty}}" data-origin-message="{{../message._id}}">
+                    <button type="button" class="rollable roll-prompt-action" data-action="rollFromChat"
+                      data-actor-id="{{key}}" data-label="{{../title}}"
+                      data-actor-uuid="{{roll.actorUuid}}"
+                      data-value-paths="{{../valuePaths}}"
+                      data-selectors="{{../message.flags.wod5e-gods.selectors}}"
+                      data-disable-advanced-dice="{{../message.flags.wod5e-gods.disableAdvancedDice}}"
+                      data-difficulty="{{../difficulty}}" data-origin-message="{{../message._id}}">
                       <i>{{roll.actor.name}} {{localize 'WOD5E.Chat.HasntRolledYet'}}</i>
-                      <i class="fa-solid fa-dice-d10"></i>
-                    </div>
+                      <i class="fa-solid fa-dice-d10" aria-hidden="true"></i>
+                    </button>
                   {{else}}
                     <div>
-                      <i>{{roll.actor.name}} {{localize 'WOD5E.Chat.HasntRolledYet'}}</i>
+                      {{#if roll.isCompatible}}
+                        <i>{{roll.actor.name}} {{localize 'WOD5E.Chat.HasntRolledYet'}}</i>
+                      {{else}}
+                        <i>{{roll.actor.name}} – {{localize 'WOD5E.RollList.ActorSystemIncompatible'}}</i>
+                      {{/if}}
                     </div>
                   {{/if}}
                 {{else}}

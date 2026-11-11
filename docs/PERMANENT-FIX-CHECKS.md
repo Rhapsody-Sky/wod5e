@@ -66,3 +66,22 @@ nicht in das Foundry-ZIP aufgenommen. Kein pauschales Dependency-Upgrade durchge
 Entwicklungsserver/Test-UI nicht öffentlich betreiben. Das zusätzliche Handlebars
 für Template-Tests ist auf `4.7.9` gesetzt. Dies ist keine Sicherheitsfreigabe aller
 upstreamseitigen Bibliotheken.
+
+## Lokaler Folgekandidat `5.3.28-gods.2`
+
+- `.8`: Item-Modifikatoren am Actor vorbereitet, verlässliche
+  Beschreibungsaufbereitung, Blutwallungs- und Neuwurf-Fixes. Die aktuelle
+  Paket- und Migrationsprüfung ersetzt die frühere `.8`-Release-Infrastruktur.
+- `.9`: direkte Paarwahl und eigener Einzelwurfknopf auf den Attributkarten,
+  göttliche Würfelpools im Würfelmenü, Chat-Wurfdetails und Neuwurf-Aktionen.
+  Die Attributanordnung aus `.1` bleibt im Bogen und in den Auswahllisten erhalten.
+- Die Paket-ID `wod5e-gods` und beide Migrationsmarker bleiben gleich. Der Test
+  für die Aktualisierung einer bereits konvertierten `.1`-Welt schreibt nur
+  den Release-Versionsmarker, keine Actor-Daten.
+- 124 Tests in 17 Dateien, ESLint, reproduzierbarer LESS-Build,
+  Namespace- und Paketprüfung bestanden. Dazu zählen die gerenderte
+  Kartenreihenfolge, gespeicherte Würfe mit alter Flag-ID und private Chat-Ergebnisse.
+
+Der Folgekandidat ist nicht veröffentlicht und wurde nicht in einer laufenden
+Foundry-Welt getestet. Vor produktiven Änderungen weiterhin eine isolierte
+Weltkopie verwenden. Die produktive Instanz wurde nicht verändert.

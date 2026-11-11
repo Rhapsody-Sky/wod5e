@@ -339,6 +339,7 @@ export const loadSettings = async function () {
     type: Number
   })
 
+  // Package versions (including fork suffixes) must not rerun historical migrations.
   game.settings.register('wod5e-gods', 'dataSchemaVersion', {
     scope: 'world',
     config: false,

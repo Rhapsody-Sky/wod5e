@@ -9,6 +9,8 @@ import { SYSTEM_ID } from '#system/constants.js'
 
 vi.mock('#system/actor/spc-actor-sheet.js', () => ({
   SPCActorSheet: class {
+    id = 'test-god-sheet'
+
     _preparePartContext(_partId, context) {
       return context
     }
@@ -23,14 +25,16 @@ describe('God roll assets', () => {
     expect(fs.readFileSync(dialogPath, 'utf8')).toContain('id="inputBasicDice"')
   })
 
-  it('makes every divine attribute directly rollable', () => {
+  it('supports accessible direct single and paired divine-attribute rolls', () => {
     const statsPath = path.resolve('display/shared/actors/parts/god/stats.hbs')
     const statsTemplate = fs.readFileSync(statsPath, 'utf8')
 
-    expect(statsTemplate).toContain('class="god-attribute-invocation rollable"')
-    expect(statsTemplate).toContain('data-action="roll"')
-    expect(statsTemplate).toContain('data-value-paths="divineattributes.{{attribute.id}}.value"')
-    expect(statsTemplate).toContain('data-disable-advanced-dice="true"')
+    expect(statsTemplate).toContain('class="god-attribute-invocation"')
+    expect(statsTemplate).toContain('data-action="selectGodAttribute"')
+    expect(statsTemplate).toContain('data-action="rollSingleGodAttribute"')
+    expect(statsTemplate).toContain('data-attribute-id="{{attribute.id}}"')
+    expect(statsTemplate).toContain('aria-pressed="{{attribute.selected}}"')
+    expect(statsTemplate).toContain('aria-live="polite"')
   })
 
   it('renders the new card order without changing attribute values or roll targets', async () => {
@@ -62,8 +66,18 @@ describe('God roll assets', () => {
     )
     const order = ['aspect', 'identity', 'power', 'force', 'insight']
 
-    expect(cards.map((card) => card.querySelector('button').dataset.valuePaths)).toEqual(
-      order.map((id) => `divineattributes.${id}.value`)
+    expect(
+      cards.map((card) =>
+        Array.from(card.querySelectorAll('button'), (button) => [
+          button.dataset.action,
+          button.dataset.attributeId
+        ])
+      )
+    ).toEqual(
+      order.map((id) => [
+        ['selectGodAttribute', id],
+        ['rollSingleGodAttribute', id]
+      ])
     )
     expect(
       cards.map((card) => {

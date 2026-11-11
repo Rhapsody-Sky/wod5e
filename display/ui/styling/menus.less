@@ -170,8 +170,45 @@
         flex-direction: column;
         position: relative;
 
+        .roll-system-selector {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+
+        .roll-selector-hint {
+          margin: 0 0 8px;
+          font-size: 0.85em;
+          opacity: 0.8;
+        }
+
+        .roll-dice-selectors {
+          align-items: end;
+          gap: 8px;
+
+          label {
+            display: flex;
+            flex: 1 1 0;
+            flex-direction: column;
+            min-width: 0;
+          }
+
+          .middle {
+            flex: 0 0 auto;
+            padding-bottom: 5px;
+            font-size: 1.25em;
+            font-weight: 700;
+          }
+        }
+
+        .god-roll-dice-selectors select {
+          border-color: var(--god-color-1, #6f2eaa);
+        }
+
         .constructed-roll {
           flex-grow: 1;
+          padding-top: 10px;
+          text-align: center;
         }
 
         .roll-options {
@@ -192,6 +229,10 @@
 
           .prompt-button,
           .roll-button {
+            flex: 0 1 auto;
+            width: auto;
+            min-height: 32px;
+            padding-inline: 10px;
             align-content: center;
           }
         }

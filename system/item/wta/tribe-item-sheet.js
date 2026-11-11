@@ -42,22 +42,22 @@ export class TribeItemSheet extends HandlebarsApplicationMixin(WoDItemBase) {
 
   static PARTS = {
     header: {
-      template: 'systems/wod5e/display/wta/items/tribe-sheet.hbs'
+      template: 'systems/wod5e-gods/display/wta/items/tribe-sheet.hbs'
     },
     tabs: {
       template: 'templates/generic/tab-navigation.hbs'
     },
     description: {
-      template: 'systems/wod5e/display/shared/items/parts/description.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/description.hbs'
     },
     patronSpirit: {
-      template: 'systems/wod5e/display/wta/items/parts/patron-spirit.hbs'
+      template: 'systems/wod5e-gods/display/wta/items/parts/patron-spirit.hbs'
     },
     modifiers: {
-      template: 'systems/wod5e/display/shared/items/parts/modifiers.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/modifiers.hbs'
     },
     settings: {
-      template: 'systems/wod5e/display/shared/items/parts/item-settings.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/item-settings.hbs'
     }
   }
 

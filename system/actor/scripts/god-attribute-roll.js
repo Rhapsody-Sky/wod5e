@@ -7,7 +7,7 @@ export const _onGodAttributeRoll = async function (event) {
   }))
 
   const content = await foundry.applications.handlebars.renderTemplate(
-    'systems/wod5e/display/shared/actors/parts/god/attribute-roll-dialog.hbs',
+    'systems/wod5e-gods/display/shared/actors/parts/god/attribute-roll-dialog.hbs',
     { attributes }
   )
 

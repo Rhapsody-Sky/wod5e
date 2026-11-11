@@ -3,8 +3,13 @@ import path from 'path'
 
 import { ZipArchive } from 'archiver'
 
+import { verifyRelease } from './verify-release.js'
+
 // Output file
-const outputFile = 'wod5e.zip'
+const outputFile = 'wod5e-gods.zip'
+
+const errors = verifyRelease(process.cwd())
+if (errors.length) throw new Error(errors.join('\n'))
 
 // Delete the old outputFile if it already exists
 if (fs.existsSync(outputFile)) {
@@ -16,7 +21,7 @@ if (fs.existsSync(outputFile)) {
 const files = ['LICENSE.md', 'README.md', 'system.json']
 
 // All important directories to the system
-const directories = ['assets', 'display', 'lang', 'lib', 'macros', 'packs', 'system']
+const directories = ['assets', 'display', 'lang', 'lib', 'macros', 'packs', 'system', 'docs']
 
 const output = fs.createWriteStream(outputFile)
 const archive = new ZipArchive('zip', {
@@ -30,11 +35,7 @@ output.on('close', () => {
 })
 
 archive.on('warning', (err) => {
-  if (err.code === 'ENOENT') {
-    console.warn(err.message)
-  } else {
-    throw err
-  }
+  throw err
 })
 
 archive.on('error', (err) => {
@@ -50,7 +51,7 @@ for (const file of files) {
       name: path.basename(file)
     })
   } else {
-    console.warn(`Required file wasn't found: ${file}`)
+    throw new Error(`Required file wasn't found: ${file}`)
   }
 }
 
@@ -59,8 +60,8 @@ for (const dir of directories) {
   if (fs.existsSync(dir)) {
     archive.directory(dir, dir)
   } else {
-    console.warn(`Required directory wasn't found: ${dir}`)
+    throw new Error(`Required directory wasn't found: ${dir}`)
   }
 }
 
-archive.finalize()
+await archive.finalize()

@@ -1,3 +1,4 @@
+import { getSystemSetting } from '../../scripts/fork-compatibility.js'
 import { _updateCSSVariable, cssVariablesRecord } from '../../scripts/update-css-variables.js'
 
 export class SplatColorsMenu extends FormApplication {
@@ -6,7 +7,7 @@ export class SplatColorsMenu extends FormApplication {
       title: game.i18n.localize('WOD5E.Settings.SplatColorsMenu'),
       id: 'wod5e-splat-colors',
       classes: ['wod5e'],
-      template: 'systems/wod5e/display/ui/splat-colors-menu.hbs',
+      template: 'systems/wod5e-gods/display/ui/splat-colors-menu.hbs',
       width: 500,
       height: 450,
       resizable: true,
@@ -33,7 +34,7 @@ export class SplatColorsMenu extends FormApplication {
         const { settingId } = settings[settingKey]
 
         // Get the setting and assign it, making it available within the menu
-        data[settingId] = game.settings.get('wod5e', settingId)
+        data[settingId] = getSystemSetting(settingId)
       })
     })
 
@@ -70,7 +71,7 @@ export class SplatColorsMenu extends FormApplication {
 
         if (inputId && settingId) {
           const inputElement = document.querySelector(`#${inputId}`)
-          const defaultColor = game.settings.settings.get(`wod5e.${settingId}`).default
+          const defaultColor = game.settings.settings.get(`wod5e-gods.${settingId}`).default
 
           inputElement.jscolor.fromString(defaultColor)
           _updateCSSVariable(settingId, cssVariable, defaultColor)

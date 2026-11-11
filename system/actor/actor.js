@@ -1,3 +1,4 @@
+import { getSystemFlag } from '../scripts/fork-compatibility.js'
 // Data preparation functions
 import { prepareSkills } from './scripts/prepare-skills.js'
 import { prepareAttributes } from './scripts/prepare-attributes.js'
@@ -139,13 +140,18 @@ export class WoDActor extends Actor {
       systemData.gifts = await prepareGifts(actorData)
       systemData.forms = await prepareFormData(systemData.forms, actorData)
 
-      if (systemData.formOverride && systemData.rage.value > 0) {
+      if (systemData.formOverride && systemData.rage.value > 0 && !this.inCompendium) {
         this.update({ 'system.formOverride': false })
       }
     }
 
     // If the actor is a player, update the default permissions to limited
-    if (this.hasPlayerOwner && !this.getFlag('wod5e', 'manualDefaultOwnership') && game.user.isGM) {
+    if (
+      this.hasPlayerOwner &&
+      !getSystemFlag(this, 'manualDefaultOwnership') &&
+      game.user.isGM &&
+      !this.inCompendium
+    ) {
       this.update({ 'ownership.default': CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED })
     }
 
@@ -155,7 +161,7 @@ export class WoDActor extends Actor {
     }
 
     // Prepare derived health and willpower values
-    if (actorData.type !== 'group' && this.isOwner) {
+    if (actorData.type !== 'group' && this.isOwner && !this.inCompendium) {
       const derivedHealth = await getDerivedHealth(systemData)
       this.update({ 'system.health.value': derivedHealth })
 
@@ -210,7 +216,7 @@ export class WoDActor extends Actor {
 
     // If the default ownership is ever not limited, update the manualDefaultOwnership flag
     if (actor.ownership.default !== CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED) {
-      await actor.setFlag('wod5e', 'manualDefaultOwnership', true)
+      await actor.setFlag('wod5e-gods', 'manualDefaultOwnership', true)
     }
 
     // If the actor is a group...

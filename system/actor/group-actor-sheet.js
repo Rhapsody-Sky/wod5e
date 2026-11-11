@@ -1,3 +1,4 @@
+import { getSystemSetting } from '../scripts/fork-compatibility.js'
 // Preparation functions
 import { getActorHeader } from './scripts/get-actor-header.js'
 import { getActorBackground } from './scripts/get-actor-background.js'
@@ -103,28 +104,28 @@ export class GroupActorSheet extends HandlebarsApplicationMixin(
 
   static PARTS = {
     header: {
-      template: 'systems/wod5e/display/shared/actors/group-sheet.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/group-sheet.hbs'
     },
     tabs: {
-      template: 'systems/wod5e/display/shared/actors/parts/tab-navigation.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/tab-navigation.hbs'
     },
     members: {
-      template: 'systems/wod5e/display/shared/actors/parts/group/group-members.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/group/group-members.hbs'
     },
     features: {
-      template: 'systems/wod5e/display/shared/actors/parts/group/features.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/group/features.hbs'
     },
     equipment: {
-      template: 'systems/wod5e/display/shared/actors/parts/equipment.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/equipment.hbs'
     },
     notepad: {
-      template: 'systems/wod5e/display/shared/actors/parts/notepad.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/notepad.hbs'
     },
     settings: {
-      template: 'systems/wod5e/display/shared/actors/parts/actor-settings.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/actor-settings.hbs'
     },
     banner: {
-      template: 'systems/wod5e/display/shared/actors/parts/type-banner.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/type-banner.hbs'
     }
   }
 
@@ -232,7 +233,7 @@ export class GroupActorSheet extends HandlebarsApplicationMixin(
 
       features: actorData.features,
 
-      displayBanner: game.settings.get('wod5e', 'actorBanner'),
+      displayBanner: getSystemSetting('actorBanner'),
 
       headerbg: await getActorHeader(actor),
       actorbg: actor.system?.settings?.background,

@@ -1,3 +1,4 @@
+import { getSystemFlags } from '../../scripts/fork-compatibility.js'
 import { BaseDefinitionClass } from './base-definition-class.js'
 
 export class Systems extends BaseDefinitionClass {
@@ -5,16 +6,16 @@ export class Systems extends BaseDefinitionClass {
   static onReady() {
     // Handle adding custom disciplines from any active modules
     const activeModules = game.modules.filter(
-      (module) => module.active === true && module.flags.wod5e
+      (module) => module.active === true && getSystemFlags(module)
     )
     let customSystems = []
     activeModules.forEach((module) => {
-      if (module.flags.wod5e.customSystems) {
-        customSystems = customSystems.concat(module.flags.wod5e.customSystems)
+      if (getSystemFlags(module).customSystems) {
+        customSystems = customSystems.concat(getSystemFlags(module).customSystems)
 
         // Log the custom data in the console
         console.log(
-          `World of Darkness 5e | Custom Systems added by ${module.id}: ${JSON.stringify(module.flags.wod5e.customSystems)}`
+          `World of Darkness 5e | Custom Systems added by ${module.id}: ${JSON.stringify(getSystemFlags(module).customSystems)}`
         )
       }
     })

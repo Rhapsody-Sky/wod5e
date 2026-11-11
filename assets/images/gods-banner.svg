@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">World of Darkness 5e – Gods</title>
+  <desc id="description">Cosmic violet eclipse, an illuminated divine crown and five stars. A Rhapsody-Sky fork.</desc>
+  <defs>
+    <radialGradient id="cosmos"><stop stop-color="#482265"/><stop offset=".6" stop-color="#170d28"/><stop offset="1" stop-color="#080611"/></radialGradient>
+    <radialGradient id="halo"><stop offset=".45" stop-color="#a967ed" stop-opacity="0"/><stop offset=".63" stop-color="#a967ed" stop-opacity=".24"/><stop offset="1" stop-color="#a967ed" stop-opacity="0"/></radialGradient>
+    <linearGradient id="silver" x2="0" y2="1"><stop stop-color="#fff5ff"/><stop offset="1" stop-color="#ba83ed"/></linearGradient>
+    <pattern id="stars" width="170" height="140" patternUnits="userSpaceOnUse"><circle cx="18" cy="22" r="1.3" fill="#d0b5ec" opacity=".5"/><circle cx="111" cy="91" r=".8" fill="#d0b5ec" opacity=".35"/><circle cx="153" cy="41" r=".9" fill="#fceaff" opacity=".4"/></pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#cosmos)"/>
+  <rect width="1600" height="900" fill="url(#stars)"/>
+  <circle cx="800" cy="365" r="390" fill="url(#halo)"/>
+  <g fill="none" stroke="#bc7feb">
+    <circle cx="800" cy="345" r="216" opacity=".55"/>
+    <circle cx="800" cy="345" r="194" opacity=".3"/>
+    <ellipse cx="800" cy="345" rx="520" ry="122" opacity=".25"/>
+    <path d="M160 345H515M1085 345H1440M800 66V101M800 589V624" opacity=".5"/>
+  </g>
+  <g fill="url(#silver)">
+    <path d="M689 269L737 304L800 225L863 304L911 269L887 391Q800 365 713 391Z"/>
+    <circle cx="800" cy="441" r="49"/>
+    <path d="M800 134L807 150L825 157L807 164L800 181L793 164L775 157L793 150ZM593 228L599 241L612 247L599 253L593 267L587 253L574 247L587 241ZM1007 228L1013 241L1026 247L1013 253L1007 267L1001 253L988 247L1001 241ZM592 440L598 453L611 459L598 465L592 479L586 465L573 459L586 453ZM1008 440L1014 453L1027 459L1014 465L1008 479L1002 465L989 459L1002 453Z"/>
+  </g>
+  <text x="800" y="684" text-anchor="middle" fill="#e5d1f5" font-family="Georgia,serif" font-size="30" letter-spacing="8">WORLD OF DARKNESS 5e</text>
+  <text x="800" y="785" text-anchor="middle" fill="#fff2ff" font-family="Georgia,serif" font-size="87" letter-spacing="26">GODS</text>
+  <text x="800" y="838" text-anchor="middle" fill="#bba1d4" font-family="Arial,sans-serif" font-size="20" letter-spacing="4">A RHAPSODY-SKY FORK</text>
+</svg>

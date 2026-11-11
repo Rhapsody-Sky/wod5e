@@ -1,3 +1,5 @@
+import { getSystemFlag } from '../../../scripts/fork-compatibility.js'
+
 export const _onAddSelectedTokens = async function (event, target) {
   event.preventDefault()
 
@@ -8,7 +10,7 @@ export const _onAddSelectedTokens = async function (event, target) {
   // Use the list of currently controlled tokens to generate a map and make the necessary user objects
   const tokens = canvas.tokens.controlled
   const actorsList = tokens.map((i) => i.actor)
-  const oldActorsList = chatMessage.getFlag('wod5e', 'promptedRolls')
+  const oldActorsList = getSystemFlag(chatMessage, 'promptedRolls')
   const newActorsList = {}
   actorsList.forEach((actor) => {
     if (oldActorsList[actor.id]) return
@@ -21,7 +23,7 @@ export const _onAddSelectedTokens = async function (event, target) {
 
   // Update the promptedRolls flag of the chat message with the new object we've created
   chatMessage.setFlag(
-    'wod5e',
+    'wod5e-gods',
     'promptedRolls',
     foundry.utils.mergeObject(oldActorsList, newActorsList)
   )

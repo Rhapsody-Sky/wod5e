@@ -124,7 +124,7 @@ export class wod5eAPI {
     const renownOptions = WOD5E.Renown.getList({})
 
     // Render selecting a skill/attribute to roll
-    const dialogTemplate = 'systems/wod5e/display/ui/select-dice-dialog.hbs'
+    const dialogTemplate = 'systems/wod5e-gods/display/ui/select-dice-dialog.hbs'
     const dialogData = {
       system: actor.system.gamesystem,
       skill,

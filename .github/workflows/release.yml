@@ -1,38 +1,54 @@
----
-name: Publish-Release
+name: Build Gods Fork Release
 
-# Run this workflow every time a new release is published
 on:
-    release:
-        types: [released]
+  release:
+    types: [published]
 
-permissions: read-all
+permissions:
+  contents: write
 
 jobs:
-    publish-release:
-        name: Publish release to Foundry
-        runs-on: ubuntu-latest
-
-        steps:
-          - name: POST release
-            id: myRequest
-            uses: fjogeleit/http-request-action@v1
-            with:
-                url: 'https://foundryvtt.com/_api/packages/release_version/'
-                method: 'POST'
-                customHeaders: '{"Authorization": "${{ secrets.FOUNDRY_API_TOKEN }}"}'
-                preventFailureOnNoResponse: true
-                data:
-                    '{
-                        "id": "wod5e",
-                        "release": {
-                            "version": "${{ github.event.release.tag_name }}",
-                            "manifest": "https://github.com/WoD5E-Developers/wod5e/releases/download/${{ github.event.release.tag_name }}/system.json",
-                            "notes": "https://github.com/WoD5E-Developers/wod5e/releases/tag/${{ github.event.release.tag_name }}",
-                            "compatibility": {
-                                "minimum": "14",
-                                "verified": "14.365",
-                                "maximum": ""
-                            }
-                        }
-                    }'
+  release:
+    if: github.repository == 'Rhapsody-Sky/wod5e'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test:run
+      - run: npm run eslint
+      - run: npm run build:styles
+      - run: git diff --exit-code -- display/wod5e-styling.css
+      - run: npm run verify-release
+        env:
+          RELEASE_VERSION: ${{ github.event.release.tag_name }}
+      - run: npm run normalize-upstream
+      - run: npm run generate-release
+      - name: Verify the archive, not only the source tree
+        run: |
+          unzip -tq wod5e-gods.zip
+          mkdir release-check
+          unzip -q wod5e-gods.zip -d release-check
+          node release-check/system/scripts/maintenance/verify-release.js release-check
+          sha256sum system.json wod5e-gods.zip > SHA256SUMS.txt
+        env:
+          RELEASE_VERSION: ${{ github.event.release.tag_name }}
+      - name: Upload or verify this fork's release assets
+        shell: bash
+        run: |
+          asset_count=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets | length')
+          if [[ "$asset_count" == 0 ]]; then
+            gh release upload "$TAG" system.json wod5e-gods.zip SHA256SUMS.txt --repo "$GITHUB_REPOSITORY"
+          else
+            mkdir uploaded-release
+            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir uploaded-release \
+              --pattern system.json --pattern wod5e-gods.zip --pattern SHA256SUMS.txt
+            (cd uploaded-release && sha256sum system.json wod5e-gods.zip | diff - SHA256SUMS.txt)
+            cmp system.json uploaded-release/system.json
+          fi
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+          GH_TOKEN: ${{ github.token }}

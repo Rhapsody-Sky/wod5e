@@ -1,5 +1,5 @@
 export const _onOpenRollBuilder = async function () {
-  await game.users.current.setFlag('wod5e', 'rollMenuActiveRoll', 'temp')
+  await game.users.current.setFlag('wod5e-gods', 'rollMenuActiveRoll', 'temp')
 
   // Re-render the application window once settings are updated
   const RollMenuApplication = foundry.applications.instances.get('wod5e-roll-menu')

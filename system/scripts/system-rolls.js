@@ -1,3 +1,4 @@
+import { getSystemFlag, getSystemSetting } from './fork-compatibility.js'
 // Import various helper functions
 import { generateRollFormula } from './rolls/roll-formula.js'
 import { getSituationalModifiers } from './rolls/situational-modifiers.js'
@@ -238,7 +239,7 @@ class WOD5eDice {
       if (roll.advancedDice) await handleFailure(system, roll.advancedDice.results)
 
       // Handle willpower damage
-      if (willpowerDamage > 0 && game.settings.get('wod5e', 'automatedWillpower'))
+      if (willpowerDamage > 0 && getSystemSetting('automatedWillpower'))
         _damageWillpower(null, null, actor, willpowerDamage, rollMode)
 
       // Roll any advanced check dice that need to be rolled in a separate rollmessage
@@ -281,7 +282,7 @@ class WOD5eDice {
       if (originMessage) {
         const chatMessage = game.messages.get(originMessage)
 
-        if (chatMessage && chatMessage.getFlag('wod5e', 'isRollPrompt')) {
+        if (chatMessage && getSystemFlag(chatMessage, 'isRollPrompt')) {
           disableMessageOutput = true
 
           const socketData = {
@@ -294,7 +295,7 @@ class WOD5eDice {
           if (chatMessage.isOwner) {
             updateRollPrompt(socketData)
           } else {
-            game.socket.emit('system.wod5e', socketData)
+            game.socket.emit('system.wod5e-gods', socketData)
           }
         }
       }
@@ -329,7 +330,7 @@ class WOD5eDice {
       const situationalModifiers = actor ? await getSituationalModifiers({ actor, selectors }) : {}
 
       // Roll dialog template
-      const dialogTemplate = `systems/wod5e/display/ui/${system}-roll-dialog.hbs`
+      const dialogTemplate = `systems/wod5e-gods/display/ui/${system}-roll-dialog.hbs`
       // Data that the dialog template needs
       const dialogData = {
         system,
@@ -580,23 +581,15 @@ class WOD5eDice {
       ).length
 
       if (failures > 0) {
-        if (
-          system === 'vampire' &&
-          increaseHunger &&
-          game.settings.get('wod5e', 'automatedHunger')
-        ) {
+        if (system === 'vampire' && increaseHunger && getSystemSetting('automatedHunger')) {
           _increaseHunger(actor, failures, rollMode)
-        } else if (
-          system === 'werewolf' &&
-          decreaseRage &&
-          game.settings.get('wod5e', 'automatedRage')
-        ) {
+        } else if (system === 'werewolf' && decreaseRage && getSystemSetting('automatedRage')) {
           _decreaseRage(actor, failures, rollMode)
         }
       }
 
       // Handle Oblivion rouse checks here
-      if (selectors.includes('oblivion-rouse') && game.settings.get('wod5e', 'automatedOblivion')) {
+      if (selectors.includes('oblivion-rouse') && getSystemSetting('automatedOblivion')) {
         const oblivionTriggers = diceResults.filter(
           (result) => [1, 10].includes(result.result) && !result.discarded
         ).length

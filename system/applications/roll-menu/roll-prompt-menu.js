@@ -1,3 +1,4 @@
+import { getSystemFlag } from '../../scripts/fork-compatibility.js'
 import { _onAddNewRoll } from './scripts/on-add-new-dice.js'
 import { _onCopyRollPrompt } from './scripts/on-copy-roll-prompt.js'
 import { _onCopyRoll } from './scripts/on-copy-roll.js'
@@ -60,19 +61,19 @@ export class RollMenuApplication extends HandlebarsApplicationMixin(ApplicationV
 
   static PARTS = {
     sidebar: {
-      template: 'systems/wod5e/display/ui/roll-menu/sidebar.hbs',
+      template: 'systems/wod5e-gods/display/ui/roll-menu/sidebar.hbs',
       scrollable: ['.saved-rolls-list']
     },
     body: {
-      template: 'systems/wod5e/display/ui/roll-menu/body.hbs'
+      template: 'systems/wod5e-gods/display/ui/roll-menu/body.hbs'
     }
   }
 
   async _prepareContext() {
     const data = await super._prepareContext()
-    const rollMenuSavedRolls = game.users.current.getFlag('wod5e', 'rollMenuSavedRolls') || {}
+    const rollMenuSavedRolls = getSystemFlag(game.users.current, 'rollMenuSavedRolls') || {}
 
-    data.activeRollID = game.users.current.getFlag('wod5e', 'rollMenuActiveRoll') || ''
+    data.activeRollID = getSystemFlag(game.users.current, 'rollMenuActiveRoll') || ''
     data.allRolls = rollMenuSavedRolls
 
     // Simple and performant way to snip out the 'temp' key here
@@ -110,16 +111,16 @@ export class RollMenuApplication extends HandlebarsApplicationMixin(ApplicationV
   static async applicationHandler(event, form, formData) {
     const data = formData.object
 
-    let activeRoll = game.users.current.getFlag('wod5e', 'rollMenuActiveRoll') || ''
+    let activeRoll = getSystemFlag(game.users.current, 'rollMenuActiveRoll') || ''
 
     // If there's no active roll, save to a 'temp' ID that's used for the roll builder
     if (!activeRoll) {
       activeRoll = 'temp'
-      game.users.current.setFlag('wod5e', 'rollMenuActiveRoll', activeRoll)
+      game.users.current.setFlag('wod5e-gods', 'rollMenuActiveRoll', activeRoll)
     }
 
     // If there is an active roll, we can update it as input fields are updated
-    const savedRolls = game.users.current.getFlag('wod5e', 'rollMenuSavedRolls') || {}
+    const savedRolls = getSystemFlag(game.users.current, 'rollMenuSavedRolls') || {}
 
     // Ensure that the savedRolls object exists, then add/update it
     if (savedRolls) {
@@ -136,7 +137,7 @@ export class RollMenuApplication extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Save the mutated object
-    await game.users.current.setFlag('wod5e', 'rollMenuSavedRolls', savedRolls)
+    await game.users.current.setFlag('wod5e-gods', 'rollMenuSavedRolls', savedRolls)
 
     // Re-render the application
     this.render()

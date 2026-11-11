@@ -42,43 +42,43 @@ export class WerewolfActorSheet extends HandlebarsApplicationMixin(WoDActorBase)
 
   static PARTS = {
     header: {
-      template: 'systems/wod5e/display/wta/actors/werewolf-sheet.hbs'
+      template: 'systems/wod5e-gods/display/wta/actors/werewolf-sheet.hbs'
     },
     tabs: {
-      template: 'systems/wod5e/display/shared/actors/parts/tab-navigation.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/tab-navigation.hbs'
     },
     stats: {
-      template: 'systems/wod5e/display/shared/actors/parts/stats.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/stats.hbs'
     },
     experience: {
-      template: 'systems/wod5e/display/shared/actors/parts/experience.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/experience.hbs'
     },
     gifts: {
-      template: 'systems/wod5e/display/wta/actors/parts/gifts-rites.hbs'
+      template: 'systems/wod5e-gods/display/wta/actors/parts/gifts-rites.hbs'
     },
     wolf: {
-      template: 'systems/wod5e/display/wta/actors/parts/wolf.hbs'
+      template: 'systems/wod5e-gods/display/wta/actors/parts/wolf.hbs'
     },
     features: {
-      template: 'systems/wod5e/display/wta/actors/parts/features.hbs'
+      template: 'systems/wod5e-gods/display/wta/actors/parts/features.hbs'
     },
     equipment: {
-      template: 'systems/wod5e/display/shared/actors/parts/equipment.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/equipment.hbs'
     },
     biography: {
-      template: 'systems/wod5e/display/shared/actors/parts/biography.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/biography.hbs'
     },
     notepad: {
-      template: 'systems/wod5e/display/shared/actors/parts/notepad.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/notepad.hbs'
     },
     settings: {
-      template: 'systems/wod5e/display/shared/actors/parts/actor-settings.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/actor-settings.hbs'
     },
     banner: {
-      template: 'systems/wod5e/display/shared/actors/parts/type-banner.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/type-banner.hbs'
     },
     limited: {
-      template: 'systems/wod5e/display/shared/actors/limited-sheet.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/limited-sheet.hbs'
     }
   }
 

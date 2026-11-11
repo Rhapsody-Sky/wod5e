@@ -5,10 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('Chat roll presentation', () => {
   it('marks standard and extended rolls with their splat class', () => {
-    const standard = fs.readFileSync(
-      path.resolve('display/ui/chat/chat-message-roll.hbs'),
-      'utf8'
-    )
+    const standard = fs.readFileSync(path.resolve('display/ui/chat/chat-message-roll.hbs'), 'utf8')
     const extended = fs.readFileSync(
       path.resolve('display/ui/chat/chat-message-extended-roll.hbs'),
       'utf8'

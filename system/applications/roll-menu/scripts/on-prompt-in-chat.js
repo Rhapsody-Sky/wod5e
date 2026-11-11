@@ -1,3 +1,5 @@
+import { getSystemFlag } from '../../../scripts/fork-compatibility.js'
+
 export const _onPromptInChat = async function (event) {
   const dataset = event.target.dataset
   let rollId
@@ -11,12 +13,12 @@ export const _onPromptInChat = async function (event) {
     const dataId = dataArray[1] || ''
 
     // If we have an ID, we use that
-    savedRolls = await game.users.get(dataUser).getFlag('wod5e', 'rollMenuSavedRolls')
+    savedRolls = getSystemFlag(game.users.get(dataUser), 'rollMenuSavedRolls')
     rollId = dataId
   } else {
     // If we don't have an ID provided in the dataset, we use the user's personal currently set active roll
-    savedRolls = await game.users.current.getFlag('wod5e', 'rollMenuSavedRolls')
-    rollId = await game.users.current.getFlag('wod5e', 'rollMenuActiveRoll')
+    savedRolls = await getSystemFlag(game.users.current, 'rollMenuSavedRolls')
+    rollId = await getSystemFlag(game.users.current, 'rollMenuActiveRoll')
   }
 
   // Finally pull the details of the roll we should be using
@@ -68,8 +70,8 @@ export const _onPromptInChat = async function (event) {
         : ''
     }`,
     flags: {
-      wod5e: {
-        template: 'systems/wod5e/display/ui/chat/chat-message-roll-prompt.hbs',
+      'wod5e-gods': {
+        template: 'systems/wod5e-gods/display/ui/chat/chat-message-roll-prompt.hbs',
         valuePaths: valuePathsArray.join(' '),
         isRollPrompt: true,
         promptedRolls,

@@ -15,8 +15,8 @@ export const MigrateItemImages = async function () {
     let hasFixedItems = false
 
     for (const item of actorItems) {
-      // Check if there are any instances of /systems/wod5e/assets/icons/powers/ in the actor data
-      if (countInstances(item.img, 'systems/wod5e/assets/icons/powers/') > 0) {
+      // Check if there are any instances of /systems/wod5e-gods/assets/icons/powers/ in the actor data
+      if (countInstances(item.img, 'systems/wod5e-gods/assets/icons/powers/') > 0) {
         hasFixedItems = true
 
         // Create a new object with the updated 'img' property
@@ -24,8 +24,8 @@ export const MigrateItemImages = async function () {
           _id: item._id, // Preserve the original _id
           ...item.toObject(),
           img: item.img.replace(
-            /\/systems\/wod5e\/assets\/icons\/powers\//,
-            'systems/wod5e/assets/icons/items/'
+            /\/?systems\/wod5e-gods\/assets\/icons\/powers\//,
+            'systems/wod5e-gods/assets/icons/items/'
           )
         }
 
@@ -36,7 +36,8 @@ export const MigrateItemImages = async function () {
 
     if (hasFixedItems) {
       // Update the actor's data with the new information
-      actor.updateEmbeddedDocuments('Item', updatedItems)
+      await actor.updateEmbeddedDocuments('Item', updatedItems)
+      migrationIDs.push(actor.id)
       ui.notifications.info(`Fixing actor ${actor.name}: Migrating image data.`)
     }
   }
@@ -48,8 +49,8 @@ export const MigrateItemImages = async function () {
     let count = 0
 
     // Regex
-    const regex = /\/systems\/wod5e\/assets\/icons\/powers\//g
-    const matches = string.match(regex)
+    const regex = /\/?systems\/wod5e-gods\/assets\/icons\/powers\//g
+    const matches = string?.match(regex) ?? null
 
     // So long as there's some matches, increase the count
     if (matches !== null) {

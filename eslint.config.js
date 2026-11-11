@@ -28,6 +28,8 @@ export default defineConfig([
         require: 'readonly',
         __dirname: 'readonly',
         global: 'readonly',
+        process: 'readonly',
+        structuredClone: 'readonly',
 
         // Foundry globals
         CONST: 'readonly',

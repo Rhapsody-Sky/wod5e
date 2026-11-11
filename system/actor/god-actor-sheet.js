@@ -1,6 +1,8 @@
 import { _onGodAttributeRoll } from './scripts/god-attribute-roll.js'
 import { SPCActorSheet } from './spc-actor-sheet.js'
 
+const DIVINE_ATTRIBUTE_DISPLAY_ORDER = ['aspect', 'identity', 'power', 'force', 'insight']
+
 /**
  * A Story Character-based sheet for gods with five combinable attributes.
  * @extends {SPCActorSheet}
@@ -16,7 +18,7 @@ export class GodActorSheet extends SPCActorSheet {
   static PARTS = {
     ...SPCActorSheet.PARTS,
     stats: {
-      template: 'systems/wod5e/display/shared/actors/parts/god/stats.hbs'
+      template: 'systems/wod5e-gods/display/shared/actors/parts/god/stats.hbs'
     }
   }
 
@@ -31,14 +33,13 @@ export class GodActorSheet extends SPCActorSheet {
     context = { ...(await super._preparePartContext(partId, context, options)) }
 
     if (partId === 'stats') {
-      context.divineAttributes = Object.entries(this.actor.system.divineattributes).map(
-        ([id, attribute]) => ({
-          id,
-          label: game.i18n.localize(`WOD5E.God.AttributeList.${id}`),
-          icon: `systems/wod5e/assets/icons/god/${id}.png`,
-          value: attribute.value
-        })
-      )
+      const attributes = this.actor.system.divineattributes
+      context.divineAttributes = DIVINE_ATTRIBUTE_DISPLAY_ORDER.map((id) => ({
+        id,
+        label: game.i18n.localize(`WOD5E.God.AttributeList.${id}`),
+        icon: `systems/wod5e-gods/assets/icons/god/${id}.png`,
+        value: attributes[id].value
+      }))
     }
 
     return context

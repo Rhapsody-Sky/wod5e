@@ -1,5 +1,7 @@
+import { getSystemFlag } from '../scripts/fork-compatibility.js'
+
 export async function RollPromptSockets() {
-  game.socket.on('system.wod5e', async (data) => {
+  game.socket.on('system.wod5e-gods', async (data) => {
     const chatMessage = game.messages.get(data.messageID)
 
     if (data.action === 'updateRollPrompt' && chatMessage.isOwner)
@@ -12,7 +14,7 @@ export async function RollPromptSockets() {
 
 export async function updateRollPrompt(data) {
   const chatMessage = game.messages.get(data.messageID)
-  const promptedRollsList = chatMessage.getFlag('wod5e', 'promptedRolls')
+  const promptedRollsList = getSystemFlag(chatMessage, 'promptedRolls')
 
   const actorObject = promptedRollsList[data.actorID]
   if (!actorObject) return
@@ -24,11 +26,11 @@ export async function updateRollPrompt(data) {
     }
   })
 
-  await chatMessage.setFlag('wod5e', 'promptedRolls', updatedList)
+  await chatMessage.setFlag('wod5e-gods', 'promptedRolls', updatedList)
 }
 
 export async function removeActorFromRollPrompt(data) {
   const chatMessage = game.messages.get(data.messageID)
 
-  chatMessage.update({ [`flags.wod5e.promptedRolls.-=${data.actorID}`]: null })
+  chatMessage.update({ [`flags.wod5e-gods.promptedRolls.-=${data.actorID}`]: null })
 }

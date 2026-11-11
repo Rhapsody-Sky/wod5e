@@ -1,3 +1,4 @@
+import { getSystemFlags, getSystemSetting } from '../../scripts/fork-compatibility.js'
 import { BaseDefinitionClass } from './base-definition-class.js'
 
 export class Attributes extends BaseDefinitionClass {
@@ -8,19 +9,19 @@ export class Attributes extends BaseDefinitionClass {
   // Run any necessary compilation on ready
   static onReady() {
     // Handle adding custom disciplines from the game settings
-    let customAttributes = game.settings.get('wod5e', 'customAttributes') || {}
+    let customAttributes = getSystemSetting('customAttributes') || {}
 
     // Handle adding custom disciplines from any active modules
     const activeModules = game.modules.filter(
-      (module) => module.active === true && module.flags.wod5e
+      (module) => module.active === true && getSystemFlags(module)
     )
     activeModules.forEach((module) => {
-      if (module.flags.wod5e.customAttributes) {
-        customAttributes = customAttributes.concat(module.flags.wod5e.customAttributes)
+      if (getSystemFlags(module).customAttributes) {
+        customAttributes = customAttributes.concat(getSystemFlags(module).customAttributes)
 
         // Log the custom data in the console
         console.log(
-          `World of Darkness 5e | Custom Attributes added by ${module.id}: ${JSON.stringify(module.flags.wod5e.customAttributes)}`
+          `World of Darkness 5e | Custom Attributes added by ${module.id}: ${JSON.stringify(getSystemFlags(module).customAttributes)}`
         )
       }
     })

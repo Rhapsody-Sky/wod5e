@@ -67,7 +67,7 @@ export const _onDisciplineToChat = async function (event, target) {
 
   foundry.documents.ChatMessage.implementation.create({
     flags: {
-      wod5e: {
+      'wod5e-gods': {
         name: discipline.displayName,
         img: 'icons/svg/dice-target.svg',
         description: discipline?.description

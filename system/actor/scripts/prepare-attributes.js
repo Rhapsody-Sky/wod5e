@@ -1,10 +1,11 @@
+import { getSystemSetting } from '../../scripts/fork-compatibility.js'
 import { Attributes } from '../../api/def/attributes.js'
 
 export const prepareAttributes = async function (actor) {
   // Loop through each entry in the attributes list, get the data (if available), and then push to the containers
   // Use the sortDefAlphabetically setting to determine if we need to do sorting
   const attributesList = Attributes.getList({
-    disableSort: game.settings.get('wod5e', 'sortDefAlphabetically') === 'default'
+    disableSort: getSystemSetting('sortDefAlphabetically') === 'default'
   })
   const actorAttributes = actor.system?.attributes
   const computedAttributes = {}

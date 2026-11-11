@@ -22,19 +22,19 @@ export class EdgePoolItemSheet extends HandlebarsApplicationMixin(WoDItemBase) {
 
   static PARTS = {
     header: {
-      template: 'systems/wod5e/display/htr/items/edge-pool-sheet.hbs'
+      template: 'systems/wod5e-gods/display/htr/items/edge-pool-sheet.hbs'
     },
     tabs: {
       template: 'templates/generic/tab-navigation.hbs'
     },
     description: {
-      template: 'systems/wod5e/display/shared/items/parts/description.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/description.hbs'
     },
     dicepool: {
-      template: 'systems/wod5e/display/shared/items/parts/dicepool.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/dicepool.hbs'
     },
     settings: {
-      template: 'systems/wod5e/display/shared/items/parts/item-settings.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/item-settings.hbs'
     }
   }
 

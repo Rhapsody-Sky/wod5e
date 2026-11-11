@@ -1,9 +1,11 @@
+import { getSystemFlag } from '../../../scripts/fork-compatibility.js'
+
 export const _onRemoveSavedRoll = async function (event, target) {
   // Grab all the variables we need upfront
   const rollToRemove = target.closest('.saved-roll').getAttribute('data-id')
-  const currentActiveRoll = game.users.current.getFlag('wod5e', 'rollMenuActiveRoll')
+  const currentActiveRoll = getSystemFlag(game.users.current, 'rollMenuActiveRoll')
   const savedRolls = foundry.utils.duplicate(
-    game.users.current.getFlag('wod5e', 'rollMenuSavedRolls')
+    getSystemFlag(game.users.current, 'rollMenuSavedRolls')
   )
 
   // Define the content of the Dialog
@@ -43,11 +45,13 @@ export const _onRemoveSavedRoll = async function (event, target) {
       const keys = Object.keys(savedRolls)
       const newActiveRoll = keys.length ? keys[0] : ''
 
-      await game.users.current.setFlag('wod5e', 'rollMenuActiveRoll', newActiveRoll)
+      await game.users.current.setFlag('wod5e-gods', 'rollMenuActiveRoll', newActiveRoll)
     }
 
     // Update the saved rolls flag
-    await game.users.current.update({ [`flags.wod5e.rollMenuSavedRolls.-=${rollToRemove}`]: null })
+    await game.users.current.update({
+      [`flags.wod5e-gods.rollMenuSavedRolls.-=${rollToRemove}`]: null
+    })
 
     // Re-render the application window once settings are updated
     const RollMenuApplication = foundry.applications.instances.get('wod5e-roll-menu')

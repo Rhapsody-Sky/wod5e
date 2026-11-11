@@ -1,3 +1,4 @@
+import { getSystemFlags } from '../../scripts/fork-compatibility.js'
 import { _onToggleDropdown, _onUpdateFilter } from './scripts/dropdown-actions.js'
 import { getItems } from './scripts/get-items.js'
 import { _onConfigureSources } from './scripts/on-configure-sources.js'
@@ -117,11 +118,11 @@ export class CompendiumBrowserApplication extends HandlebarsApplicationMixin(App
 
   static PARTS = {
     sidebar: {
-      template: 'systems/wod5e/display/ui/compendium-browser/sidebar.hbs',
+      template: 'systems/wod5e-gods/display/ui/compendium-browser/sidebar.hbs',
       scrollable: ['.search-filters']
     },
     body: {
-      template: 'systems/wod5e/display/ui/compendium-browser/body.hbs',
+      template: 'systems/wod5e-gods/display/ui/compendium-browser/body.hbs',
       scrollable: ['.results-list']
     }
   }
@@ -129,7 +130,7 @@ export class CompendiumBrowserApplication extends HandlebarsApplicationMixin(App
   async _prepareContext() {
     const data = await super._prepareContext()
     const currentUser = game.users.current
-    const compendiumBrowserConfig = currentUser?.flags?.wod5e?.compendiumBrowser
+    const compendiumBrowserConfig = getSystemFlags(currentUser)?.compendiumBrowser
 
     // Filter down to which ones are enabled and map to an array of strings
     data.splatFilterStatus = this.filters.splats.open

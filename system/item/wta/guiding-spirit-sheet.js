@@ -42,25 +42,25 @@ export class GuidingSpiritItemSheet extends HandlebarsApplicationMixin(WoDItemBa
 
   static PARTS = {
     header: {
-      template: 'systems/wod5e/display/wta/items/guiding-spirit-sheet.hbs'
+      template: 'systems/wod5e-gods/display/wta/items/guiding-spirit-sheet.hbs'
     },
     tabs: {
       template: 'templates/generic/tab-navigation.hbs'
     },
     description: {
-      template: 'systems/wod5e/display/shared/items/parts/description.hbs',
+      template: 'systems/wod5e-gods/display/shared/items/parts/description.hbs',
       scrollable: ['']
     },
     details: {
-      template: 'systems/wod5e/display/wta/items/parts/guiding-spirit-details.hbs',
+      template: 'systems/wod5e-gods/display/wta/items/parts/guiding-spirit-details.hbs',
       scrollable: ['']
     },
     modifiers: {
-      template: 'systems/wod5e/display/shared/items/parts/modifiers.hbs',
+      template: 'systems/wod5e-gods/display/shared/items/parts/modifiers.hbs',
       scrollable: ['']
     },
     settings: {
-      template: 'systems/wod5e/display/shared/items/parts/item-settings.hbs',
+      template: 'systems/wod5e-gods/display/shared/items/parts/item-settings.hbs',
       scrollable: ['']
     }
   }

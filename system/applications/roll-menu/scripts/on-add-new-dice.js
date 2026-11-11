@@ -1,3 +1,5 @@
+import { getSystemFlag } from '../../../scripts/fork-compatibility.js'
+
 export const _onAddNewRoll = async function (event) {
   event.preventDefault()
 
@@ -18,14 +20,14 @@ export const _onAddNewRoll = async function (event) {
   }
 
   // Get the current list of saved rolls and create a new object inside of them
-  const savedRolls = await game.users.current.getFlag('wod5e', 'rollMenuSavedRolls')
+  const savedRolls = await getSystemFlag(game.users.current, 'rollMenuSavedRolls')
   savedRolls[newRollID] = defaultRollObject
 
   // Persist it back to the user flags
-  await game.users.current.setFlag('wod5e', 'rollMenuSavedRolls', savedRolls)
+  await game.users.current.setFlag('wod5e-gods', 'rollMenuSavedRolls', savedRolls)
 
   // Update the active roll to the new
-  await game.users.current.setFlag('wod5e', 'rollMenuActiveRoll', newRollID)
+  await game.users.current.setFlag('wod5e-gods', 'rollMenuActiveRoll', newRollID)
 
   // Re-render the application window once settings are updated
   const RollMenuApplication = foundry.applications.instances.get('wod5e-roll-menu')

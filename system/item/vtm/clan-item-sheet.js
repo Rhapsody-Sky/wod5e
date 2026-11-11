@@ -42,22 +42,22 @@ export class ClanItemSheet extends HandlebarsApplicationMixin(WoDItemBase) {
 
   static PARTS = {
     header: {
-      template: 'systems/wod5e/display/vtm/items/clan-sheet.hbs'
+      template: 'systems/wod5e-gods/display/vtm/items/clan-sheet.hbs'
     },
     tabs: {
       template: 'templates/generic/tab-navigation.hbs'
     },
     description: {
-      template: 'systems/wod5e/display/shared/items/parts/description.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/description.hbs'
     },
     bane: {
-      template: 'systems/wod5e/display/vtm/items/parts/bane.hbs'
+      template: 'systems/wod5e-gods/display/vtm/items/parts/bane.hbs'
     },
     modifiers: {
-      template: 'systems/wod5e/display/shared/items/parts/modifiers.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/modifiers.hbs'
     },
     settings: {
-      template: 'systems/wod5e/display/shared/items/parts/item-settings.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/item-settings.hbs'
     }
   }
 

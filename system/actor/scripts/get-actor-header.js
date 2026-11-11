@@ -1,6 +1,8 @@
+import { getSystemSetting } from '../../scripts/fork-compatibility.js'
+
 export const getActorHeader = async function (actor) {
   const actorBG = actor.system?.settings?.headerbg || ''
-  const settingsBG = game.settings.get('wod5e', 'actorHeaderOverride') || ''
+  const settingsBG = getSystemSetting('actorHeaderOverride') || ''
 
   if (actorBG) {
     // Always prefer the actor-specific header setting override

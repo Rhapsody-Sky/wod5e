@@ -1,3 +1,4 @@
+import { getSystemFlag, getSystemFlags, getSystemSetting } from '../scripts/fork-compatibility.js'
 import { processMessage } from './message-logic/process-message.js'
 
 export class WoDChatMessage extends ChatMessage {
@@ -27,8 +28,10 @@ export class WoDChatMessage extends ChatMessage {
     // Determine some metadata
     const speakerActor = this.speakerActor
     const data = this.toObject(false)
+    // Templates receive the merged view too, before the GM has persisted old flags.
+    data.flags['wod5e-gods'] = getSystemFlags(this)
     data.content = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      data?.flags?.wod5e?.description || this.content,
+      getSystemFlags(data)?.description || this.content,
       {
         rollData: this.getRollData(),
         secrets: speakerActor?.isOwner ?? game.user.isGM
@@ -53,10 +56,10 @@ export class WoDChatMessage extends ChatMessage {
       author: this.author,
 
       // Display info
-      title: this.flags?.wod5e?.title,
-      name: this.flags?.wod5e?.name,
-      description: this.flags?.wod5e?.description,
-      img: this.flags?.wod5e?.img,
+      title: getSystemFlags(this)?.title,
+      name: getSystemFlags(this)?.name,
+      description: getSystemFlags(this)?.description,
+      img: getSystemFlags(this)?.img,
       alias: this.alias,
       speakerActor,
 
@@ -76,12 +79,12 @@ export class WoDChatMessage extends ChatMessage {
       ].filterJoin(' '),
 
       // System-specific flags
-      isRollPrompt: this.getFlag('wod5e', 'isRollPrompt'),
-      promptedRolls: this.getFlag('wod5e', 'promptedRolls'),
-      valuePaths: this.getFlag('wod5e', 'valuePaths'),
-      difficulty: this.getFlag('wod5e', 'difficulty'),
+      isRollPrompt: getSystemFlag(this, 'isRollPrompt'),
+      promptedRolls: getSystemFlag(this, 'promptedRolls'),
+      valuePaths: getSystemFlag(this, 'valuePaths'),
+      difficulty: getSystemFlag(this, 'difficulty'),
       isRoll: this?.isRoll || false,
-      isExtendedRoll: this.getFlag('wod5e', 'isExtendedRoll')
+      isExtendedRoll: getSystemFlag(this, 'isExtendedRoll')
     }
 
     // Render additional message data
@@ -109,7 +112,7 @@ export class WoDChatMessage extends ChatMessage {
     Hooks.callAll('renderChatMessageHTML', this, html, this.messageData)
 
     // Get whether descriptions should auto-collapse for this user or not and apply the styling
-    const autoCollapse = game.settings.get('wod5e', 'autoCollapseDescriptions')
+    const autoCollapse = getSystemSetting('autoCollapseDescriptions')
     if (!autoCollapse) {
       const collapsibleContent = html.querySelector('.collapsible-content')
       if (collapsibleContent) collapsibleContent.style.maxHeight = 'unset'

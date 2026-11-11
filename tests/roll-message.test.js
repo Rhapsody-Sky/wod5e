@@ -172,12 +172,12 @@ describe('generateRollMessage - God', () => {
 
     const images = result.basicDice.results.map((die) => die.img)
     expect(images).toEqual([
-      'systems/wod5e/assets/icons/dice/god/failure.png',
-      'systems/wod5e/assets/icons/dice/god/aspect.png',
-      'systems/wod5e/assets/icons/dice/god/identity.png',
-      'systems/wod5e/assets/icons/dice/god/insight.png',
-      'systems/wod5e/assets/icons/dice/god/force.png',
-      'systems/wod5e/assets/icons/dice/god/power.png'
+      'systems/wod5e-gods/assets/icons/dice/god/failure.png',
+      'systems/wod5e-gods/assets/icons/dice/god/aspect.png',
+      'systems/wod5e-gods/assets/icons/dice/god/identity.png',
+      'systems/wod5e-gods/assets/icons/dice/god/insight.png',
+      'systems/wod5e-gods/assets/icons/dice/god/force.png',
+      'systems/wod5e-gods/assets/icons/dice/god/power.png'
     ])
   })
 })

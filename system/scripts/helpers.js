@@ -1,3 +1,4 @@
+import { getSystemSetting } from './fork-compatibility.js'
 import { generateLocalizedLabel } from '../api/generate-localization.js'
 import { timeSinceShort } from './time-since-short.js'
 
@@ -112,7 +113,7 @@ export const loadHelpers = async function () {
   })
 
   Handlebars.registerHelper('sortAbilities', function (unordered = {}) {
-    if (!game.settings.get('wod5e', 'chatRollerSortAbilities')) {
+    if (!getSystemSetting('chatRollerSortAbilities')) {
       return unordered
     }
     return Object.keys(unordered)

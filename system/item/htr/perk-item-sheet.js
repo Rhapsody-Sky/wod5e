@@ -23,22 +23,22 @@ export class PerkItemSheet extends HandlebarsApplicationMixin(WoDItemBase) {
 
   static PARTS = {
     header: {
-      template: 'systems/wod5e/display/htr/items/perk-sheet.hbs'
+      template: 'systems/wod5e-gods/display/htr/items/perk-sheet.hbs'
     },
     tabs: {
       template: 'templates/generic/tab-navigation.hbs'
     },
     description: {
-      template: 'systems/wod5e/display/shared/items/parts/description.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/description.hbs'
     },
     macro: {
-      template: 'systems/wod5e/display/shared/items/parts/macro.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/macro.hbs'
     },
     modifiers: {
-      template: 'systems/wod5e/display/shared/items/parts/modifiers.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/modifiers.hbs'
     },
     settings: {
-      template: 'systems/wod5e/display/shared/items/parts/item-settings.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/item-settings.hbs'
     }
   }
 

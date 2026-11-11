@@ -1,3 +1,4 @@
+import { getSystemFlag } from '../scripts/fork-compatibility.js'
 // Preparation functions
 import { getDicepoolList } from '../api/dicepool-list.js'
 import { getSelectorsList } from '../api/get-selectors-list.js'
@@ -139,7 +140,7 @@ export class WoDItemBase extends HandlebarsApplicationMixin(
 
       gamesystem: itemData.gamesystem || 'mortal',
 
-      dataItemId: item.getFlag('wod5e', 'dataItemId') || '',
+      dataItemId: getSystemFlag(item, 'dataItemId') || '',
 
       sourcebook: item.system.source.book,
       pageNumber: item.system.source.page

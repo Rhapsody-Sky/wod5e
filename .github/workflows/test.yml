@@ -1,7 +1,13 @@
-name: Run Unit Tests
+name: Verify Gods Fork
 
 on:
   pull_request: {}
+  push:
+    branches: ['custom/god-character-sheet', 'codex/**']
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
 
 jobs:
   test:
@@ -15,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
 
       - name: Install dependencies
@@ -23,3 +29,8 @@ jobs:
 
       - name: Run Vitest
         run: npx vitest run --reporter=dot
+      - run: npm run eslint
+      - run: npm run build:styles
+      - run: git diff --exit-code -- display/wod5e-styling.css
+      - run: npm run verify-release
+      - run: npm run normalize-upstream

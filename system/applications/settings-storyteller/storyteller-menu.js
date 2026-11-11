@@ -1,3 +1,4 @@
+import { getSystemSetting } from '../../scripts/fork-compatibility.js'
 /* Definitions */
 import { Attributes } from '../../api/def/attributes.js'
 import { Skills } from '../../api/def/skills.js'
@@ -11,7 +12,7 @@ export class StorytellerMenu extends FormApplication {
       title: game.i18n.localize('WOD5E.Settings.StorytellerMenu'),
       id: 'wod5e-storyteller',
       classes: ['wod5e'],
-      template: 'systems/wod5e/display/ui/storyteller-menu.hbs',
+      template: 'systems/wod5e-gods/display/ui/storyteller-menu.hbs',
       width: 500,
       height: 450,
       resizable: true,
@@ -86,18 +87,18 @@ export class StorytellerMenu extends FormApplication {
     }
 
     // Grab the modifications from the game settings and add them to the application data
-    data.attributeModifications = game.settings.get('wod5e', 'modifiedAttributes')
-    data.skillModifications = game.settings.get('wod5e', 'modifiedSkills')
-    data.disciplineModifications = game.settings.get('wod5e', 'modifiedDisciplines')
-    data.edgeModifications = game.settings.get('wod5e', 'modifiedEdges')
-    data.giftModifications = game.settings.get('wod5e', 'modifiedGifts')
+    data.attributeModifications = getSystemSetting('modifiedAttributes')
+    data.skillModifications = getSystemSetting('modifiedSkills')
+    data.disciplineModifications = getSystemSetting('modifiedDisciplines')
+    data.edgeModifications = getSystemSetting('modifiedEdges')
+    data.giftModifications = getSystemSetting('modifiedGifts')
 
     // Grab the custom features from the game settings and add them to the application data
-    data.customAttributes = game.settings.get('wod5e', 'customAttributes')
-    data.customSkills = game.settings.get('wod5e', 'customSkills')
-    data.customDisciplines = game.settings.get('wod5e', 'customDisciplines')
-    data.customEdges = game.settings.get('wod5e', 'customEdges')
-    data.customGifts = game.settings.get('wod5e', 'customGifts')
+    data.customAttributes = getSystemSetting('customAttributes')
+    data.customSkills = getSystemSetting('customSkills')
+    data.customDisciplines = getSystemSetting('customDisciplines')
+    data.customEdges = getSystemSetting('customEdges')
+    data.customGifts = getSystemSetting('customGifts')
 
     return data
   }
@@ -117,7 +118,7 @@ export class StorytellerMenu extends FormApplication {
     }
 
     const addCustomItem = async (listKey, label) => {
-      const list = await game.settings.get('wod5e', listKey)
+      const list = await getSystemSetting(listKey)
       const newItem = {
         id: foundry.utils.randomID(8),
         label
@@ -130,7 +131,7 @@ export class StorytellerMenu extends FormApplication {
 
       // Push the default item into the main list and save the new setting
       list.push(newItem)
-      await game.settings.set('wod5e', listKey, list)
+      await game.settings.set('wod5e-gods', listKey, list)
     }
 
     handleClick('.add-mod-button', ({ type }) => this._onGenerateModPrompt(type))
@@ -193,20 +194,20 @@ export class StorytellerMenu extends FormApplication {
       })
 
       // Attributes
-      game.settings.set('wod5e', 'modifiedAttributes', modifications.attribute)
-      game.settings.set('wod5e', 'customAttributes', custom.attribute)
+      game.settings.set('wod5e-gods', 'modifiedAttributes', modifications.attribute)
+      game.settings.set('wod5e-gods', 'customAttributes', custom.attribute)
       // SKills
-      game.settings.set('wod5e', 'modifiedSkills', modifications.skill)
-      game.settings.set('wod5e', 'customSkills', custom.skill)
+      game.settings.set('wod5e-gods', 'modifiedSkills', modifications.skill)
+      game.settings.set('wod5e-gods', 'customSkills', custom.skill)
       // Disciplines
-      game.settings.set('wod5e', 'modifiedDisciplines', modifications.discipline)
-      game.settings.set('wod5e', 'customDisciplines', custom.discipline)
+      game.settings.set('wod5e-gods', 'modifiedDisciplines', modifications.discipline)
+      game.settings.set('wod5e-gods', 'customDisciplines', custom.discipline)
       // Edges
-      game.settings.set('wod5e', 'modifiedEdges', modifications.edge)
-      game.settings.set('wod5e', 'customEdges', custom.edge)
+      game.settings.set('wod5e-gods', 'modifiedEdges', modifications.edge)
+      game.settings.set('wod5e-gods', 'customEdges', custom.edge)
       // Gifts
-      game.settings.set('wod5e', 'modifiedGifts', modifications.gift)
-      game.settings.set('wod5e', 'customGifts', custom.gift)
+      game.settings.set('wod5e-gods', 'modifiedGifts', modifications.gift)
+      game.settings.set('wod5e-gods', 'customGifts', custom.gift)
     })
   }
 
@@ -219,13 +220,13 @@ export class StorytellerMenu extends FormApplication {
   // Function for rendering the dialog for adding a new modification
   async _onRenderPromptDialog(type, list, title) {
     const modifiedKey = `modified${this.listKeys[type].defCategory}`
-    const modifiedList = await game.settings.get('wod5e', modifiedKey)
+    const modifiedList = await getSystemSetting(modifiedKey)
 
     const effectiveList = Object.fromEntries(
       Object.entries(list).filter((item) => !modifiedList.some((mod) => mod.id === item[0]))
     )
 
-    const template = 'systems/wod5e/display/ui/select-dialog.hbs'
+    const template = 'systems/wod5e-gods/display/ui/select-dialog.hbs'
     const content = await foundry.applications.handlebars.renderTemplate(template, {
       options: effectiveList
     })
@@ -251,24 +252,24 @@ export class StorytellerMenu extends FormApplication {
       const id = result.optionSelect
       const label = list[id]?.label || id
       modifiedList.push({ id, label, rename: '', hidden: false })
-      await game.settings.set('wod5e', modifiedKey, modifiedList)
+      await game.settings.set('wod5e-gods', modifiedKey, modifiedList)
     }
   }
 
   // Function for removing a change
   async _onRemoveChange(type, id) {
     const modifiedKey = `modified${this.listKeys[type].defCategory}`
-    let modifiedList = await game.settings.get('wod5e', modifiedKey)
+    let modifiedList = await getSystemSetting(modifiedKey)
     modifiedList = modifiedList.filter((item) => item.id !== id)
-    await game.settings.set('wod5e', modifiedKey, modifiedList)
+    await game.settings.set('wod5e-gods', modifiedKey, modifiedList)
   }
 
   // Function for removing a custom feature
   async _onRemoveCustom(type, id) {
     const customKey = `custom${this.listKeys[type].defCategory}`
     delete this.listKeys[type].defClass[id]
-    let customList = await game.settings.get('wod5e', customKey)
+    let customList = await getSystemSetting(customKey)
     customList = customList.filter((item) => item.id !== id)
-    await game.settings.set('wod5e', customKey, customList)
+    await game.settings.set('wod5e-gods', customKey, customList)
   }
 }

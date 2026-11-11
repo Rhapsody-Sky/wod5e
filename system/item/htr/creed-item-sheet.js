@@ -42,22 +42,22 @@ export class CreedItemSheet extends HandlebarsApplicationMixin(WoDItemBase) {
 
   static PARTS = {
     header: {
-      template: 'systems/wod5e/display/htr/items/creed-sheet.hbs'
+      template: 'systems/wod5e-gods/display/htr/items/creed-sheet.hbs'
     },
     tabs: {
       template: 'templates/generic/tab-navigation.hbs'
     },
     description: {
-      template: 'systems/wod5e/display/shared/items/parts/description.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/description.hbs'
     },
     creedDetails: {
-      template: 'systems/wod5e/display/htr/items/parts/creed-details.hbs'
+      template: 'systems/wod5e-gods/display/htr/items/parts/creed-details.hbs'
     },
     modifiers: {
-      template: 'systems/wod5e/display/shared/items/parts/modifiers.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/modifiers.hbs'
     },
     settings: {
-      template: 'systems/wod5e/display/shared/items/parts/item-settings.hbs'
+      template: 'systems/wod5e-gods/display/shared/items/parts/item-settings.hbs'
     }
   }
 

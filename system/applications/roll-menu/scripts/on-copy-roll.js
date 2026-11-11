@@ -1,9 +1,11 @@
+import { getSystemFlag } from '../../../scripts/fork-compatibility.js'
+
 export const _onCopyRoll = async function (event) {
   event.preventDefault()
 
   const userId = game.users.current.id
-  const savedRolls = await game.users.current.getFlag('wod5e', 'rollMenuSavedRolls')
-  const rollId = await game.users.current.getFlag('wod5e', 'rollMenuActiveRoll')
+  const savedRolls = await getSystemFlag(game.users.current, 'rollMenuSavedRolls')
+  const rollId = await getSystemFlag(game.users.current, 'rollMenuActiveRoll')
   const activeRollObject = savedRolls[rollId]
 
   const dataId = `${userId}.${rollId}`

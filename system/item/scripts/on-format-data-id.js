@@ -8,5 +8,5 @@ export const _onFormatDataId = async function (event) {
 
   const dataItemId = `${item.type}-${formatDataItemId(item.name)}`
 
-  item.setFlag('wod5e', 'dataItemId', dataItemId)
+  item.setFlag('wod5e-gods', 'dataItemId', dataItemId)
 }

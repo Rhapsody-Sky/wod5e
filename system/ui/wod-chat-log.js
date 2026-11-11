@@ -1,3 +1,4 @@
+import { getSystemFlags } from '../scripts/fork-compatibility.js'
 // Various button functions
 import { _onToggleCollapse } from '../actor/scripts/on-toggle-collapse.js'
 import { _onAddSelectedTokens } from '../applications/roll-menu/scripts/on-add-selected-tokens.js'
@@ -62,7 +63,7 @@ export class WoDChatLog extends foundry.applications.sidebar.tabs.ChatLog {
             // Has no rerolled dice
             rerolledDice === 0 &&
             // Is NOT a roll prompt
-            !message.flags?.wod5e?.isRollPrompt
+            !getSystemFlags(message)?.isRollPrompt
           )
         },
         callback: (li) => _onWillpowerReroll(li)
@@ -89,7 +90,7 @@ export class WoDChatLog extends foundry.applications.sidebar.tabs.ChatLog {
             // Has no rerolled dice
             rerolledDice === 0 &&
             // Is NOT a roll prompt
-            !message.flags?.wod5e?.isRollPrompt
+            !getSystemFlags(message)?.isRollPrompt
           )
         },
         callback: (li) => _onAnyReroll(li)

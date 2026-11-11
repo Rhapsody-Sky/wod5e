@@ -1,3 +1,5 @@
+import { getSystemSetting } from './fork-compatibility.js'
+
 export const cssVariablesRecord = () => {
   const record = {
     vampire: {
@@ -149,17 +151,17 @@ export const _updateCSSVariable = async (settingName, cssVariableName, newColor)
 
   // If no color is provided or the color is invalid, reset to the default color
   if (!newColor || !validColor) {
-    const defaultColor = game.settings.settings.get(`wod5e.${settingName}`).default
+    const defaultColor = game.settings.settings.get(`wod5e-gods.${settingName}`).default
     document.documentElement.style.setProperty(cssVariableName, defaultColor)
-    game.settings.set('wod5e', settingName, defaultColor)
+    game.settings.set('wod5e-gods', settingName, defaultColor)
   } else {
     // Update the variable with the new color
     document.documentElement.style.setProperty(cssVariableName, newColor)
 
     // Only update the setting if we need to; this is mainly for the initial load, so we're
     // not unnecessarily re-setting a variable without changes
-    if (newColor !== game.settings.get('wod5e', settingName)) {
-      game.settings.set('wod5e', settingName, newColor)
+    if (newColor !== getSystemSetting(settingName)) {
+      game.settings.set('wod5e-gods', settingName, newColor)
     }
   }
 }

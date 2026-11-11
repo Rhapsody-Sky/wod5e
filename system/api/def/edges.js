@@ -1,3 +1,4 @@
+import { getSystemFlags, getSystemSetting } from '../../scripts/fork-compatibility.js'
 import { BaseDefinitionClass } from './base-definition-class.js'
 
 export class Edges extends BaseDefinitionClass {
@@ -8,19 +9,19 @@ export class Edges extends BaseDefinitionClass {
   // Run any necessary compilation on ready
   static onReady() {
     // Handle adding custom disciplines from the game settings
-    let customEdges = game.settings.get('wod5e', 'customEdges') || {}
+    let customEdges = getSystemSetting('customEdges') || {}
 
     // Handle adding custom disciplines from any active modules
     const activeModules = game.modules.filter(
-      (module) => module.active === true && module.flags.wod5e
+      (module) => module.active === true && getSystemFlags(module)
     )
     activeModules.forEach((module) => {
-      if (module.flags.wod5e.customEdges) {
-        customEdges = customEdges.concat(module.flags.wod5e.customEdges)
+      if (getSystemFlags(module).customEdges) {
+        customEdges = customEdges.concat(getSystemFlags(module).customEdges)
 
         // Log the custom data in the console
         console.log(
-          `World of Darkness 5e | Custom Edges added by ${module.id}: ${JSON.stringify(module.flags.wod5e.customEdges)}`
+          `World of Darkness 5e | Custom Edges added by ${module.id}: ${JSON.stringify(getSystemFlags(module).customEdges)}`
         )
       }
     })

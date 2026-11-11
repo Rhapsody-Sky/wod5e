@@ -45,19 +45,22 @@ export class SkillApplication extends HandlebarsApplicationMixin(ApplicationV2) 
 
   static PARTS = {
     form: {
-      template: 'systems/wod5e/display/shared/applications/skill-application/skill-application.hbs'
+      template:
+        'systems/wod5e-gods/display/shared/applications/skill-application/skill-application.hbs'
     },
     tabs: {
       template: 'templates/generic/tab-navigation.hbs'
     },
     description: {
-      template: 'systems/wod5e/display/shared/applications/skill-application/parts/description.hbs'
+      template:
+        'systems/wod5e-gods/display/shared/applications/skill-application/parts/description.hbs'
     },
     macro: {
-      template: 'systems/wod5e/display/shared/applications/skill-application/parts/macro.hbs'
+      template: 'systems/wod5e-gods/display/shared/applications/skill-application/parts/macro.hbs'
     },
     modifiers: {
-      template: 'systems/wod5e/display/shared/applications/skill-application/parts/modifiers.hbs'
+      template:
+        'systems/wod5e-gods/display/shared/applications/skill-application/parts/modifiers.hbs'
     }
   }
 

@@ -1,3 +1,4 @@
+import { getSystemSetting } from './scripts/fork-compatibility.js'
 // Custom UI Classes
 import { WoDChatLog } from './ui/wod-chat-log.js'
 import { WoDChatMessage } from './ui/wod-chat-message.js'
@@ -59,6 +60,9 @@ import { RollMenuApplication } from './applications/roll-menu/roll-prompt-menu.j
 import { CompendiumBrowserApplication } from './applications/compendium-browser/compendium-bowser.js'
 import { loadControls } from './scripts/controls.js'
 import { WoDCompendiumDirectory } from './ui/wod-compendium.js'
+import { LEGACY_SYSTEM_IDS, SYSTEM_ID } from './constants.js'
+import { restoreForkClientSettings } from './scripts/migration/migrate-fork-identity.js'
+import { migrateForkReferences } from './scripts/migration/fork-references.js'
 
 // Register the WOD5E global
 window.WOD5E = {
@@ -100,11 +104,19 @@ window.WOD5E = {
 Hooks.once('init', async function () {
   console.log('World of Darkness 5e | Initializing SchreckNet...')
 
+  // Native UUID redirects preserve links in locked compendiums and old chat.
+  for (const scope of LEGACY_SYSTEM_IDS) {
+    for (const pack of ['macros', 'conditions']) {
+      CONFIG.compendium.uuidRedirects[`Compendium.${scope}.${pack}`] =
+        `Compendium.${SYSTEM_ID}.${pack}`
+    }
+  }
+
   // Custom document classes
   CONFIG.Actor.documentClass = WoDActor
   CONFIG.Item.documentClass = WoDItem
   CONFIG.ChatMessage.documentClass = WoDChatMessage
-  CONFIG.ChatMessage.template = 'systems/wod5e/display/ui/chat/chat-message-default.hbs'
+  CONFIG.ChatMessage.template = 'systems/wod5e-gods/display/ui/chat/chat-message-default.hbs'
   // Custom UI implementations
   CONFIG.ui.chat = WoDChatLog
   CONFIG.ui.settings = WoDSettings
@@ -135,10 +147,17 @@ Hooks.once('init', async function () {
     })
 
     // Register the sheet with Foundry's DocumentSheetConfig
-    foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, 'wod5e', sheetClass, {
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, 'wod5e-gods', sheetClass, {
       types,
       makeDefault: true
     })
+    for (const scope of LEGACY_SYSTEM_IDS) {
+      foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, scope, sheetClass, {
+        types,
+        canBeDefault: false,
+        canConfigure: false
+      })
+    }
   }
 
   // Loop through each entry in the itemTypesList and register their sheet classes
@@ -152,10 +171,17 @@ Hooks.once('init', async function () {
     })
 
     // Register the sheet with Foundry's DocumentSheetConfig
-    foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, 'wod5e', sheetClass, {
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, 'wod5e-gods', sheetClass, {
       types,
       makeDefault: true
     })
+    for (const scope of LEGACY_SYSTEM_IDS) {
+      foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, scope, sheetClass, {
+        types,
+        canBeDefault: false,
+        canConfigure: false
+      })
+    }
   }
 
   // Make Handlebars templates accessible to the system
@@ -166,6 +192,7 @@ Hooks.once('init', async function () {
 
   // Load settings into Foundry
   loadSettings()
+  restoreForkClientSettings()
 
   // Load keybindings
   loadControls()
@@ -207,7 +234,18 @@ Hooks.once('ready', async function () {
   }
 
   // Migration functions
-  migrateWorld()
+  try {
+    await migrateWorld()
+  } catch (error) {
+    console.error('Gods fork | Migration incomplete. No completion marker was advanced.', error)
+    ui.notifications.error(
+      'Gods migration failed. Keep your backup and check the console before playing.',
+      {
+        permanent: true
+      }
+    )
+    return
+  }
 
   // Set up any splat colour changes
   const cssVariables = cssVariablesRecord()
@@ -219,7 +257,7 @@ Hooks.once('ready', async function () {
       const { settingId, cssVariable } = settings[settingKey]
 
       // Get the current value of the setting
-      const settingValue = game.settings.get('wod5e', settingId)
+      const settingValue = getSystemSetting(settingId)
 
       // Update the CSS variable
       _updateCSSVariable(settingId, cssVariable, settingValue)
@@ -261,3 +299,29 @@ Hooks.on('updateActor', (actor, changes) => {
     app.render(false)
   }
 })
+
+// Imports from old exports or locked packs receive the same safe adaptation.
+for (const type of [
+  'Actor',
+  'Item',
+  'ChatMessage',
+  'Macro',
+  'Scene',
+  'Token',
+  'ActorDelta',
+  'JournalEntry',
+  'JournalEntryPage',
+  'RollTable',
+  'TableResult',
+  'User',
+  'ActiveEffect',
+  'Playlist',
+  'PlaylistSound',
+  'Cards',
+  'Card',
+  'Folder'
+]) {
+  Hooks.on(`preCreate${type}`, (document, data) => {
+    document.updateSource(migrateForkReferences(data))
+  })
+}

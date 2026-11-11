@@ -1,6 +1,6 @@
 import { getSelectorsList } from '../../api/get-selectors-list.js'
 
-const bonusTemplate = 'systems/wod5e/display/shared/items/parts/modifier-display.hbs'
+const bonusTemplate = 'systems/wod5e-gods/display/shared/items/parts/modifier-display.hbs'
 
 export const _onAddModifier = async function (event) {
   event.preventDefault()

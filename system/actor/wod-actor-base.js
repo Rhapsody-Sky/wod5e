@@ -1,3 +1,4 @@
+import { getSystemSetting } from '../scripts/fork-compatibility.js'
 // Data preparation functions
 import { getActorHeader } from './scripts/get-actor-header.js'
 import { getActorBackground } from './scripts/get-actor-background.js'
@@ -193,7 +194,7 @@ export class WoDActorBase extends HandlebarsApplicationMixin(
 
       features: actorData.features,
 
-      displayBanner: game.settings.get('wod5e', 'actorBanner'),
+      displayBanner: getSystemSetting('actorBanner'),
 
       headerbg: await getActorHeader(actor),
       actorbg: actor.system?.settings?.background,

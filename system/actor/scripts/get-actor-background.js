@@ -1,6 +1,8 @@
+import { getSystemSetting } from '../../scripts/fork-compatibility.js'
+
 export const getActorBackground = async function (actor) {
   const actorBG = actor.system?.settings?.background || ''
-  const settingsBG = game.settings.get('wod5e', 'actorBackgroundOverride') || ''
+  const settingsBG = getSystemSetting('actorBackgroundOverride') || ''
 
   if (actorBG) {
     // Always prefer the actor-specific setting override

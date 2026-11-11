@@ -1,10 +1,12 @@
+import { getSystemSetting } from '../../scripts/fork-compatibility.js'
+
 export class AutomationMenu extends FormApplication {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       title: game.i18n.localize('WOD5E.Settings.AutomationSettings'),
       id: 'wod5e-automation',
       classes: ['wod5e'],
-      template: 'systems/wod5e/display/ui/automation-menu.hbs',
+      template: 'systems/wod5e-gods/display/ui/automation-menu.hbs',
       width: 500,
       height: 'auto',
       resizable: true,
@@ -19,11 +21,11 @@ export class AutomationMenu extends FormApplication {
     const data = await super.getData()
 
     // Encrich editor content
-    data.disableAutomation = game.settings.get('wod5e', 'disableAutomation')
-    data.automatedWillpower = game.settings.get('wod5e', 'automatedWillpower')
-    data.automatedHunger = game.settings.get('wod5e', 'automatedHunger')
-    data.automatedOblivion = game.settings.get('wod5e', 'automatedOblivion')
-    data.automatedRage = game.settings.get('wod5e', 'automatedRage')
+    data.disableAutomation = getSystemSetting('disableAutomation')
+    data.automatedWillpower = getSystemSetting('automatedWillpower')
+    data.automatedHunger = getSystemSetting('automatedHunger')
+    data.automatedOblivion = getSystemSetting('automatedOblivion')
+    data.automatedRage = getSystemSetting('automatedRage')
 
     return data
   }
@@ -41,7 +43,7 @@ export class AutomationMenu extends FormApplication {
           const settingId = data.id
           const value = event.target.checked
 
-          game.settings.set('wod5e', settingId, value)
+          game.settings.set('wod5e-gods', settingId, value)
         }
       })
     })
